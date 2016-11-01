@@ -43,9 +43,6 @@ abstract class Query implements IQuery {
                 if (!is_numeric($key)) {
                      $croppedArray[$i][$key] = $value;
 
-/*                    $index = array_search($key, $entry);
-                    echo "index: ".$key;
-                    $queryArray = array_splice($queryArray, $key, 1);*/
                 }
             }
             $i++;

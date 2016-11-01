@@ -18,7 +18,4 @@ $rawData = $query->getParseEntries();
 
 
 
-var_dump($rawData);
-
-
 echo json_encode($rawData);
