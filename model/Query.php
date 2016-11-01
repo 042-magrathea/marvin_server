@@ -31,9 +31,27 @@ abstract class Query implements IQuery {
             $i++;
         }
 
+        $queryArray = $this::convertArrayUtf8($queryArray);
+
+        $croppedArray = array();
 
 
-        return $this::convertArrayUtf8($queryArray);
+        $i = 0;
+        foreach ($queryArray as $entry) {
+
+            foreach ($entry as $key => $value) {
+                if (!is_numeric($key)) {
+                     $croppedArray[$i][$key] = $value;
+
+/*                    $index = array_search($key, $entry);
+                    echo "index: ".$key;
+                    $queryArray = array_splice($queryArray, $key, 1);*/
+                }
+            }
+            $i++;
+        }
+
+        return $croppedArray;
 
     }
 
