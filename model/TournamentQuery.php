@@ -3,13 +3,13 @@
 /**
  * Created by PhpStorm.
  * User: tricoman
- * Date: 30/10/16
- * Time: 19:56
+ * Date: 1/11/16
+ * Time: 20:37
  */
 include_once "DB_adapter.php";
 include_once "Query.php";
 
-class UserQuery extends Query {
+class TournamentQuery extends Query {
 
     private $adapter;
     protected $connection;
@@ -24,7 +24,7 @@ class UserQuery extends Query {
 
     public function getCustomEntries(array $fields, array $filtersFields, array $filtersArguments) {
 
-        $sql = $this->buildQuery('USER', $fields, $filtersFields, $filtersArguments);
+        $sql = $this->buildQuery('TOURNAMENT', $fields, $filtersFields, $filtersArguments);
 
         $result = $this->getArraySQL($sql, $this->connection);
 
@@ -34,9 +34,16 @@ class UserQuery extends Query {
     }
 
     public function getParseEntries() {
-        $sql = "SELECT idUser, publicName, password, eMail, administrator FROM USER;";
+        $sql = "SELECT idTOURNAMENT, TOURNAMENT_HOST_idTournamentHost FROM TOURNAMENT";
 
         $result = $this->getArraySQL($sql);
+
+        $tournamentId = $result[0][0];
+
+        $prizesSql = "SELECT PRIZE_idPRIZE FORM TOURNAMENT_has_PRIZE WHERE TOURNAMENT_idTOURNAMENT = ".$tournamentId;
+
+        //consulta ids premis
+        //
 
         $this->adapter->closeConnection();
 
@@ -44,7 +51,7 @@ class UserQuery extends Query {
     }
 
     public function getAllEntries() {
-        $sql = "SELECT * FROM USER;";
+        $sql = "SELECT * FROM TOURNAMENT_HOST;";
 
         $result = $this->getArraySQL($sql);
 
@@ -52,4 +59,5 @@ class UserQuery extends Query {
 
         return $result;
     }
+
 }

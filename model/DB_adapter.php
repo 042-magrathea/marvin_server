@@ -11,7 +11,7 @@ class DB_adapter {
     private $servername = "192.168.0.5";
     private $username = "admin";
     private $password = "damMagrathea42";
-    private $database = "marvin_complete";
+    private $database = "magrathea";
     private $connection;
 
 

@@ -3,13 +3,13 @@
 /**
  * Created by PhpStorm.
  * User: tricoman
- * Date: 30/10/16
- * Time: 19:56
+ * Date: 1/11/16
+ * Time: 20:23
  */
 include_once "DB_adapter.php";
 include_once "Query.php";
 
-class UserQuery extends Query {
+class PrizeQuery extends Query {
 
     private $adapter;
     protected $connection;
@@ -24,7 +24,7 @@ class UserQuery extends Query {
 
     public function getCustomEntries(array $fields, array $filtersFields, array $filtersArguments) {
 
-        $sql = $this->buildQuery('USER', $fields, $filtersFields, $filtersArguments);
+        $sql = $this->buildQuery('PRIZE', $fields, $filtersFields, $filtersArguments);
 
         $result = $this->getArraySQL($sql, $this->connection);
 
@@ -34,7 +34,7 @@ class UserQuery extends Query {
     }
 
     public function getParseEntries() {
-        $sql = "SELECT idUser, publicName, password, eMail, administrator FROM USER;";
+        $sql = "SELECT idPRIZE, name FROM PRIZE;";
 
         $result = $this->getArraySQL($sql);
 
@@ -44,7 +44,7 @@ class UserQuery extends Query {
     }
 
     public function getAllEntries() {
-        $sql = "SELECT * FROM USER;";
+        $sql = "SELECT * FROM TOURNAMENT_HOST;";
 
         $result = $this->getArraySQL($sql);
 
@@ -52,4 +52,5 @@ class UserQuery extends Query {
 
         return $result;
     }
+
 }

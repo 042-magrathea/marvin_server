@@ -37,6 +37,15 @@ abstract class Query implements IQuery {
 
     }
 
+    /**
+     * Builds a SQL query with the input data
+     *
+     * @param $tableName
+     * @param array $fields
+     * @param array $filtersFields
+     * @param array $filtersArguments
+     * @return string
+     */
     public function buildQuery($tableName, array $fields, array $filtersFields, array $filtersArguments) {
         $sql = "SELECT ";
         $arrayLength = count($fields);
@@ -62,6 +71,13 @@ abstract class Query implements IQuery {
         return $sql;
 
     }
+
+    /**
+     * Converts an array resulting from a SQL query to UTF-8 format
+     *
+     * @param $array
+     * @return mixed
+     */
     public static function convertArrayUtf8($array) {
         array_walk_recursive($array, function(&$value, $key) {
             if (is_string($value)) {
