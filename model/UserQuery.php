@@ -22,9 +22,9 @@ class UserQuery extends Query {
     }
 
 
-    public function getCustomEntries(array $fields, array $filtersFields, array $filtersArguments) {
+    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments) {
 
-        $sql = $this->buildQuery('USER', $fields, $filtersFields, $filtersArguments);
+        $sql = $this->buildQuery('USER', $fields, $filterFields, $filterArguments);
 
         $result = $this->getArraySQL($sql, $this->connection);
 

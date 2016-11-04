@@ -24,9 +24,9 @@ class HostQuery extends Query {
     }
 
 
-    public function getCustomEntries(array $fields, array $filtersFields, array $filtersArguments) {
+    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments) {
 
-        $sql = $this->buildQuery('TOURNAMENT_HOST', $fields, $filtersFields, $filtersArguments);
+        $sql = $this->buildQuery('TOURNAMENT_HOST', $fields, $filterFields, $filterArguments);
 
         $result = $this->getArraySQL($sql, $this->connection);
 

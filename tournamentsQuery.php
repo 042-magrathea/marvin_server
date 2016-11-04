@@ -17,5 +17,4 @@ $query = new TournamentQuery();
 $rawData = $query->getParseEntries();
 
 
-
 echo json_encode($rawData);

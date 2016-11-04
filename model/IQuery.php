@@ -8,7 +8,7 @@
  */
 interface IQuery {
 
-    public function getCustomEntries(array $fields, array $filtersFields, array $filtersArguments);
+    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments);
     public function getAllEntries();
-
+    public function getParseEntries();
 }

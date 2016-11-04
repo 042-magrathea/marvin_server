@@ -57,11 +57,11 @@ abstract class Query implements IQuery {
      *
      * @param $tableName
      * @param array $fields
-     * @param array $filtersFields
-     * @param array $filtersArguments
+     * @param array $filterFields
+     * @param array $filterArguments
      * @return string
      */
-    public function buildQuery($tableName, array $fields, array $filtersFields, array $filtersArguments) {
+    public function buildQuery($tableName, array $fields, array $filterFields, array $filterArguments) {
         $sql = "SELECT ";
         $arrayLength = count($fields);
         $i = 0;
@@ -72,16 +72,22 @@ abstract class Query implements IQuery {
             }
             $i++;
         }
-        $sql = $sql. " FROM ".$tableName." WHERE ";
-        $arrayLength = count($filtersFields);
-        $i = 0;
-        while($i < ($arrayLength)) {
-            $sql = $sql.$filtersFields[$i]." LIKE ".$filtersArguments[$i];
-            if ($i < ($arrayLength - 1)) {
-                $sql = $sql.", ";
+        $sql = $sql. " FROM ".$tableName;
+
+        if ($filterFields != null) {
+
+            $sql = $sql. " WHERE ";
+            $arrayLength = count($filterFields);
+            $i = 0;
+            while($i < ($arrayLength)) {
+                $sql = $sql.$filterFields[$i]." LIKE ".$filterArguments[$i];
+                if ($i < ($arrayLength - 1)) {
+                    $sql = $sql.", ";
+                }
+                $i++;
             }
-            $i++;
         }
+
 
         return $sql;
 

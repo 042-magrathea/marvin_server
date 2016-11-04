@@ -22,9 +22,9 @@ class PrizeQuery extends Query {
     }
 
 
-    public function getCustomEntries(array $fields, array $filtersFields, array $filtersArguments) {
+    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments) {
 
-        $sql = $this->buildQuery('PRIZE', $fields, $filtersFields, $filtersArguments);
+        $sql = $this->buildQuery('PRIZE', $fields, $filterFields, $filterArguments);
 
         $result = $this->getArraySQL($sql, $this->connection);
 
