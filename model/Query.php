@@ -11,6 +11,7 @@ include_once "IQuery.php";
 abstract class Query implements IQuery {
 
     protected $queryResult;
+    public $aux = "hola";
 
     /**
      * Executes a Mysql query and returns an array containing the query results
@@ -107,6 +108,26 @@ abstract class Query implements IQuery {
         });
 
         return $array;
+    }
+
+    /**
+     *
+     *
+     * @param $tournaments
+     * @param $tournamentPosition
+     * @param $arrayToAdd
+     * @param $newArrayName
+     * @return array
+     */
+    public static function mergeArrays($tournaments, $tournamentPosition, $arrayToAdd, $newArrayName) {
+        $tournament = $tournaments[$tournamentPosition];
+        $tournamentPart1 = array_slice($tournament, 0, 1);
+        $tournamentPart2 = array_slice($tournament, 1, count($tournament));
+        $tournament = array_merge($tournamentPart1, array($arrayToAdd), $tournamentPart2);
+        $tournament[$newArrayName] = $tournament[0];
+        unset($tournament[0]);
+
+        return $tournament;
     }
 
 

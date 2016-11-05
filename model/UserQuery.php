@@ -52,4 +52,6 @@ class UserQuery extends Query {
 
         return $result;
     }
+
+
 }

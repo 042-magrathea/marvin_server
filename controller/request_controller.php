@@ -11,6 +11,7 @@ include_once 'model/UserQuery.php';
 include_once 'model/TournamentQuery.php';
 include_once 'model/PrizeQuery.php';
 include_once 'model/HostQuery.php';
+include_once 'model/RankingQuery.php';
 include_once  'model/Query.php';
 
 
@@ -18,6 +19,7 @@ define("USERS_QUERY", "users");
 define("PRIZES_QUERY", "prizes");
 define("TOURNAMENTS_QUERY", "tournaments");
 define("HOSTS_QUERY", "hosts");
+define("RANKINGS_QUERY", "rankings");
 
 class request_controller {
 
@@ -87,6 +89,9 @@ class request_controller {
                 break;
             case HOSTS_QUERY:
                 $this->model = new HostQuery();
+                break;
+            case RANKINGS_QUERY:
+                $this->model = new RankingQuery();
                 break;
         }
     }

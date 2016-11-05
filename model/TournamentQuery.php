@@ -35,9 +35,9 @@ class TournamentQuery extends Query {
 
     public function getParseEntries() {
 
-        $sql = "SELECT idTOURNAMENT, TOURNAMENT_HOST_idTournamentHost FROM TOURNAMENT";
+        $tournamentssql = "SELECT idTOURNAMENT, TOURNAMENT_HOST_idTournamentHost FROM TOURNAMENT";
         //get all tournaments data from DB
-        $tournaments = $this->getArraySQL($sql);
+        $tournaments = $this->getArraySQL($tournamentssql);
 
         //walk through all tournaments array
         for ($i = 0; $i < count($tournaments); $i++) {
@@ -75,7 +75,7 @@ class TournamentQuery extends Query {
             $j = count($usersIds);
             $users = array();
             while ($j > 0) {
-                $usersSql = "SELECT idUSER, name FROM USER WHERE idUSER = ".$usersIds[$j-1]["USER_idUSER"];
+                $usersSql = "SELECT idUSER, publicName FROM USER WHERE idUSER = ".$usersIds[$j-1]["USER_idUSER"];
                 //get user detail for actual user id
                 $res = $this->getArraySQL($usersSql);
                 //add actual user to users array
@@ -89,7 +89,7 @@ class TournamentQuery extends Query {
             $tournaments[$i] = $tournament;
 
             //add users array to tournaments array
-            $tournament = $this->mergeArrays($tournaments, $i, $users, "users");
+            $tournament = Query::mergeArrays($tournaments, $i, $users, "users");
             $tournaments[$i] = $tournament;
         }
 
@@ -117,7 +117,7 @@ class TournamentQuery extends Query {
      * @param $newArrayName
      * @return array
      */
-    private function mergeArrays($tournaments, $tournamentPosition, $arrayToAdd, $newArrayName) {
+/*    private static function mergeArrays($tournaments, $tournamentPosition, $arrayToAdd, $newArrayName) {
         $tournament = $tournaments[$tournamentPosition];
         $tournamentPart1 = array_slice($tournament, 0, 1);
         $tournamentPart2 = array_slice($tournament, 1, count($tournament));
@@ -126,5 +126,6 @@ class TournamentQuery extends Query {
         unset($tournament[0]);
 
         return $tournament;
-    }
+    }*/
+
 }
