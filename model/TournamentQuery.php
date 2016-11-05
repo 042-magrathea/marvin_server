@@ -89,7 +89,7 @@ class TournamentQuery extends Query {
             $tournaments[$i] = $tournament;
 
             //add users array to tournaments array
-            $tournament = Query::mergeArrays($tournaments, $i, $users, "users");
+            $tournament = $this->mergeArrays($tournaments, $i, $users, "users");
             $tournaments[$i] = $tournament;
         }
 
@@ -108,24 +108,6 @@ class TournamentQuery extends Query {
         return $result;
     }
 
-    /**
-     *
-     *
-     * @param $tournaments
-     * @param $tournamentPosition
-     * @param $arrayToAdd
-     * @param $newArrayName
-     * @return array
-     */
-/*    private static function mergeArrays($tournaments, $tournamentPosition, $arrayToAdd, $newArrayName) {
-        $tournament = $tournaments[$tournamentPosition];
-        $tournamentPart1 = array_slice($tournament, 0, 1);
-        $tournamentPart2 = array_slice($tournament, 1, count($tournament));
-        $tournament = array_merge($tournamentPart1, array($arrayToAdd), $tournamentPart2);
-        $tournament[$newArrayName] = $tournament[0];
-        unset($tournament[0]);
 
-        return $tournament;
-    }*/
 
 }
