@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tricoman
+ * User: Arnau Biosca Nicolas
  * Date: 1/11/16
  * Time: 20:17
  */
@@ -9,10 +9,19 @@ header("Content-type: text/plain; charset=utf-8");
 
 include_once 'model/HostQuery.php';
 include_once  'model/Query.php';
+include_once  'controller/request_controller.php';
 
 
-$query = new HostQuery();
+//checks requestName
+if (isset($_POST["requestName"])) {
+    //if request has requestName
+    $controller = new request_controller("hosts", $_POST);
 
-$rawData = $query->getParseEntries();
+} else {
+    //if request has no requestName
+    $controller = new request_controller("hosts");
+}
+
+$rawData = $controller->invoke();
 
 echo json_encode($rawData);

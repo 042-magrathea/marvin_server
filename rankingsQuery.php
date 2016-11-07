@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tricoman
+ * User: Arnau Biosca Nicolas
  * Date: 4/11/16
  * Time: 19:01
  */
@@ -12,23 +12,16 @@ header("Content-type: text/plain; charset=utf-8");
 include_once  'controller/request_controller.php';
 
 
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fields"]) && isset($_POST["filterFields"])) {
+//checks requestName
+if (isset($_POST["requestName"])) {
+    //if request has requestName
+    $controller = new request_controller("rankings", $_POST);
 
-    $controller = new request_controller(RANKINGS_QUERY, $_POST["fields"], $_POST["filterFields"], $_POST["filterArguments"]);
-
-} else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fields"])){
-
-    $controller = new request_controller(RANKINGS_QUERY, $_POST["fields"]);
-
-} else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["request"])) {
-
-    $controller = new request_controller(RANKINGS_QUERY);
-
-} else if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $controller = new request_controller(RANKINGS_QUERY);
-
+} else {
+    //if request has no requestName
+    $controller = new request_controller("rankings");
 }
+
 
 $rawData = $controller->invoke();
 

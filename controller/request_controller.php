@@ -2,7 +2,7 @@
 
 /**
  * Created by PhpStorm.
- * User: tricoman
+ * User: Arnau Biosca Nicolas
  * Date: 29/10/16
  * Time: 16:55
  */
@@ -29,6 +29,7 @@ define("MODIFY_VALUE", "modifyValue");
 define("ITEM_VALUES", "itemValues");
 define("SEARCH_ID", "searchIdByField");
 define("CUSTOM_SEARCH", "customSearch");
+define("USER_LOGIN", "userLogin");
 
 class request_controller {
 
@@ -39,6 +40,12 @@ class request_controller {
     private $filterFields = null;
     private $filterArguments = null;
 
+    /**
+     * Construtor fo the class, this will check the parameters passed at his call and call the correct subconstructor
+     * emulating the multiple constructors functionality from another languages
+     *
+     * request_controller constructor.
+     */
     public function __construct() {
         //store the parameters passed to the constructor at his call
         $params = func_get_args();
@@ -54,50 +61,50 @@ class request_controller {
 
     }
 
+    /**
+     * Subconstructor called by main constructor when it has been called with one parameter
+     *
+     * @param String $queryMode
+     */
     public function __construct1(String $queryMode) {
         $this->setModel($queryMode);
     }
 
+    /**
+     * Subconstructor called by main constructor when it has been called with two parameters
+     *
+     * @param String $queryMode
+     */
     public function __construct2(String $queryMode, $post) {
         $this->setModel($queryMode);
         $this->post = $post;
     }
 
-/*    public function __construct3(String $queryMode, $requestName, array $fields) {
-        $this->setModel($queryMode);
-        $this->requestName = $requestName;
-        $this->fields = $fields;
-    }
-
-    public function __construct5(String $queryMode, $requestName, array $fields, array $filterFields, array $filterArguments) {
-        $this->setModel($queryMode);
-        $this->requestName = $requestName;
-        $this->fields = $fields;
-        $this->$filterFields = $filterFields;
-        $this->$filterArguments = $filterArguments;
-    }*/
-
-
+    /**
+     * Calls the correct request depending on the "requestName", exists diferent kinds of request.
+     * The standard request to be called if not specific request has been called will return the hole data necessary for
+     * the clients to model an object of the request kind
+     *
+     * @return mixed
+     */
     public function invoke() {
-        /*//if $fields is the only parameter
-        if ($this->fields != null && $this->filtersFields == null ) {
-            $results = $this->model->getCustomEntries($this->fields, null, null);
-        //if all parameters are set
-        } else if ($this->fields != null && $this->filtersFields != null) {
-            $results = $this->model->getCustomEntries($this->fields, $this->filtersFields, $this->filtersArguments);
-        //if any parameters are set
-        } else {
-            $results = $this->model->getParseEntries();
-        }*/
+
         if ($this->post == null) {
+            //if request has no post call the standard query
             $results = $this->model->getParseEntries();
         } else {
+
             $results = $this->launchRequest();
         }
 
         return $results;
     }
 
+    /**
+     * Calls the correct model depending on the "queryMode" of the request
+     *
+     * @param String $queryMode
+     */
     private function setModel(String $queryMode) {
         switch ($queryMode) {
             case USERS_QUERY:
@@ -118,10 +125,17 @@ class request_controller {
         }
     }
 
+    /**
+     * Launch the specific query specified by the "requestName" inserted in the POST request
+     * @return mixed
+     * @throws Exception
+     */
     private function launchRequest() {
         $this->requestName = $this->post["requestName"];
-//        $this->requestName = "insertItem";
+
         $results = null;
+
+        //checks the requested query name and returns the specific data for thisrequest
         switch ($this->requestName) {
             case ALL_VALUES:
                 return $this->model->getAllEntries();
@@ -130,22 +144,10 @@ class request_controller {
 //                $results = $this->model->getAllEntries();
                 break;
             case INSERT_ITEM:
-                $fields = array("publicName", "name", "phone", "eMail", "ads", "privateDes", "publicDes", "userRole", "language", "datePassword", "password", "memberSince");
-                $values = array("tricoman", "arnau biosca", "670087387", "arnaubiosca@gmail.com", "true", "es molt bona gent", "no le dejes dinero", "editor", "catala", "2016-10-10", "cacota", "2016-10-10");
-/*                $fields = $this->post['fields'];
-                $values = $this->post['values'];*/
-/*                $loopSwitch = true;
-                $i = 0;
-                while ($loopSwitch){
-                    if ($this->post['fields['.$i.']'] == null) {
-                        $loopSwitch = false;
-                    } else {
-                        $fields = $this->post['fields['.$i.']'];
-                        $values = $this->post['values['.$i.']'];
-                    }
-                    $i++;
-                }*/
-
+//                $fields = array("publicName", "name", "phone", "eMail", "ads", "privateDes", "publicDes", "userRole", "language", "datePassword", "password", "memberSince");
+//                $values = array("tricoman", "arnau biosca", "670087387", "arnaubiosca@gmail.com", "true", "es molt bona gent", "no le dejes dinero", "editor", "catala", "2016-10-10", "cacota", "2016-10-10");
+                $fields = $this->post['fields'];
+                $values = $this->post['values'];
                 return $this->model->insertItem($fields, $values);
 
                 break;
@@ -160,6 +162,11 @@ class request_controller {
                 break;
             case CUSTOM_SEARCH:
                 return $this->model->getCustomEntries($this->fields, $this->filtersFields, $this->filtersArguments);
+                break;
+            case USER_LOGIN:
+                $userPublicName = $this->post["userPublicName"];
+                $userPassword = $this->post["userPassword"];
+                return $this->model->checkLogIn($userPublicName, $userPassword);
                 break;
             DEFAULT:
                 throw new Exception("Unknow request name");

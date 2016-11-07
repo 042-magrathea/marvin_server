@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tricoman
+ * User: Arnau Biosca Nicolas
  * Date: 30/10/16
  * Time: 14:31
  */
@@ -12,41 +12,44 @@ include_once 'model/UserQuery.php';
 include_once  'model/Query.php';
 include_once  'controller/request_controller.php';
 
-/*
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["requestName"]) && isset($_POST["fields"])
-    && isset($_POST["filterFields"]) && isset($_POST["filterArguments"])) {
-
-    $controller = new request_controller(USERS_QUERY, $_POST["requestName"], $_POST["fields"], $_POST["filterFields"], $_POST["filterArguments"]);
-
-} else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["requestName"]) && isset($_POST["fields"])){
-
-    $controller = new request_controller(USERS_QUERY, $_POST["requestName"], $_POST["fields"]);
-
-} else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["requestName"])){
-
-    if (isset($_POST["idItem"])) {
-
-    }
-
-    $controller = new request_controller(USERS_QUERY, $_POST["requestName"]);
-
-}*/
-
-
 
 if (isset($_POST["requestName"])) {
 
-    $controller = new request_controller(USERS_QUERY, $_POST);
+    $controller = new request_controller("users", $_POST);
 
 } else {
 
-    $controller = new request_controller(USERS_QUERY);
+    $controller = new request_controller("users");
 }
 
 $rawData = $controller->invoke();
 
-
+var_dump($rawData);
 echo json_encode($rawData);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*$query = new UserQuery();
 

@@ -2,7 +2,7 @@
 
 /**
  * Created by PhpStorm.
- * User: tricoman
+ * User: Arnau Biosca Nicolas
  * Date: 30/10/16
  * Time: 19:37
  */
@@ -294,5 +294,17 @@ abstract class Query implements IQuery {
         return $this->getArraySQL($systemPoints);
     }
 
+    /**
+     * Converts any individual value to a JSON friendly array
+     *
+     * @param $key
+     * @param $value
+     * @return array
+     */
+    protected function getJsonFriendlyArray($key, $value) {
+        //creates a JSON friendly array
+        $rawData = array(array($key => false));
 
+        return $rawData;
+    }
 }

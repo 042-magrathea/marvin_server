@@ -2,9 +2,13 @@
 
 /**
  * Created by PhpStorm.
- * User: tricoman
+ * User: Arnau Biosca Nicolas
  * Date: 30/10/16
  * Time: 19:51
+ */
+
+/**
+ * Interface IQuery
  */
 interface IQuery {
 

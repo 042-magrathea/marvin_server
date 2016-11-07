@@ -2,7 +2,7 @@
 
 /**
  * Created by PhpStorm.
- * User: tricoman
+ * User: Arnau Biosca Nicolas
  * Date: 1/11/16
  * Time: 20:37
  */
@@ -21,18 +21,46 @@ class TournamentQuery extends Query {
 
     }
 
+    //---------------------------------------------------------------------------------------------------------------//
 
-    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments) {
+    //////////////////////////
+    // USED BY THE PROTOTYPE//
+    //////////////////////////
 
-        $sql = $this->buildQuery('TOURNAMENT', $fields, $filterFields, $filterArguments);
-
-        $result = $this->getArraySQL($sql, $this->connection);
-
-        $this->adapter->closeConnection();
-
-        return $result;
-    }
-
+    /**
+     * Builds an array with all required data for parsing a tournament at any client
+     *
+     * Array structure:
+     * tournaments {
+     *      tournament {
+     *          idTOURNAMENT
+     *          name
+     *          publicDes
+     *          privateDes
+     *          date
+     *          TOURNAMENT_HOST_idTOURNAMENT_HOST
+     *          prizes{
+     *              prize{
+     *                  idPRIZE
+     *                  name
+     *                  position
+     *              }
+     *              ...
+     *          }
+     *          users{
+     *              user{
+     *                  userId
+     *                  publicName
+     *              }
+     *              ...
+     *          }
+     *      }
+     *      ...
+     *  }
+     *
+     *
+     * @return array
+     */
     public function getParseEntries() {
 
         $tournamentssql = "SELECT idTOURNAMENT, name, publicDes, privateDes, date, TOURNAMENT_HOST_idTournamentHost FROM TOURNAMENT";
@@ -98,8 +126,40 @@ class TournamentQuery extends Query {
         return $tournaments;
     }
 
+    //---------------------------------------------------------------------------------------------------------------//
+
+    //////////////////////////////
+    // NOT USED BY THE PROTOTYPE//
+    //////////////////////////////
+
+    /**
+     * Get all entries from the 'TOURNAMENT' table in database that matches all parameters specified, this method has to be used
+     * to execute custom requests to the specified table
+     *
+     * @param array $fields contains the fields names of the table to be shown in the request response
+     * @param array $filterFields contains the fields names that will be used in the query to filter its results
+     * @param array $filterArguments contains the values that the specified fields will have to match
+     * @return array
+     */
+    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments) {
+
+        $sql = $this->buildQuery('TOURNAMENT', $fields, $filterFields, $filterArguments);
+
+        $result = $this->getArraySQL($sql, $this->connection);
+
+        $this->adapter->closeConnection();
+
+        return $result;
+    }
+
+
+    /**
+     * Get all fields from all entries of the table TOURNAMENT from the database
+     *
+     * @return array
+     */
     public function getAllEntries() {
-        $sql = "SELECT * FROM TOURNAMENT_HOST;";
+        $sql = "SELECT * FROM TOURNAMENT;";
 
         $result = $this->getArraySQL($sql);
 
@@ -108,20 +168,37 @@ class TournamentQuery extends Query {
         return $result;
     }
 
+    /**
+     * Insert al specified fields of an item with the specified values into the table TOURNAMENT
+     *
+     * @param array $fields must contain all fields to be stored in the new entry
+     * @param array $values must contain the values of the fields to be stored, the value position must match the position
+     * of the corresponding field at $fields array
+     * @return array
+     */
+    public function insertItem(array $fields, array $values)
+    {
+        // TODO: Implement insertItem() method.
+    }
 
-
+    /**
+     * Get parse entry by id
+     *
+     * @param $itemId
+     */
     public function getParseEntry($itemId)
     {
         // TODO: Implement getParseEntry() method.
     }
 
+    /**
+     * Get the id of the tournament that matches the given parameters
+     *
+     * @param array $filterFields contains the fields names that will be used in the query to filter its results
+     * @param array $filterArguments contains the values that the specified fields will have to match
+     */
     public function getIdValue(array $filterFields, array $filterArguments)
     {
         // TODO: Implement getIdValue() method.
-    }
-
-    public function insertItem(array $fields, array $values)
-    {
-        // TODO: Implement insertItem() method.
     }
 }

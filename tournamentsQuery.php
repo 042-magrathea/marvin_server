@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: tricoman
+ * User: Arnau Biosca Nicolas
  * Date: 1/11/16
  * Time: 20:39
  */
@@ -13,19 +13,19 @@ include_once  'model/Query.php';
 include_once  'controller/request_controller.php';
 
 
-
+//checks requestName
 if (isset($_POST["requestName"])) {
-
-    $controller = new request_controller(TOURNAMENTS_QUERY, $_POST);
+    //if request has requestName
+    $controller = new request_controller("tournaments", $_POST);
 
 } else {
-
-    $controller = new request_controller(TOURNAMENTS_QUERY);
+    //if request has no requestName
+    $controller = new request_controller("tournaments");
 }
 
-
+//get response
 $rawData = $controller->invoke();
 
 
-
+//encode and output response
 echo json_encode($rawData);
