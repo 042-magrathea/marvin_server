@@ -54,4 +54,19 @@ class HostQuery extends Query {
 
         return $result;
     }
+
+    public function insertItem(array $fields, array $values)
+    {
+        // TODO: Implement insertItem() method.
+    }
+
+    public function getParseEntry($itemId)
+    {
+        // TODO: Implement getParseEntry() method.
+    }
+
+    public function getIdValue(array $filterFields, array $filterArguments)
+    {
+        // TODO: Implement getIdValue() method.
+    }
 }

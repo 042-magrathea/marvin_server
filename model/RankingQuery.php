@@ -28,11 +28,41 @@ class RankingQuery extends Query {
         // TODO: Implement getCustomEntries() method.
     }
 
+    /**
+     * Builds an array with all required data for parsing a tournament ranking at any client
+     *
+     * Array structure:
+     *  array {
+     *      tournamens {
+     *          tournamentId
+     *          tournamentHost
+     *          gameSystem
+     *          users{
+     *              userId
+     *              publicName
+     *              totalPlayedTournaments
+     *              totalUserPoints
+     *              positionAtTournament
+     *              earnedPoints
+     *              achievements{
+     *                  achievementName
+     *              }
+     *          }
+     *      }
+     *      ...
+     * }
+     *
+     * @return array
+     */
     public function getParseEntries() {
-        $tournamentssql = "SELECT idTOURNAMENT, TOURNAMENT_HOST_idTournamentHost, SYSTEM_idSYSTEM FROM TOURNAMENT";
+
         //get all tournaments data from DB
+        $tournamentssql = "SELECT idTOURNAMENT, TOURNAMENT_HOST_idTournamentHost, SYSTEM_idSYSTEM FROM TOURNAMENT";
         $tournaments = $this->getArraySQL($tournamentssql);
 
+        /////////////////////////
+        //build tournament list//
+        /////////////////////////
 
         //walk through all tournaments array
         for ($i = 0; $i < count($tournaments); $i++) {
@@ -42,23 +72,21 @@ class RankingQuery extends Query {
             ///////////////////
             //build user list//
             ///////////////////
+            $users = array();
 
-
+            //get all
             $usersIdsSql = "SELECT USER_idUSER, rank FROM TOURNAMENT_has_USER WHERE TOURNAMENT_idTOURNAMENT = ".$tournamentId;
             $usersIds = $this->getArraySQL($usersIdsSql);
 
 
             //walk through all users id array
-
-            $users = array();
             for ($j = 0; $j < count($usersIds); $j++) {
-
+                //get user Id
                 $userId = $usersIds[$j]["USER_idUSER"];
-                $userSql = "SELECT idUSER, publicName FROM USER WHERE idUSER = ".$userId;
-                //get user detail for actual user id
-                $user = $this->getArraySQL($userSql);
 
-                $user = $user[0];
+                //get data from user in DB
+                $userSql = "SELECT idUSER, publicName FROM USER WHERE idUSER = ".$userId;
+                $user = $this->getArraySQL($userSql)[0];
 
                 $pointsAndTournamentNr = $this->getUserTotalPoints($userId);
                 $user["totalTournaments"] = $pointsAndTournamentNr[0];
@@ -90,10 +118,6 @@ class RankingQuery extends Query {
 
             }
 
-            //add prizes array to tournaments array
-/*            $tournament = $this->mergeArrays($tournaments, $i, $prizes, "prizes");
-            $tournaments[$i] = $tournament;*/
-
             //add users array to tournaments array
             $tournament = Query::mergeArrays($tournaments, $i, $users, "users");
             $tournaments[$i] = $tournament;
@@ -120,6 +144,18 @@ class RankingQuery extends Query {
     }
 
 
+    public function insertItem(array $fields, array $values)
+    {
+        // TODO: Implement insertItem() method.
+    }
 
+    public function getParseEntry($itemId)
+    {
+        // TODO: Implement getParseEntry() method.
+    }
 
+    public function getIdValue(array $filterFields, array $filterArguments)
+    {
+        // TODO: Implement getIdValue() method.
+    }
 }

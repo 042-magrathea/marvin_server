@@ -35,7 +35,7 @@ class TournamentQuery extends Query {
 
     public function getParseEntries() {
 
-        $tournamentssql = "SELECT idTOURNAMENT, TOURNAMENT_HOST_idTournamentHost FROM TOURNAMENT";
+        $tournamentssql = "SELECT idTOURNAMENT, name, publicDes, privateDes, date, TOURNAMENT_HOST_idTournamentHost FROM TOURNAMENT";
         //get all tournaments data from DB
         $tournaments = $this->getArraySQL($tournamentssql);
 
@@ -110,4 +110,18 @@ class TournamentQuery extends Query {
 
 
 
+    public function getParseEntry($itemId)
+    {
+        // TODO: Implement getParseEntry() method.
+    }
+
+    public function getIdValue(array $filterFields, array $filterArguments)
+    {
+        // TODO: Implement getIdValue() method.
+    }
+
+    public function insertItem(array $fields, array $values)
+    {
+        // TODO: Implement insertItem() method.
+    }
 }

@@ -22,7 +22,6 @@ abstract class Query implements IQuery {
     protected function getArraySQL($sql) {
         if(!$this->queryResult = $this->connection->query($sql)) die();
 
-
         $queryArray = array();
 
         $i = 0;
@@ -88,9 +87,81 @@ abstract class Query implements IQuery {
                 $i++;
             }
         }
-
-
         return $sql;
+    }
+
+    public function buildInsert($tableName, array $fields, array $values) {
+
+        $arrays = $this->reformatUserRoleValue($fields, $values);
+
+        $fields = $arrays[0];
+        $values = $arrays[1];
+
+        $sql = "INSERT INTO ".$tableName." (";
+        $arrayLength = count($fields);
+        $i = 0;
+        while($i < ($arrayLength)) {
+            $sql = $sql.$fields[$i];
+            if ($i < ($arrayLength - 1)) {
+                $sql = $sql.", ";
+            }
+            $i++;
+        }
+        $sql = $sql. ") VALUES (";
+
+        if ($values != null) {
+
+            $arrayLength = count($values);
+            $i = 0;
+            while($i < ($arrayLength)) {
+                if ($values[$i] == "true" || $values[$i] == "false") {
+                    $sql = $sql.$values[$i];
+
+                } else {
+                    $sql = $sql."'".$values[$i]."'";
+                }
+
+                if ($i < ($arrayLength - 1)) {
+                    $sql = $sql.", ";
+                }
+                $i++;
+            }
+        }
+        $sql = $sql." )";
+        return $sql;
+    }
+
+    protected function getItemId($table, $field, $value) {
+        $sql = "SELECT idUSER FROM ".$table." WHERE ".$field." LIKE '".$value."'";
+        $result = $this->getArraySQL($sql);
+        return $result;
+    }
+
+    private function reformatUserRoleValue(array $fields, array $values) {
+        $pos = array_search("userRole", $fields);
+
+        if ($values[$pos] == "administrator") {
+            $fields[$pos] = "administrator";
+            $values[$pos] = "true";
+            array_push($fields, "editor");
+            array_push($values, "false");
+
+        } else if ($values[$pos] == "editor") {
+            $fields[$pos] = "editor";
+            $values[$pos] = "true";
+            array_push($fields, "administrator");
+            array_push($values, "false");
+
+        } else if ($values[$pos] == "user") {
+            unset($fields[$pos]);
+            unset($values[$pos]);
+            array_push($fields, "administrator");
+            array_push($values, "false");
+            array_push($fields, "editor");
+            array_push($values, "false");
+        }
+
+        return array($fields, $values);
 
     }
 
@@ -101,7 +172,7 @@ abstract class Query implements IQuery {
      * @return mixed
      */
     public static function convertArrayUtf8($array) {
-        array_walk_recursive($array, function(&$value, $key) {
+        array_walk_recursive($array, function(&$value) {
             if (is_string($value)) {
                 $value = iconv('windows-1252', 'utf-8', $value);
             }
@@ -111,7 +182,7 @@ abstract class Query implements IQuery {
     }
 
     /**
-     *
+     * Merge two array
      *
      * @param $tournaments
      * @param $tournamentPosition
@@ -130,6 +201,11 @@ abstract class Query implements IQuery {
         return $tournament;
     }
 
+    /**
+     *
+     * @param $userId
+     * @return array
+     */
     protected function getUserTotalPoints($userId) {
         $userTotalPoints = 0;
 
@@ -151,13 +227,9 @@ abstract class Query implements IQuery {
             } else {
                 $userRank = $tournamentsIds[$i]["rank"];
             }
-            /*            $tournamentSystemIdSql = "SELECT SYSTEM_idSYSTEM FROM TOURNAMENT WHERE idTOURNAMENT LIKE ".$tournamentsIds[$i]["TOURNAMENT_idTOURNAMENT"];
-                        $tournamentSystemId = $this->getArraySQL($tournamentSystemIdSql);
-                        $systemPoints = "SELECT umpirePoints, goldPoints, silverPoints, bronzePoints, ironPoints FROM SYSTEM WHERE idSYSTEM LIKE ". $tournamentSystemId[0]["SYSTEM_idSYSTEM"];
-                        $tournamentSystem = $this->getArraySQL($systemPoints);*/
-
+            //stores th system used in tournament
             $tournamentSystem = $this->getGameSystem($tournamentsIds[$i]["TOURNAMENT_idTOURNAMENT"]);
-
+            //calculates earned points in this tournament
             $userTotalPoints = $userTotalPoints + $this->calculatePointsBySystem($userRank, $tournamentSystem);
         }
 
@@ -185,6 +257,13 @@ abstract class Query implements IQuery {
         return array(count($tournamentsIds), $userTotalPoints);
     }
 
+    /**
+     * Calculate earned points by an user rank in a tournament with an specific tournamentSystem
+     *
+     * @param $userRank rank of the user at the tournament
+     * @param array $tournamentSystem an array containing the points for any position of the tournament
+     * @return int earned points by the user
+     */
     protected function calculatePointsBySystem($userRank, array $tournamentSystem) {
         switch ($userRank) {
             case 0:
@@ -202,6 +281,12 @@ abstract class Query implements IQuery {
         }
     }
 
+    /**
+     * Returns the game system used in a tournament
+     *
+     * @param $tournamentId
+     * @return array
+     */
     protected function getGameSystem($tournamentId) {
         $tournamentSystemIdSql = "SELECT SYSTEM_idSYSTEM FROM TOURNAMENT WHERE idTOURNAMENT LIKE ".$tournamentId;
         $tournamentSystemId = $this->getArraySQL($tournamentSystemIdSql);

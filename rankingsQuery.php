@@ -8,8 +8,7 @@
 
 header("Content-type: text/plain; charset=utf-8");
 
-include_once 'model/TournamentQuery.php';
-include_once  'model/Query.php';
+
 include_once  'controller/request_controller.php';
 
 
@@ -21,12 +20,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["fields"]) && isset($_PO
 
     $controller = new request_controller(RANKINGS_QUERY, $_POST["fields"]);
 
-} else {
+} else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["request"])) {
+
     $controller = new request_controller(RANKINGS_QUERY);
+
+} else if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $controller = new request_controller(RANKINGS_QUERY);
+
 }
 
 $rawData = $controller->invoke();
-
 
 
 echo json_encode($rawData);

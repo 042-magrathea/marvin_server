@@ -43,6 +43,16 @@ class UserQuery extends Query {
         return $result;
     }
 
+    public function getParseEntry($itemId) {
+        $sql = "SELECT idUser, publicName, password, eMail, administrator FROM USER WHERE idUser LIKE ".$itemId;
+
+        $result = $this->getArraySQL($sql);
+
+        $this->adapter->closeConnection();
+
+        return $result;
+    }    
+
     public function getAllEntries() {
         $sql = "SELECT * FROM USER;";
 
@@ -53,5 +63,29 @@ class UserQuery extends Query {
         return $result;
     }
 
+    public function insertItem(array $fields, array $values) {
+        $sql = $this->buildInsert('USER', $fields, $values);
 
+        $result = $this->connection->query($sql);
+
+        $id = mysqli_insert_id($this->connection);
+
+        $this->adapter->closeConnection();
+
+        $rawData = array(array("insertionId" => $id));
+
+        return $rawData;
+    }
+
+
+    public function getIdValue(array $filterFields, array $filterArguments)
+    {
+        $sql = $this->buildQuery('USER', array("idUser"), $filterFields, $filterArguments);
+
+        $result = $this->getArraySQL($sql, $this->connection);
+
+        $this->adapter->closeConnection();
+
+        return $result;
+    }
 }
