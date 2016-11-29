@@ -8,7 +8,11 @@
 
 header("Content-type: text/plain; charset=utf-8");
 
+<<<<<<< HEAD
 include_once 'model/Tournament_Model.php';
+=======
+include_once 'model/TournamentQuery.php';
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
 include_once  'model/Query.php';
 include_once  'controller/request_controller.php';
 

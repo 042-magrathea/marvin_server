@@ -12,6 +12,7 @@
  */
 interface IQuery {
 
+<<<<<<< HEAD
     /**
      * Get all entries from a table in database that matches all parameters specified, this method has to be used
      * to execute custom requests to the specified table
@@ -63,5 +64,12 @@ interface IQuery {
      * of the corresponding field at $fields array
      * @return array
      */
+=======
+    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments);
+    public function getAllEntries();
+    public function getParseEntries();
+    public function getParseEntry($itemId);
+    public function getIdValue(array $filterFields, array $filterArguments);
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
     public function insertItem(array $fields, array $values);
 }

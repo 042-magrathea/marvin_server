@@ -13,6 +13,7 @@ include_once  'model/Query.php';
 include_once  'controller/request_controller.php';
 
 
+<<<<<<< HEAD
 
 if (isset($_POST["requestName"])) {
 
@@ -25,11 +26,25 @@ if (isset($_POST["requestName"])) {
 
 $rawData = $controller->invoke();
 
+=======
+if (isset($_POST["requestName"])) {
 
+    $controller = new request_controller("users", $_POST);
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+
+} else {
+
+    $controller = new request_controller("users");
+}
+
+$rawData = $controller->invoke();
+
+var_dump($rawData);
 echo json_encode($rawData);
 
 
 
+<<<<<<< HEAD
 /*$model = new User_Model();*/
 
 
@@ -61,6 +76,8 @@ echo $rawData;*/
 
 
 
+=======
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
 
 
 
@@ -83,7 +100,11 @@ echo $rawData;*/
 
 
 
+<<<<<<< HEAD
 /*$query = new User_Model();
+=======
+/*$query = new UserQuery();
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
 
 $fields = array("publicName", "name", "phone", "eMail", "ads", "privateDes", "publicDes", "userRole", "language", "datePassword", "password", "memberSince");
 

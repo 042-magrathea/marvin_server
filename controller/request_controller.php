@@ -7,6 +7,7 @@
  * Time: 16:55
  */
 
+<<<<<<< HEAD
 include_once 'model/User_Model.php';
 include_once 'model/Tournament_Model.php';
 include_once 'model/Prize_Model.php';
@@ -15,6 +16,16 @@ include_once 'model/Ranking_Model.php';
 include_once  'model/Query.php';
 
 //request kinds
+=======
+include_once 'model/UserQuery.php';
+include_once 'model/TournamentQuery.php';
+include_once 'model/PrizeQuery.php';
+include_once 'model/HostQuery.php';
+include_once 'model/RankingQuery.php';
+include_once  'model/Query.php';
+
+
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
 define("USERS_QUERY", "users");
 define("PRIZES_QUERY", "prizes");
 define("TOURNAMENTS_QUERY", "tournaments");
@@ -30,12 +41,16 @@ define("ITEM_VALUES", "itemValues");
 define("SEARCH_ID", "searchIdByField");
 define("CUSTOM_SEARCH", "customSearch");
 define("USER_LOGIN", "userLogin");
+<<<<<<< HEAD
 define("VALUE_CHECK", "valueExists");
 //funcio cerca per enums de l'escriptorio, ha de retornar objecte
 
 /**
  * Class request_controller
  */
+=======
+
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
 class request_controller {
 
     public $model;
@@ -79,7 +94,10 @@ class request_controller {
      * Subconstructor called by main constructor when it has been called with two parameters
      *
      * @param String $queryMode
+<<<<<<< HEAD
      * @param $post
+=======
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
      */
     public function __construct2(String $queryMode, $post) {
         $this->setModel($queryMode);
@@ -98,7 +116,10 @@ class request_controller {
         if ($this->post == null) {
             //if request has no post call the standard query
             $results = $this->model->getParseEntries();
+<<<<<<< HEAD
 
+=======
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
         } else {
 
             $results = $this->launchRequest();
@@ -115,6 +136,7 @@ class request_controller {
     private function setModel(String $queryMode) {
         switch ($queryMode) {
             case USERS_QUERY:
+<<<<<<< HEAD
                 $this->model = new User_Model();
                 break;
             case PRIZES_QUERY:
@@ -128,6 +150,21 @@ class request_controller {
                 break;
             case RANKINGS_QUERY:
                 $this->model = new Ranking_Model();
+=======
+                $this->model = new UserQuery();
+                break;
+            case PRIZES_QUERY:
+                $this->model = new PrizeQuery();
+                break;
+            case TOURNAMENTS_QUERY:
+                $this->model = new TournamentQuery();
+                break;
+            case HOSTS_QUERY:
+                $this->model = new HostQuery();
+                break;
+            case RANKINGS_QUERY:
+                $this->model = new RankingQuery();
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
                 break;
         }
     }
@@ -148,6 +185,7 @@ class request_controller {
                 return $this->model->getAllEntries();
                 break;
             case DELETE_ITEM:
+<<<<<<< HEAD
 
                 // NOT IMPLEMENTED IN PROTOTYPE
 //                $results = $this->model->getAllEntries();
@@ -172,6 +210,26 @@ class request_controller {
                 $fields = $this->post['filterFields'];
                 $arguments = $this->post['filterArguments'];
                 return $this->model->getIdValue(json_decode($fields), json_decode($arguments));
+=======
+//                $results = $this->model->getAllEntries();
+                break;
+            case INSERT_ITEM:
+//                $fields = array("publicName", "name", "phone", "eMail", "ads", "privateDes", "publicDes", "userRole", "language", "datePassword", "password", "memberSince");
+//                $values = array("tricoman", "arnau biosca", "670087387", "arnaubiosca@gmail.com", "true", "es molt bona gent", "no le dejes dinero", "editor", "catala", "2016-10-10", "cacota", "2016-10-10");
+                $fields = $this->post['fields'];
+                $values = $this->post['values'];
+                return $this->model->insertItem($fields, $values);
+
+                break;
+            case MODIFY_VALUE:
+//                $results = $this->model->getAllEntries();
+                break;
+            case ITEM_VALUES:
+                return $this->model->getParseEntry();
+                break;
+            case SEARCH_ID:
+                return $this->model->getCustomEntries();
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
                 break;
             case CUSTOM_SEARCH:
                 return $this->model->getCustomEntries($this->fields, $this->filtersFields, $this->filtersArguments);
@@ -181,6 +239,7 @@ class request_controller {
                 $userPassword = $this->post["userPassword"];
                 return $this->model->checkLogIn($userPublicName, $userPassword);
                 break;
+<<<<<<< HEAD
             case VALUE_CHECK:
                 $field = $this->post["field"];
                 $value = $this->post["value"];
@@ -188,6 +247,8 @@ class request_controller {
                 $value =  "[\"arnaubsdfdiosca@gmail.com\"]";*/
                 return $this->model->valueExists($field, $value);
                 break;
+=======
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
             DEFAULT:
                 throw new Exception("Unknow request name");
 
