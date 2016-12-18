@@ -7,34 +7,20 @@
  * Time: 13:41
  */
 
-<<<<<<< HEAD
-include_once "persistence/DB_adapter.php";
-=======
 include_once "DB_adapter.php";
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 include_once "Query.php";
 
 
-/**
- * Class Ranking_Model
- */
-class Ranking_Model extends Query {
+class RankingQuery extends Query {
 
     private $adapter;
+    protected $connection;
 
-
-    /**
-     * Ranking_Model constructor.
-     */
     public function __construct() {
         $this->adapter = new DB_adapter();
 
         $this->connection = $this->adapter->getConnection();
-<<<<<<< HEAD
-        $this->connection->query("SET NAMES 'utf8'");
-=======
 
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     }
 
     //---------------------------------------------------------------------------------------------------------------//
@@ -79,11 +65,7 @@ class Ranking_Model extends Query {
 
         //get all tournaments data from DB
         $tournamentssql = "SELECT idTOURNAMENT, TOURNAMENT_HOST_idTournamentHost, SYSTEM_idSYSTEM FROM TOURNAMENT";
-<<<<<<< HEAD
-        $tournaments = $this->getResultArray($tournamentssql);
-=======
         $tournaments = $this->getArraySQL($tournamentssql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         /////////////////////////
         //build tournament list//
@@ -101,11 +83,7 @@ class Ranking_Model extends Query {
 
             //get all
             $usersIdsSql = "SELECT USER_idUSER, rank FROM TOURNAMENT_has_USER WHERE TOURNAMENT_idTOURNAMENT = ".$tournamentId;
-<<<<<<< HEAD
-            $usersIds = $this->getResultArray($usersIdsSql);
-=======
             $usersIds = $this->getArraySQL($usersIdsSql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
 
             //walk through all users ids array
@@ -115,11 +93,7 @@ class Ranking_Model extends Query {
 
                 //get data from user in DB
                 $userSql = "SELECT idUSER, publicName FROM USER WHERE idUSER = ".$userId;
-<<<<<<< HEAD
-                $user = $this->getResultArray($userSql)[0];
-=======
                 $user = $this->getArraySQL($userSql)[0];
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
                 //calculate user total points and played tournaments
                 $pointsAndTournamentNr = $this->getUserTotalPoints($userId);
@@ -138,21 +112,13 @@ class Ranking_Model extends Query {
 
                 //get all achievement id's earned by the user
                 $achievementsIdsSQL = "SELECT ACHIEVEMENT_idACHIEVEMENT FROM USER_has_ACHIEVEMENT WHERE USER_idUSER LIKE ".$userId;
-<<<<<<< HEAD
-                $achievementsIds = $this->getResultArray($achievementsIdsSQL);
-=======
                 $achievementsIds = $this->getArraySQL($achievementsIdsSQL);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
                 //walk through all achievements ids array
                 for ($k = 0; $k < count($achievementsIds); $k++) {
                     //get the achievement's data
                     $achievementSQL = "SELECT name FROM ACHIEVEMENT WHERE idACHIEVEMENT LIKE ".$achievementsIds[$k]["ACHIEVEMENT_idACHIEVEMENT"];
-<<<<<<< HEAD
-                    $achievement = $this->getResultArray($achievementSQL);
-=======
                     $achievement = $this->getArraySQL($achievementSQL);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
                     //eliminates one level from the array
                     $achievement = $achievement[0];
@@ -194,11 +160,7 @@ class Ranking_Model extends Query {
      * @param array $filterArguments contains the values that the specified fields will have to match
      * @return array
      */
-<<<<<<< HEAD
-    public function getCustomEntries($fields, $filterFields, $filterArguments)
-=======
     public function getCustomEntries(array $fields, array $filterFields, array $filterArguments)
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     {
         // TODO: Implement getCustomEntries() method.
     }
@@ -212,10 +174,7 @@ class Ranking_Model extends Query {
 
         $result = $this->getParseEntries();
 
-<<<<<<< HEAD
-=======
         $this->adapter->closeConnection();
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         return $result;
     }
@@ -238,7 +197,6 @@ class Ranking_Model extends Query {
      * Get parse entry by id
      *
      * @param $itemId
-     * @return mixed|void
      */
     public function getParseEntry($itemId)
     {
@@ -250,23 +208,9 @@ class Ranking_Model extends Query {
      *
      * @param array $filterFields contains the fields names that will be used in the query to filter its results
      * @param array $filterArguments contains the values that the specified fields will have to match
-     * @return mixed|void
      */
     public function getIdValue(array $filterFields, array $filterArguments)
     {
         // TODO: Implement getIdValue() method.
     }
-<<<<<<< HEAD
-
-    public function modifyItem($itemNId, $fields, $values)
-    {
-        // TODO: Implement modifyItem() method.
-    }
-
-    public function deleteItem($itemId)
-    {
-        // TODO: Implement deleteItem() method.
-    }
-=======
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 }

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="66241a58-6e37-4db4-a58b-d92c409a36a5" name="Default" comment="">
+<<<<<<< HEAD
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gamesQuery.php" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hostsQuery.php" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/imageUploader.php" />
@@ -11,14 +12,31 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tournamentsQuery.php" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/upload.php" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/model/DB_adapter.php" afterPath="" />
+=======
+<<<<<<< HEAD
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hostsQuery.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/prizesQuery.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tournamentsQuery.php" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
       <change type="DELETED" beforePath="$PROJECT_DIR$/model/HostQuery.php" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/model/UserQuery.php" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Marvin_data_server.iml" afterPath="$PROJECT_DIR$/.idea/Marvin_data_server.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controller/request_controller.php" afterPath="$PROJECT_DIR$/controller/request_controller.php" />
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/IQuery.php" afterPath="$PROJECT_DIR$/model/IQuery.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/Query.php" afterPath="$PROJECT_DIR$/model/Query.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/usersQuery.php" afterPath="$PROJECT_DIR$/usersQuery.php" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/DB_adapter.php" afterPath="$PROJECT_DIR$/model/DB_adapter.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/IQuery.php" afterPath="$PROJECT_DIR$/model/IQuery.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/Query.php" afterPath="$PROJECT_DIR$/model/Query.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/usersQuery.php" afterPath="$PROJECT_DIR$/usersQuery.php" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/DB_adapter.php" afterPath="$PROJECT_DIR$/model/DB_adapter.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/UserQuery.php" afterPath="$PROJECT_DIR$/model/UserQuery.php" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     </list>
     <ignored path="Marvin_data_server.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,6 +64,7 @@
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="User_Model.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/User_Model.php">
+<<<<<<< HEAD
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="144">
               <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="42" />
@@ -72,30 +91,107 @@
                 <marker date="1482086040046" expanded="true" signature="8087:8096" ph="DELETE FROM " />
                 <marker date="1482086040046" expanded="true" signature="8087:8367" ph="DELETE FROM " />
               </folding>
+=======
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1671">
+              <caret line="100" column="10" selection-start-line="100" selection-start-column="10" selection-end-line="100" selection-end-column="10" />
+              <folding>
+                <marker date="1480438843785" expanded="true" signature="871:938" ph="SELECT idUse... USER" />
+                <marker date="1480438843785" expanded="true" signature="1827:1876" ph="SELECT passw... USER" />
+                <marker date="1480438843785" expanded="true" signature="1827:1898" ph="SELECT passw... USER" />
+                <marker date="1480438843785" expanded="true" signature="1827:1899" ph="SELECT passw... USER" />
+                <marker date="1480438843785" expanded="true" signature="2908:2999" ph="SELECT EXIST... " />
+                <marker date="1480438843785" expanded="true" signature="2922:2929" ph="SELECT passw... USER" />
+                <marker date="1480438843785" expanded="true" signature="2922:2951" ph="SELECT idUse... USER" />
+                <marker date="1480438843785" expanded="true" signature="2922:2952" ph="SELECT idUse... USER" />
+                <marker date="1480438843785" expanded="true" signature="2922:2972" ph="SELECT idUse... USER" />
+                <marker date="1480438843785" expanded="true" signature="2922:2973" ph="SELECT idUse... USER" />
+                <marker date="1480438843785" expanded="true" signature="2922:2977" ph="SELECT * FRO... USER" />
+                <marker date="1480438843785" expanded="true" signature="2922:2988" ph="SELECT idUse... USER" />
+                <marker date="1480438843785" expanded="true" signature="3734:3820" ph="SELECT idUse... USER" />
+                <marker date="1480438843785" expanded="true" signature="3734:3821" ph="SELECT idUse... USER" />
+                <marker date="1480438843785" expanded="true" signature="3734:3835" ph="SELECT idUse... USER" />
+                <marker date="1480438843785" expanded="true" signature="3734:3836" ph="SELECT idUse... USER" />
+                <marker date="1480438843785" expanded="true" signature="5035:5053" ph="SELECT * FRO... USER" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="request_controller.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/controller/request_controller.php">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="-2231">
+              <caret line="32" column="34" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="34" />
+              <folding>
+                <element signature="e#7#101#0#PHP" expanded="true" />
+              </folding>
+=======
+            <state relative-caret-position="180">
+              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <folding />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
       <file leaf-file-name="DB_adapter.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/persistence/DB_adapter.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
               <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
+=======
+      <file leaf-file-name="usersQuery.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/usersQuery.php">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="18">
+              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="28" selection-end-column="27" />
+              <folding>
+                <element signature="e#6#100#0#PHP" expanded="true" />
+              </folding>
+=======
+            <state relative-caret-position="160">
+              <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
               <folding />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="usersQuery.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/usersQuery.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="224">
               <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
               <folding />
+=======
+      <file leaf-file-name="Host_Model.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/Host_Model.php">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="561">
+              <caret line="108" column="66" selection-start-line="108" selection-start-column="65" selection-end-line="108" selection-end-column="66" />
+=======
+            <state relative-caret-position="54">
+              <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+              <folding>
+                <element signature="e#7#100#0#PHP" expanded="true" />
+                <marker date="1478636421551" expanded="true" signature="1476:1526" ph="SELECT idTou... TOURNAMENT_HOST" />
+                <marker date="1478636421551" expanded="true" signature="1835:1864" ph="SELECT * FRO... TOURNAMENT_HOST" />
+              </folding>
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="request_controller.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/request_controller.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -103,14 +199,30 @@
               <caret line="249" column="57" selection-start-line="249" selection-start-column="57" selection-end-line="249" selection-end-column="57" />
               <folding>
                 <element signature="e#7#101#0#PHP" expanded="true" />
+=======
+      <file leaf-file-name="Prize_Model.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/Prize_Model.php">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="271">
+              <caret line="23" column="28" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="28" />
+=======
+            <state relative-caret-position="288">
+              <caret line="16" column="37" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+              <folding>
+                <marker date="1478636184843" expanded="true" signature="839:870" ph="SELECT idPRI... PRIZE" />
+                <marker date="1478636184843" expanded="true" signature="2241:2260" ph="SELECT * FRO... PRIZE" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Query.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/model/Query.php">
+      <file leaf-file-name="Ranking_Model.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/Ranking_Model.php">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="541">
               <caret line="51" column="0" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
               <folding>
@@ -128,11 +240,54 @@
                 <marker date="1482083617459" expanded="true" signature="11502:11598" ph="SELECT appro... UMPIRE" />
                 <marker date="1482083617459" expanded="true" signature="14686:14749" ph="SELECT SYSTE... TOURNAMENT" />
                 <marker date="1482083617459" expanded="true" signature="14868:14972" ph="SELECT umpir... SYSTEM" />
+=======
+<<<<<<< HEAD
+            <state relative-caret-position="271">
+              <caret line="90" column="83" selection-start-line="90" selection-start-column="78" selection-end-line="90" selection-end-column="83" />
+              <folding>
+                <element signature="e#7#100#0#PHP" expanded="true" />
+                <marker date="1478547841339" expanded="true" signature="1678:1764" ph="SELECT idTOU... TOURNAMENT" />
+                <marker date="1478547841339" expanded="true" signature="2315:2397" ph="SELECT USER_... TOURNAMENT_has_USER" />
+                <marker date="1478547841339" expanded="true" signature="2735:2786" ph="SELECT idUSE... USER" />
+                <marker date="1478547841339" expanded="true" signature="3682:3764" ph="SELECT ACHIE... USER_has_ACHIEVEMENT" />
+                <marker date="1478547841339" expanded="true" signature="4065:4119" ph="SELECT name ACHIEVEMENT" />
+              </folding>
+=======
+            <state relative-caret-position="18">
+              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+              <folding />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Tournament_Model.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/Tournament_Model.php">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="-485">
+              <caret line="103" column="77" selection-start-line="103" selection-start-column="72" selection-end-line="103" selection-end-column="77" />
+              <folding>
+                <marker date="1478547979610" expanded="true" signature="1557:1661" ph="SELECT idTOU... " />
+                <marker date="1478547979610" expanded="true" signature="2004:2093" ph="SELECT PRIZE... TOURNAMENT_has_PRIZE" />
+                <marker date="1478547979610" expanded="true" signature="2405:2453" ph="SELECT idPRI... PRIZE" />
+                <marker date="1478547979610" expanded="true" signature="3214:3290" ph="SELECT USER_... TOURNAMENT_has_USER" />
+                <marker date="1478547979610" expanded="true" signature="3536:3587" ph="SELECT idUSE... USER" />
+                <marker date="1478547979610" expanded="true" signature="5625:5649" ph="SELECT * FRO... TOURNAMENT" />
+=======
+            <state relative-caret-position="666">
+              <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+              <folding>
+                <marker date="1477916977810" expanded="true" signature="761:828" ph="SELECT idUse... USER" />
+                <marker date="1477916977810" expanded="true" signature="1007:1025" ph="SELECT * FRO... USER" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="Tournament_Model.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/model/Tournament_Model.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -150,11 +305,31 @@
                 <marker date="1482086040082" expanded="true" signature="7762:7893" ph="SELECT COUNT... TOURNAMENT_has_USER" />
                 <marker date="1482086040082" expanded="true" signature="9253:9334" ph="SELECT COUNT... TOURNAMENT_has_USER" />
                 <marker date="1482086040082" expanded="true" signature="9253:9351" ph="SELECT COUNT... TOURNAMENT_has_USER" />
+=======
+      <file leaf-file-name="Query.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/Query.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="666">
+              <caret line="88" column="34" selection-start-line="88" selection-start-column="34" selection-end-line="88" selection-end-column="34" />
+              <folding>
+                <marker date="1480431244138" expanded="true" signature="2871:2883" ph="INSERT INTO ${$tableName}... " />
+                <marker date="1480431244138" expanded="true" signature="2871:2895" ph="INSERT INTO ${$tableName}... " />
+                <marker date="1480431244138" expanded="true" signature="2871:2899" ph="INSERT INTO ${$tableName}... " />
+                <marker date="1480431244138" expanded="true" signature="2871:2900" ph="INSERT INTO ${$tableName}... " />
+                <marker date="1480431244138" expanded="true" signature="4056:4109" ph="SELECT idUSE... ${$table}" />
+                <marker date="1480431244138" expanded="true" signature="4056:4120" ph="SELECT idUSE... ${$table}" />
+                <marker date="1480431244138" expanded="true" signature="4056:4121" ph="SELECT idUSE... ${$table}" />
+                <marker date="1480431244138" expanded="true" signature="7301:7386" ph="SELECT TOURN... TOURNAMENT_has_USER" />
+                <marker date="1480431244138" expanded="true" signature="7552:7648" ph="SELECT appro... UMPIRE" />
+                <marker date="1480431244138" expanded="true" signature="10721:10784" ph="SELECT SYSTE... TOURNAMENT" />
+                <marker date="1480431244138" expanded="true" signature="10900:11004" ph="SELECT umpir... SYSTEM" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="Host_Model.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/Host_Model.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -199,6 +374,25 @@
                 <marker date="1482086040066" expanded="true" signature="1862:1911" ph="SELECT idGam... GAME" />
                 <marker date="1482086040066" expanded="true" signature="2260:2343" ph="SELECT idGam... USER" />
                 <marker date="1482086040066" expanded="true" signature="4593:4625" ph="DELETE FROM " />
+=======
+      <file leaf-file-name="DB_adapter.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/DB_adapter.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IQuery.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/model/IQuery.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="23" column="95" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="95" />
+              <folding>
+                <element signature="e#7#101#0#PHP" expanded="true" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
               </folding>
             </state>
           </provider>
@@ -239,6 +433,7 @@
         <option value="$PROJECT_DIR$/model/HostQuery.php" />
         <option value="$PROJECT_DIR$/model/TournamentQuery.php" />
         <option value="$PROJECT_DIR$/model/UserQuery.php" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/tournamentsQuery.php" />
         <option value="$PROJECT_DIR$/prizesQuery.php" />
         <option value="$PROJECT_DIR$/hostsQuery.php" />
@@ -260,6 +455,26 @@
         <option value="$PROJECT_DIR$/model/Tournament_Model.php" />
         <option value="$PROJECT_DIR$/model/Game_Model.php" />
         <option value="$PROJECT_DIR$/persistence/DB_adapter.php" />
+=======
+        <option value="$PROJECT_DIR$/model/Ranking_Model.php" />
+        <option value="$PROJECT_DIR$/tournamentsQuery.php" />
+        <option value="$PROJECT_DIR$/prizesQuery.php" />
+        <option value="$PROJECT_DIR$/hostsQuery.php" />
+        <option value="$PROJECT_DIR$/model/Tournament_Model.php" />
+        <option value="$PROJECT_DIR$/model/composer.json" />
+        <option value="$PROJECT_DIR$/model/Prize_Model.php" />
+        <option value="$PROJECT_DIR$/model/Host_Model.php" />
+        <option value="$PROJECT_DIR$/model/IQuery.php" />
+        <option value="$PROJECT_DIR$/model/Query.php" />
+<<<<<<< HEAD
+        <option value="$PROJECT_DIR$/controller/request_controller.php" />
+        <option value="$PROJECT_DIR$/model/User_Model.php" />
+=======
+        <option value="$PROJECT_DIR$/model/UserQuery.php" />
+        <option value="$PROJECT_DIR$/model/DB_adapter.php" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+        <option value="$PROJECT_DIR$/usersQuery.php" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
       </list>
     </option>
   </component>
@@ -375,33 +590,41 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< HEAD
       <pane id="Scope" />
       <pane id="Scratches" />
+=======
+<<<<<<< HEAD
+      <pane id="Scratches" />
+=======
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+      <pane id="Scope" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Marvin_data_server" />
+              <option name="myItemId" value="marvin_server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Marvin_data_server" />
+              <option name="myItemId" value="marvin_server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Marvin_data_server" />
+              <option name="myItemId" value="marvin_server" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Marvin_data_server" />
+              <option name="myItemId" value="marvin_server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Marvin_data_server" />
+              <option name="myItemId" value="marvin_server" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -425,11 +648,11 @@
           </PATH>
           <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Marvin_data_server" />
+              <option name="myItemId" value="marvin_server" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="Marvin_data_server" />
+              <option name="myItemId" value="marvin_server" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -439,10 +662,18 @@
           </PATH>
         </subPane>
       </pane>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+      <pane id="Scratches" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+<<<<<<< HEAD
     <property name="settings.editor.selected.configurable" value="preferences.remoteExternalTools" />
     <property name="settings.editor.splitter.proportion" value="0.2735939" />
     <property name="last_opened_file_path" value="$USER_HOME$/Dropbox/IOC/DAM/Projecte de desenvolupament/TEA3/screencast/diagrama de clases servidor.png" />
@@ -456,6 +687,20 @@
       <recent name="$PROJECT_DIR$/persistence" />
       <recent name="$PROJECT_DIR$" />
     </key>
+=======
+<<<<<<< HEAD
+    <property name="settings.editor.selected.configurable" value="preferences.remoteExternalTools" />
+    <property name="settings.editor.splitter.proportion" value="0.2735939" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Dropbox/IOC/DAM/Projecte de desenvolupament/TEA3/screencast/diagrama de clases servidor.png" />
+=======
+    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Marvin_data_server" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="ToolWindowDocumentation.ShowToolbar" value="false" />
+    <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
   </component>
   <component name="RunManager" selected="PHP Script.usersQuery.php">
     <configuration default="false" name="TournamentQuery.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/model/TournamentQuery.php">
@@ -552,6 +797,10 @@
       <workItem from="1477411454206" duration="26000" />
       <workItem from="1477749796769" duration="896000" />
       <workItem from="1477751257654" duration="19178000" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
       <workItem from="1477916956932" duration="457000" />
       <workItem from="1477917488990" duration="1388000" />
       <workItem from="1478026687320" duration="74428000" />
@@ -564,6 +813,7 @@
       <workItem from="1478633725491" duration="7004000" />
       <workItem from="1479463998201" duration="8556000" />
       <workItem from="1480016483355" duration="11027000" />
+<<<<<<< HEAD
       <workItem from="1480334320799" duration="26042000" />
       <workItem from="1480444846515" duration="4322000" />
       <workItem from="1480518692028" duration="7835000" />
@@ -575,22 +825,43 @@
       <workItem from="1481639398838" duration="18504000" />
       <workItem from="1481819265767" duration="8694000" />
       <workItem from="1481981586850" duration="11259000" />
+=======
+      <workItem from="1480334320799" duration="22653000" />
+=======
+      <workItem from="1477916956932" duration="1194000" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="302386000" />
+=======
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="206768000" />
+=======
+    <option name="totallyTimeSpent" value="29290000" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1920" height="1053" extended-state="7" />
     <editor active="true" />
     <layout>
+<<<<<<< HEAD
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1627409" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14453961" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33809" sideWeight="0.50213677" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32745314" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+=======
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32855567" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -603,6 +874,10 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33809" sideWeight="0.49786323" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
+=======
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32821077" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -625,6 +900,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/controller/response_controller.php" />
     <entry file="file://$PROJECT_DIR$/controller/controller.php" />
     <entry file="file://$PROJECT_DIR$/controller/response_controller.php" />
@@ -635,11 +911,58 @@
     <entry file="file://$PROJECT_DIR$/model/UsersAchievement.php" />
     <entry file="file://$PROJECT_DIR$/model/UsersNew.php" />
     <entry file="file://$PROJECT_DIR$/controller/requestController.php" />
+=======
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/model/Achievement.php" />
+    <entry file="file://$PROJECT_DIR$/model/UsersNew.php" />
+    <entry file="file://$PROJECT_DIR$/model/News.php" />
+    <entry file="file://$PROJECT_DIR$/model/UsersAchievement.php" />
+    <entry file="file://$PROJECT_DIR$/model/DBConnection.php" />
+    <entry file="file://$PROJECT_DIR$/model/User.php" />
+    <entry file="file://$PROJECT_DIR$/model/Sanction.php" />
+    <entry file="file://$PROJECT_DIR$/model/Achievement.php" />
+    <entry file="file://$PROJECT_DIR$/model/UsersNew.php" />
+    <entry file="file://$PROJECT_DIR$/model/News.php" />
+    <entry file="file://$PROJECT_DIR$/controller/requestController.php" />
+    <entry file="file://$PROJECT_DIR$/model/UsersAchievement.php" />
+    <entry file="file://$PROJECT_DIR$/model/DBConnection.php" />
+    <entry file="file://$PROJECT_DIR$/model/User.php" />
+    <entry file="file://$PROJECT_DIR$/model/Sanction.php" />
+    <entry file="file://$PROJECT_DIR$/model/Achievement.php" />
+    <entry file="file://$PROJECT_DIR$/model/UsersNew.php" />
+    <entry file="file://$PROJECT_DIR$/model/News.php" />
+    <entry file="file://$PROJECT_DIR$/controller/requestController.php" />
+    <entry file="file://$PROJECT_DIR$/model/UsersAchievement.php" />
+    <entry file="file://$PROJECT_DIR$/model/DBConnection.php" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+    <entry file="file://$PROJECT_DIR$/model/User.php" />
+    <entry file="file://$PROJECT_DIR$/model/Sanction.php" />
+    <entry file="file://$PROJECT_DIR$/model/Achievement.php" />
+    <entry file="file://$PROJECT_DIR$/model/UsersNew.php" />
+    <entry file="file://$PROJECT_DIR$/model/News.php" />
+    <entry file="file://$PROJECT_DIR$/model/UsersAchievement.php" />
+    <entry file="file://$PROJECT_DIR$/controller/request_controller.php" />
+    <entry file="file://$PROJECT_DIR$/controller/response_controller.php" />
+    <entry file="file://$PROJECT_DIR$/controller/controller.php" />
+    <entry file="file://$PROJECT_DIR$/controller/response_controller.php" />
+    <entry file="file://$PROJECT_DIR$/model/DataBaseController.php" />
+    <entry file="file://$PROJECT_DIR$/model/DBConnectionModel.php" />
+    <entry file="file://$PROJECT_DIR$/model/Sanction.php" />
+    <entry file="file://$PROJECT_DIR$/model/User.php" />
+    <entry file="file://$PROJECT_DIR$/model/UsersAchievement.php" />
+    <entry file="file://$PROJECT_DIR$/model/UsersNew.php" />
+    <entry file="file://$PROJECT_DIR$/controller/requestController.php" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     <entry file="file://$PROJECT_DIR$/model/coses.html" />
     <entry file="file://$PROJECT_DIR$/model/request_model.php" />
     <entry file="file://$PROJECT_DIR$/model/Achievement.php" />
     <entry file="file://$PROJECT_DIR$/model/News.php" />
     <entry file="file://$PROJECT_DIR$/index.html" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     <entry file="file://$PROJECT_DIR$/model/DBConnection.php" />
     <entry file="file://$PROJECT_DIR$/prizeQuery.php" />
     <entry file="file://$PROJECT_DIR$/rankingQuery.php" />
@@ -658,6 +981,7 @@
     <entry file="file://$PROJECT_DIR$/test.html" />
     <entry file="file://$PROJECT_DIR$/model/UserQuery.php" />
     <entry file="file://$PROJECT_DIR$/LICENSE">
+<<<<<<< HEAD
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -823,10 +1147,105 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
           <caret line="24" column="9" selection-start-line="16" selection-start-column="4" selection-end-line="24" selection-end-column="9" />
+=======
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://PHP/\DB_adapter">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>PHP</ID>
+          <OriginalElement>\DB_adapter</OriginalElement>
+          <nodes>
+            <node x="447.0" y="0.0">\IQuery</node>
+            <node x="1152.0" y="674.0">\Ranking_Model</node>
+            <node x="283.0" y="674.0">\Host_Model</node>
+            <node x="515.5" y="239.0">\Query</node>
+            <node x="0.0" y="674.0">\Prize_Model</node>
+            <node x="0.0" y="974.0">\DB_adapter</node>
+            <node x="566.0" y="661.0">\User_Model</node>
+            <node x="869.0" y="674.0">\Tournament_Model</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="\Prize_Model" target="\Query">
+              <point x="0.0" y="-121.0" />
+              <point x="131.5" y="631.0" />
+              <point x="553.9" y="631.0" />
+              <point x="-153.60000000000002" y="186.0" />
+            </edge>
+            <edge source="\Tournament_Model" target="\Query">
+              <point x="0.0" y="-121.0" />
+              <point x="1000.5" y="641.0" />
+              <point x="784.3000000000001" y="641.0" />
+              <point x="76.80000000000007" y="186.0" />
+            </edge>
+            <edge source="\Ranking_Model" target="\Query">
+              <point x="0.0" y="-121.0" />
+              <point x="1283.5" y="631.0" />
+              <point x="861.1000000000001" y="631.0" />
+              <point x="153.60000000000014" y="186.0" />
+            </edge>
+            <edge source="\Host_Model" target="\Query">
+              <point x="0.0" y="-121.0" />
+              <point x="414.5" y="641.0" />
+              <point x="630.7" y="641.0" />
+              <point x="-76.79999999999995" y="186.0" />
+            </edge>
+            <edge source="\Query" target="\IQuery">
+              <point x="0.0" y="-186.0" />
+              <point x="0.0" y="94.5" />
+            </edge>
+            <edge source="\User_Model" target="\Query">
+              <point x="0.0" y="-134.0" />
+              <point x="0.0" y="186.0" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="0.9" x="-335.0" y="214.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://PHP/\request_controller">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>PHP</ID>
+          <OriginalElement>\request_controller</OriginalElement>
+          <nodes>
+            <node x="" y="">\request_controller</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="78.0" y="17.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/hostsQuery.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/model/IQuery.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1152">
@@ -877,10 +1296,47 @@
             <marker date="1482083617459" expanded="true" signature="11502:11598" ph="SELECT appro... UMPIRE" />
             <marker date="1482083617459" expanded="true" signature="14686:14749" ph="SELECT SYSTE... TOURNAMENT" />
             <marker date="1482083617459" expanded="true" signature="14868:14972" ph="SELECT umpir... SYSTEM" />
+=======
+    <entry file="file://$PROJECT_DIR$/prizesQuery.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+          <folding>
+            <element signature="e#6#99#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/rankingsQuery.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tournamentsQuery.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+          <folding>
+            <element signature="e#6#99#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/IQuery.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="23" column="95" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="95" />
+          <folding>
+            <element signature="e#7#101#0#PHP" expanded="true" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
+          </folding>
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/controller/request_controller.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3078">
@@ -917,10 +1373,36 @@
             <marker date="1482086040046" expanded="true" signature="8081:8369" ph="UPDATE USER " />
             <marker date="1482086040046" expanded="true" signature="8087:8096" ph="DELETE FROM " />
             <marker date="1482086040046" expanded="true" signature="8087:8367" ph="DELETE FROM " />
+=======
+    <entry file="file://$PROJECT_DIR$/model/composer.json" />
+    <entry file="file://$PROJECT_DIR$/model/DB_adapter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/Host_Model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="108" column="66" selection-start-line="108" selection-start-column="65" selection-end-line="108" selection-end-column="66" />
+=======
+    <entry file="file://$PROJECT_DIR$/hello.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+          <folding>
+            <element signature="e#7#100#0#PHP" expanded="true" />
+            <marker date="1478636421551" expanded="true" signature="1476:1526" ph="SELECT idTou... TOURNAMENT_HOST" />
+            <marker date="1478636421551" expanded="true" signature="1835:1864" ph="SELECT * FRO... TOURNAMENT_HOST" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/usersQuery.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="224">
@@ -940,11 +1422,66 @@
             <marker date="1482086040066" expanded="true" signature="2260:2343" ph="SELECT idGam... USER" />
             <marker date="1482086040066" expanded="true" signature="4593:4625" ph="DELETE FROM " />
           </folding>
+=======
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/model/Prize_Model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="23" column="28" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="28" />
+          <folding>
+            <marker date="1478636184843" expanded="true" signature="839:870" ph="SELECT idPRI... PRIZE" />
+            <marker date="1478636184843" expanded="true" signature="2241:2260" ph="SELECT * FRO... PRIZE" />
+          </folding>
+=======
+    <entry file="file://$PROJECT_DIR$/model/DBConnection.php" />
+    <entry file="file://$PROJECT_DIR$/model/IQuery.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="93" selection-start-line="10" selection-start-column="93" selection-end-line="10" selection-end-column="93" />
+          <folding />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/Ranking_Model.php">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="271">
+          <caret line="90" column="83" selection-start-line="90" selection-start-column="78" selection-end-line="90" selection-end-column="83" />
+          <folding>
+            <element signature="e#7#100#0#PHP" expanded="true" />
+            <marker date="1478547841339" expanded="true" signature="1678:1764" ph="SELECT idTOU... TOURNAMENT" />
+            <marker date="1478547841339" expanded="true" signature="2315:2397" ph="SELECT USER_... TOURNAMENT_has_USER" />
+            <marker date="1478547841339" expanded="true" signature="2735:2786" ph="SELECT idUSE... USER" />
+            <marker date="1478547841339" expanded="true" signature="3682:3764" ph="SELECT ACHIE... USER_has_ACHIEVEMENT" />
+            <marker date="1478547841339" expanded="true" signature="4065:4119" ph="SELECT name ACHIEVEMENT" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/Tournament_Model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-485">
+          <caret line="103" column="77" selection-start-line="103" selection-start-column="72" selection-end-line="103" selection-end-column="77" />
+          <folding>
+            <marker date="1478547979610" expanded="true" signature="1557:1661" ph="SELECT idTOU... " />
+            <marker date="1478547979610" expanded="true" signature="2004:2093" ph="SELECT PRIZE... TOURNAMENT_has_PRIZE" />
+            <marker date="1478547979610" expanded="true" signature="2405:2453" ph="SELECT idPRI... PRIZE" />
+            <marker date="1478547979610" expanded="true" signature="3214:3290" ph="SELECT USER_... TOURNAMENT_has_USER" />
+            <marker date="1478547979610" expanded="true" signature="3536:3587" ph="SELECT idUSE... USER" />
+            <marker date="1478547979610" expanded="true" signature="5625:5649" ph="SELECT * FRO... TOURNAMENT" />
+          </folding>
+=======
+        <state relative-caret-position="180">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/model/Host_Model.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="162">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
@@ -968,10 +1505,42 @@
             <marker date="1482086040054" expanded="true" signature="1155:1468" ph="SELECT PRIZE... PRIZE" />
             <marker date="1482086040054" expanded="true" signature="1551:1861" ph="SELECT PRIZE... PRIZE" />
             <marker date="1482086040054" expanded="true" signature="3337:3356" ph="SELECT * FRO... PRIZE" />
-          </folding>
+=======
+        <state relative-caret-position="18">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/model/DB_adapter.php">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="666">
+          <caret line="88" column="34" selection-start-line="88" selection-start-column="34" selection-end-line="88" selection-end-column="34" />
+          <folding>
+            <marker date="1480431244138" expanded="true" signature="2871:2883" ph="INSERT INTO ${$tableName}... " />
+            <marker date="1480431244138" expanded="true" signature="2871:2895" ph="INSERT INTO ${$tableName}... " />
+            <marker date="1480431244138" expanded="true" signature="2871:2899" ph="INSERT INTO ${$tableName}... " />
+            <marker date="1480431244138" expanded="true" signature="2871:2900" ph="INSERT INTO ${$tableName}... " />
+            <marker date="1480431244138" expanded="true" signature="4056:4109" ph="SELECT idUSE... ${$table}" />
+            <marker date="1480431244138" expanded="true" signature="4056:4120" ph="SELECT idUSE... ${$table}" />
+            <marker date="1480431244138" expanded="true" signature="4056:4121" ph="SELECT idUSE... ${$table}" />
+            <marker date="1480431244138" expanded="true" signature="7301:7386" ph="SELECT TOURN... TOURNAMENT_has_USER" />
+            <marker date="1480431244138" expanded="true" signature="7552:7648" ph="SELECT appro... UMPIRE" />
+            <marker date="1480431244138" expanded="true" signature="10721:10784" ph="SELECT SYSTE... TOURNAMENT" />
+            <marker date="1480431244138" expanded="true" signature="10900:11004" ph="SELECT umpir... SYSTEM" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
+          </folding>
+=======
+        <state relative-caret-position="160">
+          <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+          <folding />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/persistence/DB_adapter.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -996,6 +1565,64 @@
             <marker date="1482086040082" expanded="true" signature="7762:7893" ph="SELECT COUNT... TOURNAMENT_has_USER" />
             <marker date="1482086040082" expanded="true" signature="9253:9334" ph="SELECT COUNT... TOURNAMENT_has_USER" />
             <marker date="1482086040082" expanded="true" signature="9253:9351" ph="SELECT COUNT... TOURNAMENT_has_USER" />
+=======
+    <entry file="file://$PROJECT_DIR$/model/User_Model.php">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="-1671">
+          <caret line="100" column="10" selection-start-line="100" selection-start-column="10" selection-end-line="100" selection-end-column="10" />
+          <folding>
+            <marker date="1480438843785" expanded="true" signature="871:938" ph="SELECT idUse... USER" />
+            <marker date="1480438843785" expanded="true" signature="1827:1876" ph="SELECT passw... USER" />
+            <marker date="1480438843785" expanded="true" signature="1827:1898" ph="SELECT passw... USER" />
+            <marker date="1480438843785" expanded="true" signature="1827:1899" ph="SELECT passw... USER" />
+            <marker date="1480438843785" expanded="true" signature="2908:2999" ph="SELECT EXIST... " />
+            <marker date="1480438843785" expanded="true" signature="2922:2929" ph="SELECT passw... USER" />
+            <marker date="1480438843785" expanded="true" signature="2922:2951" ph="SELECT idUse... USER" />
+            <marker date="1480438843785" expanded="true" signature="2922:2952" ph="SELECT idUse... USER" />
+            <marker date="1480438843785" expanded="true" signature="2922:2972" ph="SELECT idUse... USER" />
+            <marker date="1480438843785" expanded="true" signature="2922:2973" ph="SELECT idUse... USER" />
+            <marker date="1480438843785" expanded="true" signature="2922:2977" ph="SELECT * FRO... USER" />
+            <marker date="1480438843785" expanded="true" signature="2922:2988" ph="SELECT idUse... USER" />
+            <marker date="1480438843785" expanded="true" signature="3734:3820" ph="SELECT idUse... USER" />
+            <marker date="1480438843785" expanded="true" signature="3734:3821" ph="SELECT idUse... USER" />
+            <marker date="1480438843785" expanded="true" signature="3734:3835" ph="SELECT idUse... USER" />
+            <marker date="1480438843785" expanded="true" signature="3734:3836" ph="SELECT idUse... USER" />
+            <marker date="1480438843785" expanded="true" signature="5035:5053" ph="SELECT * FRO... USER" />
+=======
+        <state relative-caret-position="666">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding>
+            <marker date="1477916977810" expanded="true" signature="761:828" ph="SELECT idUse... USER" />
+            <marker date="1477916977810" expanded="true" signature="1007:1025" ph="SELECT * FRO... USER" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/usersQuery.php">
+<<<<<<< HEAD
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="28" selection-end-column="27" />
+          <folding>
+            <element signature="e#6#100#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controller/request_controller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2231">
+          <caret line="32" column="34" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="34" />
+=======
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="37" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+          <folding>
+            <element signature="e#7#101#0#PHP" expanded="true" />
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
           </folding>
         </state>
       </provider>

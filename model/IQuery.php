@@ -12,6 +12,10 @@
  */
 interface IQuery {
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     /**
      * Get all entries from a table in database that matches all parameters specified, this method has to be used
      * to execute custom requests to the specified table
@@ -21,7 +25,11 @@ interface IQuery {
      * @param array $filterArguments contains the values that the specified fields will have to match
      * @return array
      */
+<<<<<<< HEAD
     public function getCustomEntries($fields, $filterFields, $filterArguments);
+=======
+    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments);
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
     /**
      * Get all fields from all entries of a table
@@ -63,6 +71,7 @@ interface IQuery {
      * of the corresponding field at $fields array
      * @return array
      */
+<<<<<<< HEAD
     public function insertItem(array $fields, array $values);
 
     public function modifyItem($itemNId, $fields, $values);
@@ -74,4 +83,14 @@ interface IQuery {
      * @return mixed number of rows deleted
      */
     public function deleteItem($itemId);
+=======
+=======
+    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments);
+    public function getAllEntries();
+    public function getParseEntries();
+    public function getParseEntry($itemId);
+    public function getIdValue(array $filterFields, array $filterArguments);
+>>>>>>> f7fc3bef3b6f3be22aed07ec831da1a27a6ff2f0
+    public function insertItem(array $fields, array $values);
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 }

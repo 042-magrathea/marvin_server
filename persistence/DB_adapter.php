@@ -8,9 +8,15 @@
  */
 class DB_adapter {
 
+<<<<<<< HEAD:persistence/DB_adapter.php
     private $servername = "localhost";
     private $username = "administrator";
     private $password = "damMagrathea042";
+=======
+    private $servername = "192.168.0.5";
+    private $username = "admin";
+    private $password = "damMagrathea42";
+>>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f:model/DB_adapter.php
     private $database = "magrathea";
     private $connection;
 
