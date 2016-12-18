@@ -7,11 +7,7 @@
  * Time: 20:01
  */
 
-<<<<<<< HEAD
 include_once "persistence/DB_adapter.php";
-=======
-include_once "DB_adapter.php";
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 include_once "Query.php";
 
 
@@ -30,11 +26,7 @@ class Host_Model extends Query {
         $this->adapter = new DB_adapter();
 
         $this->connection = $this->adapter->getConnection();
-<<<<<<< HEAD
         $this->connection->query("SET NAMES 'utf8'");
-=======
-
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     }
 
     /**
@@ -46,19 +38,11 @@ class Host_Model extends Query {
      * @param array $filterArguments contains the values that the specified fields will have to match
      * @return array
      */
-<<<<<<< HEAD
     public function getCustomEntries($fields, $filterFields, $filterArguments) {
 
         $sql = $this->buildQuerySql('TOURNAMENT_HOST', $fields, $filterFields, $filterArguments);
 
         $result = $this->getResultArray($sql);
-=======
-    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments) {
-
-        $sql = $this->buildQuery('TOURNAMENT_HOST', $fields, $filterFields, $filterArguments);
-
-        $result = $this->getArraySQL($sql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         $this->adapter->closeConnection();
 
@@ -73,11 +57,7 @@ class Host_Model extends Query {
     public function getParseEntries() {
         $sql = "SELECT idTournamentHost, name FROM TOURNAMENT_HOST;";
 
-<<<<<<< HEAD
         $result = $this->getResultArray($sql);
-=======
-        $result = $this->getArraySQL($sql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         $this->adapter->closeConnection();
 
@@ -92,11 +72,7 @@ class Host_Model extends Query {
     public function getAllEntries() {
         $sql = "SELECT * FROM TOURNAMENT_HOST;";
 
-<<<<<<< HEAD
         $result = $this->getResultArray($sql);
-=======
-        $result = $this->getArraySQL($sql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         $this->adapter->closeConnection();
 
@@ -138,7 +114,6 @@ class Host_Model extends Query {
     {
         // TODO: Implement getIdValue() method.
     }
-<<<<<<< HEAD
 
     public function modifyItem($itemNId, $fields, $values)
     {
@@ -149,6 +124,4 @@ class Host_Model extends Query {
     {
         // TODO: Implement deleteItem() method.
     }
-=======
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 }

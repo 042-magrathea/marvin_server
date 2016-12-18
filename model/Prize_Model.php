@@ -6,11 +6,7 @@
  * Date: 1/11/16
  * Time: 20:23
  */
-<<<<<<< HEAD
 include_once "persistence/DB_adapter.php";
-=======
-include_once "DB_adapter.php";
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 include_once "Query.php";
 
 /**
@@ -28,10 +24,7 @@ class Prize_Model extends Query {
         $this->adapter = new DB_adapter();
 
         $this->connection = $this->adapter->getConnection();
-<<<<<<< HEAD
         $this->connection->query("SET NAMES 'utf8'");
-=======
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
     }
 
@@ -47,7 +40,6 @@ class Prize_Model extends Query {
      * @return array
      */
     public function getParseEntries() {
-<<<<<<< HEAD
 
         $sql = "SELECT * FROM PRIZE p WHERE p.idPrize NOT IN (SELECT PRIZE_idPRIZE FROM PRIZE_MERCHANT) AND p.idPrize " .
             "NOT IN (SELECT PRIZE_idPRIZE FROM PRIZE_DISCOUNT);";
@@ -70,14 +62,6 @@ class Prize_Model extends Query {
 
         $result = array_merge($resultSinglePrizes, $resultDiscountPrizes, $resultMerchantPrizes);
 
-=======
-        $sql = "SELECT idPRIZE, name FROM PRIZE;";
-
-        $result = $this->getArraySQL($sql);
-
-        $this->adapter->closeConnection();
-
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
         return $result;
     }
 
@@ -96,19 +80,11 @@ class Prize_Model extends Query {
      * @param array $filterArguments contains the values that the specified fields will have to match
      * @return array
      */
-<<<<<<< HEAD
     public function getCustomEntries($fields, $filterFields, $filterArguments) {
 
         $sql = $this->buildQuerySql('PRIZE', $fields, $filterFields, $filterArguments);
 
         $result = $this->getResultArray($sql);
-=======
-    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments) {
-
-        $sql = $this->buildQuery('PRIZE', $fields, $filterFields, $filterArguments);
-
-        $result = $this->getArraySQL($sql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         $this->adapter->closeConnection();
 
@@ -123,11 +99,7 @@ class Prize_Model extends Query {
     public function getAllEntries() {
         $sql = "SELECT * FROM PRIZE;";
 
-<<<<<<< HEAD
         $result = $this->getResultArray($sql);
-=======
-        $result = $this->getArraySQL($sql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         $this->adapter->closeConnection();
 
@@ -142,7 +114,6 @@ class Prize_Model extends Query {
      * of the corresponding field at $fields array
      * @return array
      */
-<<<<<<< HEAD
     public function insertItem(array $fields, array $values) {
         $prizeKind = $this->getPrizeKind($fields);
 
@@ -160,11 +131,6 @@ class Prize_Model extends Query {
         $this->adapter->closeConnection();
 
         return $rawData;
-=======
-    public function insertItem(array $fields, array $values)
-    {
-        // TODO: Implement insertItem() method.
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     }
 
     /**
@@ -189,7 +155,6 @@ class Prize_Model extends Query {
     {
         // TODO: Implement getIdValue() method.
     }
-<<<<<<< HEAD
 
     public function modifyItem($itemNId, $fields, $values) {
 
@@ -362,6 +327,4 @@ abstract class PrizeKinds {
     const DISCOUNT = 1;
     const MERCHANT = 2;
 
-=======
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 }

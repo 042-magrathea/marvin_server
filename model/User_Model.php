@@ -6,11 +6,7 @@
  * Date: 30/10/16
  * Time: 19:56
  */
-<<<<<<< HEAD
 include_once "persistence/DB_adapter.php";
-=======
-include_once "DB_adapter.php";
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 include_once "Query.php";
 
 /**
@@ -42,7 +38,6 @@ class User_Model extends Query {
      */
     public function getParseEntries() {
         //build the query statement
-<<<<<<< HEAD
         $sql = "SELECT idUser, publicName, name, phone, eMail, administrator, editor, language, privateDes, publicDes FROM USER WHERE eMail IS NOT NULL;";
 
         //execute query
@@ -63,32 +58,11 @@ class User_Model extends Query {
 
 
 
-=======
-        $sql = "SELECT idUser, publicName, password, eMail, administrator FROM USER;";
-
-        //execute query
-        $result = $this->getArraySQL($sql);
-
-        for($i = 0; $i<count($result); $i++) {
-            $result[$i]["editor"] = (boolean) $result[$i]["editor"];
-            $result[$i]["administrator"] = (boolean) $result[$i]["administrator"];
-        }
-
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
         $this->adapter->closeConnection();
 
         return $result;
     }
 
-<<<<<<< HEAD
-=======
-    //---------------------------------------------------------------------------------------------------------------//
-
-    ///////////////////////
-    // IN USE, NOT TESTED//
-    ///////////////////////
-
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     /**
      * Check if the pair $userPublicName $userPassword, matches with any item existing in the USER table.
      *
@@ -98,7 +72,6 @@ class User_Model extends Query {
      */
     public function checkLogIn($userPublicName, $userPassword) {
         //build the query statement
-<<<<<<< HEAD
         $sql = "SELECT password, administrator, editor FROM USER WHERE publicName LIKE '".$userPublicName . "'";
 
 
@@ -130,73 +103,22 @@ class User_Model extends Query {
             $rawData = $this->getJsonFriendlyArray("loginResult",0);
         }
 
-=======
-        $sql = "SELECT password FROM USER WHERE publicName LIKE '".$userPublicName . "'";
-
-
-        //execute query
-        $result = $this->getArraySQL($sql);
-
-        $this->adapter->closeConnection();
-
-        if ($result[0]["password"] == $userPassword) {
-            if ($result[0]["administrator"] == 1) {
-                //creates a JSON friendly array
-                $rawData = getJsonFriendlyArray("loginResult",3);
-            } else if ($result[0]["editor"] == 1) {
-                //creates a JSON friendly array
-                $rawData = getJsonFriendlyArray("loginResult",2);
-            } else {
-                //creates a JSON friendly array
-                $rawData = getJsonFriendlyArray("loginResult",1);
-            }
-
-        } else {
-            //creates a JSON friendly array
-            $rawData = getJsonFriendlyArray("loginResult",0);
-        }
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
         return $rawData;
     }
 
     public function valueExists($field, $value) {
 
-<<<<<<< HEAD
-=======
-//        $field = json_decode($field)[0];
-//        $value = json_decode($value)[0];
-
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
         //build the query statement
         $sql = "SELECT EXISTS(SELECT idUser FROM USER WHERE " . $field . " LIKE '" . $value . "') AS result";
 
         //execute query
-<<<<<<< HEAD
         $result = $this->getResultArray($sql);
 
         $result[0]["result"] = (boolean)intval($result[0]["result"]);
-=======
-        $result = $this->getArraySQL($sql);
-
-        $result[0]["result"] = (boolean)intval($result[0]["result"]);
-//        $result[0]["result"] = (boolean) $result[0]["editor"];
-
-//        $this->adapter->closeConnection();
-
-
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         return $result;
     }
 
-<<<<<<< HEAD
-=======
-
-    //////////////////////////////
-    // NOT USED BY THE PROTOTYPE//
-    //////////////////////////////
-
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
     /**
      * Builds an array with all required data for parsing the user stored in databaset hat matches with the given id at
      * any client
@@ -206,17 +128,10 @@ class User_Model extends Query {
      */
     public function getParseEntry($itemId) {
         //build the query statement
-<<<<<<< HEAD
         $sql = "SELECT idUser, publicName, name, phone, eMail, administrator, editor, language, privateDes, publicDes FROM USER WHERE idUser LIKE '".$itemId . "'";
 
         //execute query
         $result = $this->getResultArray($sql);
-=======
-        $sql = "SELECT idUser, publicName, password, eMail, administrator FROM USER WHERE idUser LIKE '".$itemId . "'";
-
-        //execute query
-        $result = $this->getArraySQL($sql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         $this->adapter->closeConnection();
 
@@ -232,19 +147,11 @@ class User_Model extends Query {
      * @param array $filterArguments contains the values that the specified fields will have to match
      * @return array
      */
-<<<<<<< HEAD
     public function getCustomEntries($fields, $filterFields, $filterArguments) {
 
         $sql = $this->buildQuerySql('USER', $fields, $filterFields, $filterArguments);
 
         $result = $this->getResultArray($sql);
-=======
-    public function getCustomEntries(array $fields, array $filterFields, array $filterArguments) {
-
-        $sql = $this->buildQuery('USER', $fields, $filterFields, $filterArguments);
-
-        $result = $this->getArraySQL($sql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         $this->adapter->closeConnection();
 
@@ -261,11 +168,7 @@ class User_Model extends Query {
         $sql = "SELECT * FROM USER;";
 
         //excute query
-<<<<<<< HEAD
         $result = $this->getResultArray($sql);
-=======
-        $result = $this->getArraySQL($sql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         $this->adapter->closeConnection();
 
@@ -282,11 +185,7 @@ class User_Model extends Query {
      */
     public function insertItem(array $fields, array $values) {
         //build the insert statement
-<<<<<<< HEAD
         $sql = $this->buildInsertSql('USER', $fields, $values);
-=======
-        $sql = $this->buildInsert('USER', $fields, $values);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         //executes query
         $result = $this->connection->query($sql);
@@ -312,17 +211,10 @@ class User_Model extends Query {
      */
     public function getIdValue(array $filterFields, array $filterArguments) {
         //build the query statement
-<<<<<<< HEAD
         $sql = $this->buildQuerySql('USER', array("idUser"), $filterFields, $filterArguments);
 
         //execute query
         $result = $this->getResultArray($sql);
-=======
-        $sql = $this->buildQuery('USER', array("idUser"), $filterFields, $filterArguments);
-
-        //execute query
-        $result = $this->getArraySQL($sql);
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 
         $this->adapter->closeConnection();
 
@@ -336,7 +228,6 @@ class User_Model extends Query {
         $result[$newField] = $oldArray;
         return $result;
     }*/
-<<<<<<< HEAD
 
     public function modifyItem($itemId, $fields, $values) {
         //build query statement
@@ -379,6 +270,4 @@ class User_Model extends Query {
 
         return $rawData;
     }
-=======
->>>>>>> 885c18023b035df0ab7f4dc5ef791a5cbb07537f
 }
