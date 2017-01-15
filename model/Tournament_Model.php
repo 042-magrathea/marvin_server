@@ -27,8 +27,6 @@ class Tournament_Model extends Query {
         $this->connection->query("SET NAMES 'utf8'");
     }
 
-    //---------------------------------------------------------------------------------------------------------------//
-
     /**
      * Builds an array with all required data for parsing a tournament at any client
      *
@@ -108,7 +106,6 @@ class Tournament_Model extends Query {
                 $res = $this->getResultArray($usersSql);
                 //add actual user to users array
                 array_push($users, $res[0]);
-//                unset($users[count($users)-1][0]);
                 $j--;
             }
 
@@ -172,7 +169,20 @@ class Tournament_Model extends Query {
      */
     public function insertItem(array $fields, array $values)
     {
-        // TODO: Implement insertItem() method.
+        $sql = $this->buildInsertSql('TOURNAMENT', $fields, $values);
+
+        $this->connection->query($sql);
+
+        //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
+        $id = mysqli_insert_id($this->connection);
+
+        $this->adapter->closeConnection();
+
+        //converts the array to JSON friendly format
+        $rawData = $this->getJsonFriendlyArray("insertionId",$id);
+
+        return $rawData;
+
     }
 
     /**

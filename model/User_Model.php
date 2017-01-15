@@ -188,7 +188,7 @@ class User_Model extends Query {
         $sql = $this->buildInsertSql('USER', $fields, $values);
 
         //executes query
-        $result = $this->connection->query($sql);
+        $this->connection->query($sql);
 
         //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
         $id = mysqli_insert_id($this->connection);

@@ -41,7 +41,7 @@ class Prize_Model extends Query {
      */
     public function getParseEntries() {
 
-        $sql = "SELECT * FROM PRIZE p WHERE p.idPrize NOT IN (SELECT PRIZE_idPRIZE FROM PRIZE_MERCHANT) AND p.idPrize " .
+        /*$sql = "SELECT * FROM PRIZE p WHERE p.idPrize NOT IN (SELECT PRIZE_idPRIZE FROM PRIZE_MERCHANT) AND p.idPrize " .
             "NOT IN (SELECT PRIZE_idPRIZE FROM PRIZE_DISCOUNT);";
 
         $resultSinglePrizes = $this->getResultArray($sql);
@@ -60,7 +60,13 @@ class Prize_Model extends Query {
 
         $this->adapter->closeConnection();
 
-        $result = array_merge($resultSinglePrizes, $resultDiscountPrizes, $resultMerchantPrizes);
+        $result = array_merge($resultSinglePrizes, $resultDiscountPrizes, $resultMerchantPrizes);*/
+
+        $sql = "SELECT PRIZE.idPRIZE, PRIZE.name, PRIZE.description, PRIZE.image, USER.publicName as 'userName', ".
+            "TOURNAMENT.name as 'tournamentName', PRIZE.TEMPLATE_idTEMPLATE FROM PRIZE LEFT JOIN USER ON ".
+            "PRIZE.USER_idUSER=USER.idUSER LEFT JOIN TOURNAMENT ON PRIZE.TOURNAMENT_idTOURNAMENT=TOURNAMENT.idTOURNAMENT;";
+
+        $result = $this->getResultArray($sql);
 
         return $result;
     }
