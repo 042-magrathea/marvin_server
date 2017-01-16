@@ -6,7 +6,7 @@
  * Date: 30/10/16
  * Time: 19:56
  */
-include_once "persistence/DB_adapter.php";
+include_once "application/dbConnection/adapter/DB_adapter.php";
 include_once "Query.php";
 
 /**
@@ -221,13 +221,6 @@ class User_Model extends Query {
         return $result;
     }
 
-
-
-/*    public function getJsonFriendlyArray($newField, $oldArray)  {
-        $result = array();
-        $result[$newField] = $oldArray;
-        return $result;
-    }*/
 
     public function modifyItem($itemId, $fields, $values) {
         //build query statement

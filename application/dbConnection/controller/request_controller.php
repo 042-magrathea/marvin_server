@@ -9,13 +9,14 @@
 
 header("Content-Type: text/html;charset=utf-8");
 
-include_once 'model/Image_Model.php';
-include_once 'model/User_Model.php';
-include_once 'model/Tournament_Model.php';
-include_once 'model/Prize_Model.php';
-include_once 'model/Host_Model.php';
-include_once 'model/Ranking_Model.php';
-include_once  'model/Query.php';
+include_once 'application/dbConnection/model/Image_Model.php';
+include_once 'application/dbConnection/model/User_Model.php';
+include_once 'application/dbConnection/model/Tournament_Model.php';
+include_once 'application/dbConnection/model/Prize_Model.php';
+include_once 'application/dbConnection/model/Host_Model.php';
+include_once 'application/dbConnection/model/Ranking_Model.php';
+include_once 'application/dbConnection/model/Game_Model.php';
+include_once 'application/dbConnection/model/Query.php';
 
 //request kinds
 define("USERS_QUERY", "users");
@@ -40,6 +41,7 @@ define("VALUE_CHECK", "valueExists");
 define("DELETE_USER_TOURNAMENT", "deleteUserFromTournament");
 define("TOURNAMENT_HAS_USER", "tournamentHasUser");
 define("COUNT_TOURNAMENT_USERS", "countTournamentUsers");
+define("USER_IS_UMPIRE", "userIsUmpire");
 //funcio cerca per enums de l'escriptorio, ha de retornar objecte
 
 /**
@@ -187,7 +189,7 @@ class request_controller {
             case INSERT_ITEM:
                 $fields = $this->post['fields'];
                 $values = $this->post['values'];
-                return $this->model->insertItem(json_decode($fields), json_decode($values));
+                return $this->model->insertItem($this->decodeJson($fields), $this->decodeJson($values));
                 break;
             case MODIFY_ITEM:
                 $itemId = $this->post['itemId'];
@@ -248,6 +250,12 @@ class request_controller {
             case COUNT_TOURNAMENT_USERS:
                 $tournamentId = $this->post['tournamentId'];
                 return $this->model->countTournamentUsers($tournamentId);
+
+            case USER_IS_UMPIRE:
+                $tournamentId = $this->post['tournamentId'];
+                $userId = $this->post['userId'];
+                return $this->model->userIsUmpire($tournamentId, $userId);
+
             DEFAULT:
                 throw new Exception("Unknow request name");
 

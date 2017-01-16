@@ -6,7 +6,7 @@
  * Date: 1/11/16
  * Time: 20:37
  */
-include_once "persistence/DB_adapter.php";
+include_once "application/dbConnection/adapter/DB_adapter.php";
 include_once "Query.php";
 
 /**
@@ -297,6 +297,23 @@ class Tournament_Model extends Query {
 
         $result[0]["usersAtTournament"] = $result[0]["COUNT(*)"];
         unset($result[0]["COUNT(*)"]);
+
+        return $result;
+    }
+
+    public function userIsUmpire($userId, $tournamentId) {
+        $isUmpireSql = "SELECT approved FROM UMPIRE WHERE USER_idUSER LIKE ".$userId." AND TOURNAMENT_idTOURNAMENT LIKE ".$tournamentId;
+
+        $result = $this->getResultArray($isUmpireSql);
+
+        $this->adapter->closeConnection();
+
+        if (count($result) <= 0) {
+            $result[0]["isUmpire"] = false;
+        } else {
+            $result[0]["isUmpire"] = (boolean)$result[0]["approved"];
+            unset($result[0]["approved"]);
+        }
 
         return $result;
     }

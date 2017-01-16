@@ -12,10 +12,9 @@ ini_set('display_errors', '1');
 
 header("Content-type: text/plain; charset=utf-8");
 
-include_once 'model/User_Model.php';
-include_once  'model/Query.php';
-include_once  'controller/request_controller.php';
-
+//include_once 'model/User_Model.php';
+//include_once 'model/Query.php';
+include_once 'application/dbConnection/controller/request_controller.php';
 
 
 

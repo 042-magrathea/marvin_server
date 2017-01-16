@@ -7,7 +7,7 @@
  * Time: 19:40
  */
 
-include_once "persistence/DB_adapter.php";
+include_once "application/dbConnection/adapter/DB_adapter.php";
 include_once "Query.php";
 
 class Game_Model extends Query {

@@ -370,7 +370,7 @@ abstract class Query implements IQuery {
             $isUmpireSql = "SELECT approved FROM UMPIRE WHERE USER_idUSER LIKE ".$userId." AND TOURNAMENT_idTOURNAMENT LIKE ".$tournamentsIds[$i]["TOURNAMENT_idTOURNAMENT"];
             $isUmpire = $this->getResultArray($isUmpireSql);
 
-            if ($isUmpire[0]["approved"] != null && $isUmpire[0]["approved"] == 1) {
+            if (isset($isUmpire[0]) && $isUmpire[0]["approved"] != null && $isUmpire[0]["approved"] == 1) {
                 $userRank = 0;
             } else {
                 $userRank = $tournamentsIds[$i]["rank"];
