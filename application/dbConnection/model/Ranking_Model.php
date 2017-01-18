@@ -85,6 +85,98 @@ class Ranking_Model extends Query {
             ///////////////////
             //build user list//
             ///////////////////
+
+            //get all
+            $usersIdsSql = "SELECT USER_idUSER, rank FROM TOURNAMENT_has_USER WHERE TOURNAMENT_idTOURNAMENT = ".$tournamentId;
+            $usersIds = $this->getResultArray($usersIdsSql);
+
+
+            //walk through all users ids array
+            for ($j = 0; $j < count($usersIds); $j++) {
+                //get user Id
+                $userId = $usersIds[$j]["USER_idUSER"];
+
+                //get data from user in DB
+                $userSql = "SELECT idUSER, publicName FROM USER WHERE idUSER = ".$userId;
+                $user = $this->getResultArray($userSql)[0];
+
+                //calculate user total points and played tournaments
+                $pointsAndTournamentNr = $this->getUserTotalPoints($userId);
+
+                //updates user array with aditional values
+                $user["totalTournaments"] = $pointsAndTournamentNr[0];
+                $user["totalUserPoints"] = $pointsAndTournamentNr[1];
+                $user["positionAtTournament"] = $usersIds[$j]["rank"];
+                $user["earnedPoints"] = $this->calculatePointsBySystem($usersIds[$j]["rank"], $this->getGameSystem($tournamentId));
+
+                ///////////////////////////
+                //build achievements list//
+                ///////////////////////////
+
+                $achievements = array();
+
+                //get all achievement id's earned by the user
+                $achievementsIdsSQL = "SELECT ACHIEVEMENT_idACHIEVEMENT FROM USER_has_ACHIEVEMENT WHERE USER_idUSER LIKE ".$userId;
+                $achievementsIds = $this->getResultArray($achievementsIdsSQL);
+
+                //walk through all achievements ids array
+                for ($k = 0; $k < count($achievementsIds); $k++) {
+                    //get the achievement's data
+                    $achievementSQL = "SELECT name FROM ACHIEVEMENT WHERE idACHIEVEMENT LIKE ".$achievementsIds[$k]["ACHIEVEMENT_idACHIEVEMENT"];
+                    $achievement = $this->getResultArray($achievementSQL);
+
+                    //eliminates one level from the array
+                    $achievement = $achievement[0];
+
+                    //add the achievement details array to achievements array
+                    $achievements[$k] = $achievement;
+                }
+                //add achievements array to user array
+                $user["achievements"] = $achievements;
+
+                //add actual user to users array
+                $users[$j] = $user;
+
+            }
+
+            //add users array to tournaments array
+            $tournament = Query::mergeArrays($tournaments, $i, $users, "users");
+            $tournaments[$i] = $tournament;
+        }
+
+        $this->adapter->closeConnection();
+
+        return $tournaments;
+    }
+
+    /**
+     * Get parse entry by id
+     *
+     * @param $itemId
+     * @return mixed|void
+     */
+    public function getParseEntry($itemId) {
+        //get all tournaments data from DB
+        /*$tournamentssql = "SELECT idTOURNAMENT, TOURNAMENT_HOST_idTournamentHost, SYSTEM_idSYSTEM FROM TOURNAMENT WHERE" .
+            " idTOURNAMENT LIKE '". $itemId . "'";*/
+
+        $tournamentsSql = $this->buildQuerySql('TOURNAMENT', array("idTOURNAMENT", "TOURNAMENT_HOST_idTournamentHost", "SYSTEM_idSYSTEM"),
+            array("idTOURNAMENT"), array($itemId));
+
+        $tournaments = $this->getResultArray($tournamentsSql);
+
+        /////////////////////////
+        //build tournament list//
+        /////////////////////////
+
+        //walk through all tournaments array
+        for ($i = 0; $i < count($tournaments); $i++) {
+            //store de actual tournament Id
+            $tournamentId = $tournaments[$i]["idTOURNAMENT"];
+
+            ///////////////////
+            //build user list//
+            ///////////////////
             $users = array();
 
             //get all
@@ -193,21 +285,12 @@ class Ranking_Model extends Query {
      * of the corresponding field at $fields array
      * @return array
      */
-    public function insertItem(array $fields, array $values)
+    public function insertItem($fields, $values)
     {
         // TODO: Implement insertItem() method.
     }
 
-    /**
-     * Get parse entry by id
-     *
-     * @param $itemId
-     * @return mixed|void
-     */
-    public function getParseEntry($itemId)
-    {
-        // TODO: Implement getParseEntry() method.
-    }
+
 
     /**
      * Get the id of the ranking that matches the given parameters
@@ -216,7 +299,7 @@ class Ranking_Model extends Query {
      * @param array $filterArguments contains the values that the specified fields will have to match
      * @return mixed|void
      */
-    public function getIdValue(array $filterFields, array $filterArguments)
+    public function getIdValue($filterFields, $filterArguments)
     {
         // TODO: Implement getIdValue() method.
     }

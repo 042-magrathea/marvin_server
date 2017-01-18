@@ -2,19 +2,14 @@
 
 /**
  * Created by PhpStorm.
- * User: Arnau Biosca Nicolas
- * Date: 1/11/16
- * Time: 20:01
+ * User: tricoman
+ * Date: 16/01/17
+ * Time: 20:18
  */
-
 include_once "application/dbConnection/adapter/DB_adapter.php";
 include_once "Query.php";
 
-
-/**
- * Class Host_Model
- */
-class Host_Model extends Query {
+class System_Model extends Query {
 
     private $adapter;
 
@@ -46,7 +41,7 @@ class Host_Model extends Query {
      */
     public function getCustomEntries($fields, $filterFields, $filterArguments) {
 
-        $sql = $this->buildQuerySql('TOURNAMENT_HOST', $fields, $filterFields, $filterArguments);
+        $sql = $this->buildQuerySql('SYSTEM', $fields, $filterFields, $filterArguments);
 
         $result = $this->getResultArray($sql);
 
@@ -56,12 +51,12 @@ class Host_Model extends Query {
     }
 
     /**
-     * Get all fields from all entries of the table TOURNAMENT_HOST from the database
+     * Get all fields from all entries of the table SYSTEM from the database
      *
      * @return array
      */
     public function getAllEntries() {
-        $sql = "SELECT * FROM TOURNAMENT_HOST;";
+        $sql = "SELECT * FROM SYSTEM;";
 
         $result = $this->getResultArray($sql);
 
@@ -71,14 +66,30 @@ class Host_Model extends Query {
     }
 
     /**
-     * Builds an array with all required data for parsing a host at any client
+     * Builds an array with all required data for parsing a system at any client
      *
      * @return array
      */
     public function getParseEntries() {
-        $sql = "SELECT idTournamentHost, name FROM TOURNAMENT_HOST;";
+        $systemsSql = "SELECT idSYSTEM, name, nRounds, nPlayoffs, umpirePoints, goldPoints, silverPoints, bronzePoints,".
+            " ironPoints, matchPlayers, maxTeamPlayer, GAME_idGAME FROM SYSTEM;";
 
-        $result = $this->getResultArray($sql);
+        $systems = $this->getResultArray($systemsSql);
+
+        $result = array();
+
+        foreach ($systems as $system){
+            $gameId = $system["GAME_idGAME"];
+
+            $gamesSql = "SELECT idGame, name, description, image FROM GAME WHERE idGame LIKE '".$gameId . "'";
+
+            $game = $this->getResultArray($gamesSql);
+
+            $system["GAME"] = $game;
+            unset($system["GAME_idGAME"]);
+
+            array_push($result, $system);
+        }
 
         $this->adapter->closeConnection();
 
@@ -92,9 +103,25 @@ class Host_Model extends Query {
      * @return mixed|void
      */
     public function getParseEntry($itemId) {
-        $sql = "SELECT idTournamentHost, name FROM TOURNAMENT_HOST WHERE idHOST LIKE " . $itemId;
+        $systemsSql = "SELECT idSYSTEM, name, nRounds, nPlayoffs, umpirePoints, goldPoints, silverPoints, bronzePoints,".
+            " ironPoints, matchPlayers, maxTeamPlayer, GAME_idGAME FROM SYSTEM WHERE idSYSTEM LIKE '" . $itemId . "';";
 
-        $result = $this->getResultArray($sql);
+        $systems = $this->getResultArray($systemsSql);
+
+        $result = array();
+
+        foreach ($systems as $system){
+            $gameId = $system["GAME_idGAME"];
+
+            $gamesSql = "SELECT idGame, name, description, image FROM GAME WHERE idGame LIKE '".$gameId . "'";
+
+            $game = $this->getResultArray($gamesSql);
+
+            $system["GAME"] = $game;
+            unset($system["GAME_idGAME"]);
+
+            array_push($result, $system);
+        }
 
         $this->adapter->closeConnection();
 
@@ -110,7 +137,7 @@ class Host_Model extends Query {
      */
     public function getIdValue($filterFields, $filterArguments) {
         //build the query statement
-        $sql = $this->buildQuerySql('TOURNAMENT_HOST', array("idTournamentHost"), $filterFields, $filterArguments);
+        $sql = $this->buildQuerySql('SYSTEM', array("idPRIZE"), $filterFields, $filterArguments);
 
         //execute query
         $result = $this->getResultArray($sql);
@@ -130,7 +157,7 @@ class Host_Model extends Query {
      */
     public function insertItem($fields, $values) {
         //build the insert statement
-        $sql = $this->buildInsertSql('TOURNAMENT_HOST', $fields, $values);
+        $sql = $this->buildInsertSql('SYSTEM', $fields, $values);
 
         //executes query
         $result = $this->connection->query($sql);
@@ -157,7 +184,7 @@ class Host_Model extends Query {
      */
     public function modifyItem($itemId, $fields, $values) {
         //build query statement
-        $sql = $this->buildUpdateSql('TOURNAMENT_HOST', $fields, $values, array("idTournamentHost"), array($itemId));
+        $sql = $this->buildUpdateSql('SYSTEM', $fields, $values, array("idSYSTEM"), array($itemId));
 
         //execute query
         if(!$this->connection->query($sql)) die();
@@ -181,7 +208,7 @@ class Host_Model extends Query {
      */
     public function deleteItem($itemId) {
         //build query statement
-        $sql = $this->buildDeletionSql("TOURNAMENT_HOST", array("idTournamentHost"), $itemId);
+        $sql = $this->buildDeletionSql("SYSTEM", array("idSYSTEM"), $itemId);
 
         //execute query
         if(!$this->connection->query($sql)) die();

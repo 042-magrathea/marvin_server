@@ -53,18 +53,27 @@ interface IQuery {
      * @param array $filterArguments contains the values that the specified fields will have to match
      * @return mixed|void
      */
-    public function getIdValue(array $filterFields, array $filterArguments);
+    public function getIdValue($filterFields, $filterArguments);
 
     /**
-     * Insert al specified fields of an item with the specified values into the table TOURNAMENT
+     * Insert al specified fields of an item with the specified values into the model table
      *
      * @param array $fields must contain all fields to be stored in the new entry
      * @param array $values must contain the values of the fields to be stored, the value position must match the position
      * of the corresponding field at $fields array
      * @return array
      */
-    public function insertItem(array $fields, array $values);
+    public function insertItem($fields, $values);
 
+    /**
+     * Modify al specified fields of an item with the specified values into the model table
+     *
+     * @param $itemNId
+     * @param array $fields must contain all fields to be modified in the new entry
+     * @param array $values must contain the values of the fields to be modified, the value position must match the position
+     * of the corresponding field at $fields array
+     * @return mixed
+     */
     public function modifyItem($itemNId, $fields, $values);
 
     /**

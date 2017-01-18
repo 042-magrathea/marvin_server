@@ -33,11 +33,46 @@ class Prize_Model extends Query {
 
     }
 
-    //---------------------------------------------------------------------------------------------------------------//
+    //----------------------------------------------------------------------------------------------------------------//
 
-    //////////////////////////
-    // USED BY THE PROTOTYPE//
-    //////////////////////////
+    //                                              COMMON METHODS                                                    //
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    /**
+     * Get all entries from the 'PRIZE' table in database that matches all parameters specified, this method has to be used
+     * to do execute requests to the specified table
+     *
+     * @param array $fields contains the fields names of the table to be shown in the request response
+     * @param array $filterFields contains the fields names that will be used in the query to filter its results
+     * @param array $filterArguments contains the values that the specified fields will have to match
+     * @return array
+     */
+    public function getCustomEntries($fields, $filterFields, $filterArguments) {
+
+        $sql = $this->buildQuerySql('PRIZE', $fields, $filterFields, $filterArguments);
+
+        $result = $this->getResultArray($sql);
+
+        $this->adapter->closeConnection();
+
+        return $result;
+    }
+
+    /**
+     * Get all fields from all entries of the table PRIZE from the database
+     *
+     * @return array
+     */
+    public function getAllEntries() {
+        $sql = "SELECT * FROM PRIZE;";
+
+        $result = $this->getResultArray($sql);
+
+        $this->adapter->closeConnection();
+
+        return $result;
+    }
 
     /**
      * Builds an array with all required data for parsing a prize at any client
@@ -79,51 +114,66 @@ class Prize_Model extends Query {
 
         $result = array_merge($resultSinglePrizes, $resultDiscountPrizes, $resultMerchantPrizes);
 
-/*        $sql = "SELECT PRIZE.idPRIZE, PRIZE.name, PRIZE.description, PRIZE.image, USER.publicName as 'userName', ".
-            "TOURNAMENT.name as 'tournamentName', PRIZE.TEMPLATE_idTEMPLATE, PRIZE.tournamentPosition FROM PRIZE LEFT JOIN USER ON ".
-            "PRIZE.USER_idUSER=USER.idUSER LEFT JOIN TOURNAMENT ON PRIZE.TOURNAMENT_idTOURNAMENT=TOURNAMENT.idTOURNAMENT;";
-
-        $result = $this->getResultArray($sql);
-
-        $this->adapter->closeConnection();*/
-
         return $result;
     }
 
-    //---------------------------------------------------------------------------------------------------------------//
-
-    //////////////////////////////
-    // NOT USED BY THE PROTOTYPE//
-    //////////////////////////////
-
     /**
-     * Get all entries from the 'PRIZE' table in database that matches all parameters specified, this method has to be used
-     * to do execute requests to the specified table
+     * Get parse entry by id
      *
-     * @param array $fields contains the fields names of the table to be shown in the request response
-     * @param array $filterFields contains the fields names that will be used in the query to filter its results
-     * @param array $filterArguments contains the values that the specified fields will have to match
-     * @return array
+     * @param $itemId
+     * @return mixed|void
      */
-    public function getCustomEntries($fields, $filterFields, $filterArguments) {
+    public function getParseEntry($itemId)
+    {
+        $sql = "SELECT PRIZE.idPRIZE, PRIZE.name, PRIZE.description, PRIZE.image, USER.publicName as 'userName', ".
+            "TOURNAMENT.name as 'tournamentName', PRIZE.TEMPLATE_idTEMPLATE, PRIZE.tournamentPosition ".
+            "FROM PRIZE LEFT JOIN USER ON PRIZE.USER_idUSER=USER.idUSER ".
+            "LEFT JOIN TOURNAMENT ON PRIZE.TOURNAMENT_idTOURNAMENT=TOURNAMENT.idTOURNAMENT ".
+            "WHERE PRIZE.idPrize NOT IN (SELECT PRIZE_idPRIZE FROM PRIZE_MERCHANT) ".
+            "AND PRIZE.idPrize NOT IN (SELECT PRIZE_idPRIZE FROM PRIZE_DISCOUNT) ".
+            "AND PRIZE.idPrize LIKE '" . $itemId . "'';";
 
-        $sql = $this->buildQuerySql('PRIZE', $fields, $filterFields, $filterArguments);
+        $resultSinglePrizes = $this->getResultArray($sql);
 
-        $result = $this->getResultArray($sql);
+        $sql = "SELECT PRIZE.idPRIZE, PRIZE.name, PRIZE.description, PRIZE.image, USER.publicName as 'userName', ".
+            "TOURNAMENT.name as 'tournamentName', PRIZE.TEMPLATE_idTEMPLATE, PRIZE_MERCHANT.claimed, " .
+            "PRIZE_MERCHANT.expirationDate ".
+            "FROM PRIZE RIGHT JOIN PRIZE_MERCHANT ON PRIZE.idPRIZE=PRIZE_MERCHANT.PRIZE_idPRIZE ".
+            "LEFT JOIN USER ON PRIZE.USER_idUSER=USER.idUSER ".
+            "LEFT JOIN TOURNAMENT ON PRIZE.TOURNAMENT_idTOURNAMENT=TOURNAMENT.idTOURNAMENT ".
+            "WHERE PRIZE.idPrize IN (SELECT PRIZE_idPRIZE FROM PRIZE_MERCHANT);";
+
+        $resultDiscountPrizes = $this->getResultArray($sql);
+
+        $sql = "SELECT PRIZE.idPRIZE, PRIZE.name, PRIZE.description, PRIZE.image, USER.publicName as 'userName', ".
+            "TOURNAMENT.name as 'tournamentName', PRIZE.TEMPLATE_idTEMPLATE, PRIZE_DISCOUNT.disc, " .
+            "PRIZE_DISCOUNT.expirationDate ".
+            "FROM PRIZE RIGHT JOIN PRIZE_DISCOUNT ON PRIZE.idPRIZE=PRIZE_DISCOUNT.PRIZE_idPRIZE ".
+            "LEFT JOIN USER ON PRIZE.USER_idUSER=USER.idUSER ".
+            "LEFT JOIN TOURNAMENT ON PRIZE.TOURNAMENT_idTOURNAMENT=TOURNAMENT.idTOURNAMENT ".
+            "WHERE PRIZE.idPrize IN (SELECT PRIZE_idPRIZE FROM PRIZE_DISCOUNT);";
+
+        $resultMerchantPrizes = $this->getResultArray($sql);
 
         $this->adapter->closeConnection();
 
+        $result = array_merge($resultSinglePrizes, $resultDiscountPrizes, $resultMerchantPrizes);
+
         return $result;
     }
 
     /**
-     * Get all fields from all entries of the table PRIZE from the database
+     * Get the id of the prize that matches the given parameters
      *
-     * @return array
+     * @param array $filterFields contains the fields names that will be used in the query to filter its results
+     * @param array $filterArguments contains the values that the specified fields will have to match
+     * @return mixed|void
      */
-    public function getAllEntries() {
-        $sql = "SELECT * FROM PRIZE;";
+    public function getIdValue($filterFields, $filterArguments) {
+        //build the query statement
+        $sql = $this->buildQuerySql('PRIZE', array("idPRIZE"), $filterFields, $filterArguments);
 
+        //execute query
         $result = $this->getResultArray($sql);
 
         $this->adapter->closeConnection();
@@ -140,7 +190,7 @@ class Prize_Model extends Query {
      * of the corresponding field at $fields array
      * @return array
      */
-    public function insertItem(array $fields, array $values) {
+    public function insertItem($fields, $values) {
         $prizeKind = $this->getPrizeKind($fields);
 
         if ( $prizeKind == $this::prizeKinds["DISCOUNT"] ) {
@@ -160,40 +210,20 @@ class Prize_Model extends Query {
     }
 
     /**
-     * Get parse entry by id
+     * Modify al specified fields of a prize with the specified values into the PRIZE table and his childs
      *
-     * @param $itemId
-     * @return mixed|void
-     */
-    public function getParseEntry($itemId)
-    {
-        // TODO: Implement getParseEntry() method.
-    }
-
-    /**
-     * Get the id of the prize that matches the given parameters
-     *
-     * @param array $filterFields contains the fields names that will be used in the query to filter its results
-     * @param array $filterArguments contains the values that the specified fields will have to match
-     * @return mixed|void
-     */
-    public function getIdValue(array $filterFields, array $filterArguments)
-    {
-        // TODO: Implement getIdValue() method.
-    }
-
-    /**
-     * @param $itemId
-     * @param $fields
-     * @param $values
-     * @return array
+     * @param $itemId string with the user's id
+     * @param $fields string or string array must contain all fields to be modified in the new entry
+     * @param $values string or string array must contain the values of the fields to be modified, the value position
+     * must match the position of the corresponding field at $fields array
+     * @return mixed
      */
     public function modifyItem($itemId, $fields, $values) {
 
         $prizeKind = $this->getPrizeKind($fields);
 
         if ( $prizeKind == $this::prizeKinds["DISCOUNT"] ) {
-//            $result = $this->writePrizeDiscount($fields, $values);
+            $result = $this->writePrizeDiscount($fields, $values);
 
         } else if ( $prizeKind == $this::prizeKinds["MERCHANT"] ) {
             $result = $this->writePrizeMerchant($fields, $values);
@@ -209,16 +239,73 @@ class Prize_Model extends Query {
         return $rawData;
     }
 
-    public function deleteItem($itemId)
-    {
-        // TODO: Implement deleteItem() method.
+    /**
+     * Deletes the id given item from the PRIZE table and his children tables, returns number of rows deleted from the
+     * PRIZE table
+     *
+     * @param $itemId id from the item to be deleted
+     * @return mixed number of rows deleted from the PRIZE table
+     */
+    public function deleteItem($itemId) {
+        //build query statement
+        $discountPrizeSQL = $this->buildDeletionSql("PRIZE_DISCOUNT", array("idPRIZE"), $itemId);
+        $merchantPrizeSQL = $this->buildDeletionSql("PRIZE_MERCHANT", array("idPRIZE"), $itemId);
+        $singlePrizesSQL= $this->buildDeletionSql("PRIZE", array("idPRIZE"), $itemId);
+
+        try {
+            //start transaction
+            $this->connection->begin_transaction();
+
+
+            //execute deletions
+            $queryResult1 = $this->connection->query($discountPrizeSQL);
+            $queryResult2 = $this->connection->query($merchantPrizeSQL);
+            $queryResult3 = $this->connection->query($singlePrizesSQL);
+
+            //check query success
+            if ($queryResult1 && $queryResult2 && $queryResult3) {
+                $this->connection->commit();
+            } else {
+                throw new mysqli_sql_exception();
+            }
+
+            //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
+            $affectedRows = $this->connection->affected_rows;
+
+            $this->adapter->closeConnection();
+
+            //converts the array to JSON friendly format
+            $rawData = $this->getJsonFriendlyArray("deletedRowsNum",$affectedRows);
+
+            return $rawData;
+
+        } catch (mysqli_sql_exception $e) {
+
+            $this->connection->rollback();
+
+            $this->adapter->closeConnection();
+
+            //converts the array to JSON friendly format
+            $rawData = $this->getJsonFriendlyArray("deletedRowsNum",0);
+
+            return $rawData;
+        }
+
     }
 
-//---------------------------------------------------------------------------------------------------------------//
+    //----------------------------------------------------------------------------------------------------------------//
 
-    ///////////////////////////////
-    // INSERTION AUXILIAR METHODS//
-    ///////////////////////////////
+    //                                           END OF COMMON METHODS                                                //
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                            PRIZE QUERIES METHODS                                               //
+
+    //----------------------------------------------------------------------------------------------------------------//
 
     /**
      * Insert fields and values of the single prize into the PRIZE table
@@ -228,7 +315,7 @@ class Prize_Model extends Query {
      * of the corresponding field at $fields array
      * @return integer position of the stored item at PRIZE table
      */
-    private function writeSinglePrize(array $fields, array $values) {
+    private function writeSinglePrize($fields, $values) {
         //build the insert statement
         $sql = $this->buildInsertSql('PRIZE', $fields, $values);
 
@@ -251,10 +338,10 @@ class Prize_Model extends Query {
      * of the corresponding field at $fields array
      * @return integer position of the stored item at PRIZE_MERCHANT table
      */
-    private function writePrizeMerchant(array $fields, array $values) {
+    private function writePrizeMerchant($fields, $values) {
 
         //build the new fields and values arrays for insertion in PRIZE
-        $singlePrize = $this->extractSinglePrize($fields, $values);
+        $singlePrize = $this->extractSinglePrizeArray($fields, $values);
         $singlePrizeFields = $singlePrize[0];
         $singlePrizeValues = $singlePrize[1];
 
@@ -287,10 +374,10 @@ class Prize_Model extends Query {
      * of the corresponding field at $fields array
      * @return integer position of the stored item at PRIZE_DISCOUNT table
      */
-    private function writePrizeDiscount(array $fields, array $values) {
+    private function writePrizeDiscount($fields, $values) {
 
         //build the new fields and values arrays for insertion in PRIZE
-        $singlePrize = $this->extractSinglePrize($fields, $values);
+        $singlePrize = $this->extractSinglePrizeArray($fields, $values);
         $singlePrizeFields = $singlePrize[0];
         $singlePrizeValues = $singlePrize[1];
 
@@ -315,6 +402,20 @@ class Prize_Model extends Query {
         return $idPrize;
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                        END OF PRIZE QUERIES METHODS                                            //
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                              AUXILIAR METHODS                                                  //
+
+    //----------------------------------------------------------------------------------------------------------------//
+
     /**
      * Builds two arrays with the fields for an insertion at PRIZE table and returns them joined in a double array
      *
@@ -324,7 +425,7 @@ class Prize_Model extends Query {
      * insertion at PRIZE table and the array stored at position 1 contains the $values array needed for an
      * insertion at PRIZE table
      */
-    private function extractSinglePrize(array $fields, array $values) {
+    private function extractSinglePrizeArray($fields, $values) {
 
         $singlePrizeFields = array();
         $singlePrizeValues = array();
@@ -349,7 +450,7 @@ class Prize_Model extends Query {
      * insertion at PRIZE_MERCHANT table and the array stored at position 1 contains the $values array needed for an
      * insertion at PRIZE_MERCHANT table
      */
-    private function extractMerchantPrizeArray($prizeId, array $fields, array $values) {
+    private function extractMerchantPrizeArray($prizeId, $fields, $values) {
 
         $merchantPrizeFields = array();
         $merchantPrizeValues = array();
@@ -378,7 +479,7 @@ class Prize_Model extends Query {
      * insertion at PRIZE_DISCOUNT table and the array stored at position 1 contains the $values array needed for an
      * insertion at PRIZE_DISCOUNT table
      */
-    private function extractDiscountPrizeArray($prizeId, array $fields, array $values) {
+    private function extractDiscountPrizeArray($prizeId, $fields, $values) {
 
         $discountPrizeFields = array();
         $discountPrizeValues = array();
@@ -399,7 +500,13 @@ class Prize_Model extends Query {
 
     }
 
-    private function getPrizeKind(array $fields) {
+    /**
+     * Gets prize kind from an array containing all hi fields
+     *
+     * @param $fields string array that must contain all data from a prize wathever the kind of the prize
+     * @return int the prize's kind
+     */
+    private function getPrizeKind($fields) {
         if ( array_search("disc", $fields) != 0 ) {
             return $this::prizeKinds["DISCOUNT"];
         } else if ( array_search("claimed", $fields) ) {
@@ -408,5 +515,11 @@ class Prize_Model extends Query {
             return $this::prizeKinds["SINGLE"];
         }
     }
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                            END OF AUXILIAR METHODS                                             //
+
+    //----------------------------------------------------------------------------------------------------------------//
 
 }

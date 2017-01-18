@@ -23,6 +23,12 @@ class Game_Model extends Query {
         $this->connection->query("SET NAMES 'utf8'");
     }
 
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                              COMMON METHODS                                                    //
+
+    //----------------------------------------------------------------------------------------------------------------//
+
     /**
      * Get all entries from a table in database that matches all parameters specified, this method has to be used
      * to execute custom requests to the specified table
@@ -97,13 +103,13 @@ class Game_Model extends Query {
     }
 
     /**
-     * Get the id of the tournament that matches the given parameters
+     * Get the id of the game that matches the given parameters
      *
      * @param array $filterFields contains the fields names that will be used in the query to filter its results
      * @param array $filterArguments contains the values that the specified fields will have to match
      * @return mixed|void
      */
-    public function getIdValue(array $filterFields, array $filterArguments) {
+    public function getIdValue($filterFields, $filterArguments) {
         //build the query statement
         $sql = $this->buildQuerySql('GAME', array("idGame"), $filterFields, $filterArguments);
 
@@ -116,14 +122,14 @@ class Game_Model extends Query {
     }
 
     /**
-     * Insert al specified fields of an item with the specified values into the table TOURNAMENT
+     * Insert all specified fields of an item with the specified values into the table GAME
      *
-     * @param array $fields must contain all fields to be stored in the new entry
-     * @param array $values must contain the values of the fields to be stored, the value position must match the position
+     * @param $fields string or string array must contain all fields to be stored in the new entry
+     * @param $values string or string array must contain the values of the fields to be stored, the value position must match the position
      * of the corresponding field at $fields array
      * @return array
      */
-    public function insertItem(array $fields, array $values) {
+    public function insertItem($fields, $values) {
         //build the insert statement
         $sql = $this->buildInsertSql('GAME', $fields, $values);
 
@@ -141,9 +147,31 @@ class Game_Model extends Query {
         return $rawData;
     }
 
-    public function modifyItem($itemNId, $fields, $values)
-    {
-        // TODO: Implement modifyItem() method.
+    /**
+     * Modify al specified fields of an user with the specified values into the GAME table
+     *
+     * @param $itemId string with the user's id
+     * @param $fields string or string array must contain all fields to be modified in the new entry
+     * @param $values string or string array must contain the values of the fields to be modified, the value position
+     * must match the position of the corresponding field at $fields array
+     * @return mixed
+     */
+    public function modifyItem($itemId, $fields, $values) {
+        //build query statement
+        $sql = $this->buildUpdateSql('GAME', $fields, $values, array('idGAME'), array($itemId));
+
+        //execute query
+        if(!$this->connection->query($sql)) die();
+
+        //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
+        $affectedRows = $this->connection->affected_rows;
+
+        $this->adapter->closeConnection();
+
+        //converts the array to JSON friendly format
+        $rawData = $this->getJsonFriendlyArray("modifiedRowsNum",$affectedRows);
+
+        return $rawData;
     }
 
     /**
@@ -154,11 +182,12 @@ class Game_Model extends Query {
      */
     public function deleteItem($itemId) {
         //build query statement
-        $sql = "DELETE FROM GAME WHERE idGame = " . $itemId;
+        $sql = $this->buildDeletionSql("GAME", array("idGame"), $itemId);
+
         //execute query
         if(!$this->connection->query($sql)) die();
 
-        $affectedRows = $this->connection->affected_rows;
+        $affectedRows = mysqli_affected_rows($this->connection);
 
         $this->adapter->closeConnection();
 
@@ -167,4 +196,9 @@ class Game_Model extends Query {
 
         return $rawData;
     }
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                           END OF COMMON METHODS                                                //
+
+    //----------------------------------------------------------------------------------------------------------------//
 }

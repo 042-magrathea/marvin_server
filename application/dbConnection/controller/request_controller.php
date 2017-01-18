@@ -16,6 +16,7 @@ include_once 'application/dbConnection/model/Prize_Model.php';
 include_once 'application/dbConnection/model/Host_Model.php';
 include_once 'application/dbConnection/model/Ranking_Model.php';
 include_once 'application/dbConnection/model/Game_Model.php';
+include_once 'application/dbConnection/model/System_Model.php';
 include_once 'application/dbConnection/model/Query.php';
 
 //request kinds
@@ -25,6 +26,7 @@ define("TOURNAMENTS_QUERY", "tournaments");
 define("HOSTS_QUERY", "hosts");
 define("RANKINGS_QUERY", "rankings");
 define("GAMES_QUERY", "games");
+define("SYSTEMS_QUERY", "system");
 define("IMAGES_OPERATION", "images");
 
 //request names
@@ -38,6 +40,7 @@ define("SEARCH_ID", "searchIdByField");
 define("CUSTOM_SEARCH", "customSearch");
 define("USER_LOGIN", "userLogin");
 define("VALUE_CHECK", "valueExists");
+define("ADD_USER_TOURNAMENT", "addUserToTournament");
 define("DELETE_USER_TOURNAMENT", "deleteUserFromTournament");
 define("TOURNAMENT_HAS_USER", "tournamentHasUser");
 define("COUNT_TOURNAMENT_USERS", "countTournamentUsers");
@@ -157,6 +160,9 @@ class request_controller {
             case GAMES_QUERY:
                 $this->model = new Game_Model();
                 break;
+            case SYSTEMS_QUERY:
+                $this->model = new System_Model();
+                break;
             case IMAGES_OPERATION:
                 $this->model = new Image_Model();
                 break;
@@ -183,19 +189,19 @@ class request_controller {
                 return $this->model->getAllEntries();
                 break;
             case DELETE_ITEM:
-                $itemId = $this->post['itemId'];
+                $itemId = $this->decodeJson($this->post['itemId']);
                 return $this->model->deleteItem($itemId);
                 break;
             case INSERT_ITEM:
-                $fields = $this->post['fields'];
-                $values = $this->post['values'];
-                return $this->model->insertItem($this->decodeJson($fields), $this->decodeJson($values));
+                $fields = $this->decodeJson($this->post['fields']);
+                $values = $this->decodeJson($this->post['values']);
+                return $this->model->insertItem($fields, $values);
                 break;
             case MODIFY_ITEM:
                 $itemId = $this->post['itemId'];
                 $fields = $this->post['fields'];
                 $values = $this->post['values'];
-                return $this->model->modifyItem($itemId, json_decode($fields), json_decode($values));
+                return $this->model->modifyItem(json_decode($itemId), json_decode($fields), json_decode($values));
                 break;
             case ITEM_VALUES:
                 $itemId = $this->post['itemId'];
@@ -235,12 +241,20 @@ class request_controller {
                 return $this->model->usersAtTournament($tournamentId);
                 break;
 
+            case ADD_USER_TOURNAMENT:
+                $tournamentId = $this->decodeJson($this->post['tournamentId']);
+                $userId = $this->decodeJson($this->post['userId']);
+
+                return $this->model->addUserToTournament($tournamentId, $userId);
+                break;
+
             case DELETE_USER_TOURNAMENT:
-                $tournamentId = $this->post['tournamentId'];
-                $userId = $this->post['userId'];
+                $tournamentId = $this->decodeJson($this->post['tournamentId']);
+                $userId = $this->decodeJson($this->post['userId']);
 
                 return $this->model->deleteUserFromTournament($tournamentId, $userId);
                 break;
+
 
             case TOURNAMENT_HAS_USER:
                 $tournamentId = $this->post['tournamentId'];
