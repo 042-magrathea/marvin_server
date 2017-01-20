@@ -56,6 +56,7 @@ class request_controller {
     private $post = null;
     private $files = null;
     private $requestName = null;
+    private $adapter;
 
 
     /**
@@ -85,6 +86,7 @@ class request_controller {
      * @param String $queryMode
      */
     public function __construct1(String $queryMode) {
+        $this->adapter = new DB_adapter();
         $this->setModel($queryMode);
     }
 
@@ -95,6 +97,7 @@ class request_controller {
      * @param $post
      */
     public function __construct2(String $queryMode, $post) {
+        $this->adapter = new DB_adapter();
         $this->setModel($queryMode);
         $this->post = $post;
     }
@@ -106,6 +109,7 @@ class request_controller {
      * @param $post
      */
     public function __construct3(String $queryMode, $post, $file) {
+        $this->adapter = new DB_adapter();
         $this->setModel($queryMode);
         $this->files = $file;
     }
@@ -122,6 +126,7 @@ class request_controller {
         if ($this->post == null && $this->files == null) {
             //if request has no post call the standard query
             $results = $this->model->getParseEntries();
+            $this->adapter->closeConnection();
 
         } else if ($this->post == null) {
             //if request has no post call the standard query
@@ -130,6 +135,7 @@ class request_controller {
         } else {
 
             $results = $this->launchRequest();
+            $this->adapter->closeConnection();
         }
 
         return $results;
@@ -143,7 +149,7 @@ class request_controller {
     private function setModel(String $queryMode) {
         switch ($queryMode) {
             case USERS_QUERY:
-                $this->model = new User_Model();
+                $this->model = new User_Model($this->adapter->getConnection());
                 break;
             case PRIZES_QUERY:
                 $this->model = new Prize_Model();
@@ -237,7 +243,7 @@ class request_controller {
             //----------------------------------------------------------------------------------------------------------
 
             case USERS_TOURNAMENT:
-                $tournamentId = $this->post["tournamentId"];
+                $tournamentId = $this->decodeJson($this->post["tournamentId"]);
                 return $this->model->usersAtTournament($tournamentId);
                 break;
 
@@ -251,7 +257,6 @@ class request_controller {
             case DELETE_USER_TOURNAMENT:
                 $tournamentId = $this->decodeJson($this->post['tournamentId']);
                 $userId = $this->decodeJson($this->post['userId']);
-
                 return $this->model->deleteUserFromTournament($tournamentId, $userId);
                 break;
 

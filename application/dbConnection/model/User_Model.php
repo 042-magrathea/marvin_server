@@ -14,14 +14,12 @@ include_once "Query.php";
  */
 class User_Model extends Query {
 
-    private $adapter;
 
     /**
      * User_Model constructor.
      */
-    public function __construct() {
-        $this->adapter = new DB_adapter();
-        $this->connection = $this->adapter->getConnection();
+    public function __construct($connection) {
+        $this->connection = $connection;
 
     }
 
@@ -47,8 +45,6 @@ class User_Model extends Query {
 
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
-
         return $result;
     }
 
@@ -64,7 +60,7 @@ class User_Model extends Query {
         //excute query
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+        
 
         return $result;
     }
@@ -76,7 +72,7 @@ class User_Model extends Query {
      */
     public function getParseEntries() {
         //build the query statement
-        $sql = "SELECT idUser, publicName, name, phone, eMail, administrator, editor, language, privateDes, publicDes FROM USER WHERE eMail IS NOT NULL;";
+        $sql = "SELECT idUSER, publicName, name, phone, eMail, administrator, editor, language, privateDes, publicDes FROM USER WHERE eMail IS NOT NULL;";
 
         //execute query
         $result = $this->getResultArray($sql);
@@ -91,8 +87,7 @@ class User_Model extends Query {
             }
 
         }
-        $this->adapter->closeConnection();
-
+        
         return $result;
     }
 
@@ -105,7 +100,7 @@ class User_Model extends Query {
      */
     public function getParseEntry($itemId) {
         //build the query statement
-        $sql = "SELECT idUser, publicName, name, phone, eMail, administrator, editor, language, privateDes, publicDes FROM USER WHERE idUser LIKE '".$itemId . "'";
+        $sql = "SELECT idUSER, publicName, name, phone, eMail, administrator, editor, language, privateDes, publicDes FROM USER WHERE idUser LIKE '".$itemId . "'";
 
         //execute query
         $result = $this->getResultArray($sql);
@@ -121,7 +116,7 @@ class User_Model extends Query {
 
         }
 
-        $this->adapter->closeConnection();
+        
 
         return $result;
     }
@@ -140,7 +135,7 @@ class User_Model extends Query {
         //execute query
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+        
 
         return $result;
     }
@@ -163,7 +158,7 @@ class User_Model extends Query {
         //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
         $id = mysqli_insert_id($this->connection);
 
-        $this->adapter->closeConnection();
+        
 
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("insertionId",$id);
@@ -190,7 +185,7 @@ class User_Model extends Query {
         //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
         $affectedRows = $this->connection->affected_rows;
 
-        $this->adapter->closeConnection();
+        
 
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("modifiedRowsNum",$affectedRows);
@@ -214,7 +209,7 @@ class User_Model extends Query {
 
         $affectedRows = $this->connection->affected_rows;
 
-        $this->adapter->closeConnection();
+        
 
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("deletedRowsNum",$affectedRows);
@@ -251,7 +246,7 @@ class User_Model extends Query {
         //execute query
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+        
 
         if (count($result) > 0) {
             if ( $result[0]["password"] == $userPassword ) {
@@ -282,7 +277,7 @@ class User_Model extends Query {
     public function valueExists($field, $value) {
 
         //build the query statement
-        $sql = "SELECT EXISTS(SELECT idUser FROM USER WHERE " . $field . " LIKE '" . $value . "') AS result";
+        $sql = "SELECT EXISTS(SELECT idUser FROM USER WHERE BINARY " . $field . " LIKE '" . $value . "') AS result";
 
         //execute query
         $result = $this->getResultArray($sql);

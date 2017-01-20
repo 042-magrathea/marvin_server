@@ -395,9 +395,32 @@ class Tournament_Model extends Query {
      * @return array result of the query
      */
     public function usersAtTournament($tournamentId) {
-        $sql = "SELECT * FROM magrathea.TOURNAMENT_has_USER WHERE TOURNAMENT_idTOURNAMENT=" . $tournamentId;
 
-        $result = $this->getResultArray($sql);
+        $result = array();
+
+        $sql = $this->buildQuerySql("TOURNAMENT_has_USER", array("USER_idUSER"), array("TOURNAMENT_idTOURNAMENT"), $tournamentId);
+
+        $usersAtTournament = $this->getResultArray($sql);
+
+
+        foreach ($usersAtTournament as $user) {
+            $userId = $user["USER_idUSER"];
+            $umpireSql = $this->buildQuerySql("UMPIRE", array("approved"), array("TOURNAMENT_idTOURNAMENT"), $tournamentId);
+            $umpireSql = $umpireSql . " AND USER_idUSER LIKE '" . $userId . "'";
+
+            echo $umpireSql;
+            $umpireResult = $this->getResultArray($umpireSql);
+
+            if (count($umpireResult) == 0) {
+                $user["umpire"] = "not requested";
+            } elseif ((boolean)$umpireResult[0]["approved"]) {
+                $user["umpire"] = "approved";
+            } else {
+                $user["umpire"] = "requested";
+            }
+            array_push($result, $user);
+
+        }
 
         $this->adapter->closeConnection();
 

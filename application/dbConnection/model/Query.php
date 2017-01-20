@@ -150,7 +150,7 @@ abstract class Query implements IQuery {
      * @param $filterArguments array containing all the values used in the "WHERE" clause of the statement
      * @return string SQL statement
      */
-    protected function buildQuerySql($tableName, array $fields, array $filterFields, array $filterArguments) {
+    public function buildQuerySql($tableName, array $fields, array $filterFields, array $filterArguments) {
         $sql = "SELECT ";
 
         $arrayLength = count($fields);
@@ -171,11 +171,13 @@ abstract class Query implements IQuery {
             $arrayLength = count($filterFields);
             $i = 0;
             while($i < ($arrayLength)) {
-                $sql = $sql.$filterFields[$i]." LIKE '".$filterArguments[$i];
-                if ($i < ($arrayLength - 1)) {
-                    $sql = $sql.", ";
+                if (is_null($filterArguments[$i])) {
+                    $sql = $sql.$filterFields[$i]." IS NULL";
                 } else {
-                    $sql = $sql."'";
+                    $sql = $sql.$filterFields[$i]." LIKE ".$this->formatBooleanValue($filterArguments[$i]);
+                }
+                if ($i < ($arrayLength - 1)) {
+                    $sql = $sql." AND ";
                 }
                 $i++;
             }
