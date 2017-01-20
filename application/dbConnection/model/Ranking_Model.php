@@ -16,18 +16,16 @@ include_once "Query.php";
  */
 class Ranking_Model extends Query {
 
-    private $adapter;
-
 
     /**
      * Ranking_Model constructor.
+     * @param $connection
      */
-    public function __construct() {
-        $this->adapter = new DB_adapter();
-
-        $this->connection = $this->adapter->getConnection();
+    public function __construct($connection) {
+        $this->connection = $connection;
         $this->connection->query("SET NAMES 'utf8'");
     }
+
 
     //---------------------------------------------------------------------------------------------------------------//
 
@@ -144,7 +142,7 @@ class Ranking_Model extends Query {
             $tournaments[$i] = $tournament;
         }
 
-        $this->adapter->closeConnection();
+
 
         return $tournaments;
     }
@@ -237,7 +235,7 @@ class Ranking_Model extends Query {
             $tournaments[$i] = $tournament;
         }
 
-        $this->adapter->closeConnection();
+
 
         return $tournaments;
     }

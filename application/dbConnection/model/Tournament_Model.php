@@ -14,16 +14,13 @@ include_once "Query.php";
  */
 class Tournament_Model extends Query {
 
-    private $adapter;
-
 
     /**
      * Tournament_Model constructor.
+     * @param $connection
      */
-    public function __construct() {
-        $this->adapter = new DB_adapter();
-
-        $this->connection = $this->adapter->getConnection();
+    public function __construct($connection) {
+        $this->connection = $connection;
         $this->connection->query("SET NAMES 'utf8'");
     }
 
@@ -49,8 +46,6 @@ class Tournament_Model extends Query {
 
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
-
         return $result;
     }
 
@@ -63,8 +58,6 @@ class Tournament_Model extends Query {
         $sql = "SELECT * FROM TOURNAMENT;";
 
         $result = $this->getResultArray($sql);
-
-        $this->adapter->closeConnection();
 
         return $result;
     }
@@ -163,8 +156,6 @@ class Tournament_Model extends Query {
             $tournaments[$i] = $tournament;
         }
 
-        $this->adapter->closeConnection();
-
         return $tournaments;
     }
 
@@ -235,8 +226,6 @@ class Tournament_Model extends Query {
             $tournaments[$i] = $tournament;
         }
 
-        $this->adapter->closeConnection();
-
         return $tournaments;
     }
 
@@ -253,8 +242,6 @@ class Tournament_Model extends Query {
 
         //execute query
         $result = $this->getResultArray($sql);
-
-        $this->adapter->closeConnection();
 
         return $result;
     }
@@ -276,8 +263,6 @@ class Tournament_Model extends Query {
 
         //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
         $id = mysqli_insert_id($this->connection);
-
-        $this->adapter->closeConnection();
 
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("insertionId",$id);
@@ -305,8 +290,6 @@ class Tournament_Model extends Query {
         //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
         $affectedRows = $this->connection->affected_rows;
 
-        $this->adapter->closeConnection();
-
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("modifiedRowsNum",$affectedRows);
 
@@ -326,12 +309,10 @@ class Tournament_Model extends Query {
         $findPrizesIdsSQL = $this->buildQuerySql('PRIZE', array("idPRIZE"), array("TOURNAMENT_idTOURNAMENT"), $itemId);
         $prizeIds = $this->getResultArray($findPrizesIdsSQL);
 
-
         //Build SQL statements for transaction
         $usersFromTournamentSQL = $this->buildDeletionSql("TOURNAMENT_has_USER", array("TOURNAMENT_idTOURNAMENT"), $itemId);
         $umpiresFromTournamentSQL = $this->buildDeletionSql("UMPIRE", array("TOURNAMENT_idTOURNAMENT"), $itemId);
         $tournamentSQL = $this->buildDeletionSql("TOURNAMENT", array("idTOURNAMENT"), $itemId);
-
 
         try {
             //start transaction
@@ -353,8 +334,6 @@ class Tournament_Model extends Query {
                 throw new mysqli_sql_exception();
             }
 
-            $this->adapter->closeConnection();
-
             //converts the array to JSON friendly format
             $rawData = $this->getJsonFriendlyArray("deletedRowsNum",$affectedRows);
 
@@ -362,8 +341,6 @@ class Tournament_Model extends Query {
         } catch (mysqli_sql_exception $e) {
 
             $this->connection->rollback();
-
-            $this->adapter->closeConnection();
 
             //converts the array to JSON friendly format
             $rawData = $this->getJsonFriendlyArray("deletedRowsNum",0);
@@ -402,7 +379,6 @@ class Tournament_Model extends Query {
 
         $usersAtTournament = $this->getResultArray($sql);
 
-
         foreach ($usersAtTournament as $user) {
             $userId = $user["USER_idUSER"];
             $umpireSql = $this->buildQuerySql("UMPIRE", array("approved"), array("TOURNAMENT_idTOURNAMENT"), $tournamentId);
@@ -422,8 +398,6 @@ class Tournament_Model extends Query {
 
         }
 
-        $this->adapter->closeConnection();
-
         return $result;
     }
 
@@ -439,8 +413,6 @@ class Tournament_Model extends Query {
             " AND USER_idUSER=" . $userId . ";";
 
         $result = $this->getResultArray($sql);
-
-        $this->adapter->closeConnection();
 
         $result[0]["tournamentHasUser"] = (boolean) $result[0]["COUNT(*)"];
         unset($result[0]["COUNT(*)"]);
@@ -464,12 +436,11 @@ class Tournament_Model extends Query {
         $this->connection->query($sql);
 
         //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
-        $id = mysqli_insert_id($this->connection);
+        $affectedRows = mysqli_affected_rows($this->connection);
 
-        $this->adapter->closeConnection();
 
         //converts the array to JSON friendly format
-        $rawData = $this->getJsonFriendlyArray("insertionId",$id);
+        $rawData = $this->getJsonFriendlyArray("insertionSuccess",(boolean)$affectedRows);
 
         return $rawData;
     }
@@ -486,17 +457,14 @@ class Tournament_Model extends Query {
         $filterFields = array("TOURNAMENT_idTOURNAMENT", "USER_idUSER");
         $filterArguments = array_merge($tournamentId, $userId);
 
-
         $sql = $this->buildDeletionSql("TOURNAMENT_has_USER", $filterFields, $filterArguments);
 
         $this->connection->query($sql);
 
         $affectedRows = mysqli_affected_rows($this->connection);
 
-        $this->adapter->closeConnection();
-
         //converts the array to JSON friendly format
-        $rawData = $this->getJsonFriendlyArray("deletedRowsNum",$affectedRows);
+        $rawData = $this->getJsonFriendlyArray("deletionSuccess",(boolean)$affectedRows);
 
         return $rawData;
 
@@ -512,8 +480,6 @@ class Tournament_Model extends Query {
         $sql = "SELECT COUNT(*) FROM magrathea.TOURNAMENT_has_USER WHERE TOURNAMENT_idTOURNAMENT=" . $tournamentId . ";";
 
         $result = $this->getResultArray($sql);
-
-        $this->adapter->closeConnection();
 
         $result[0]["usersAtTournament"] = $result[0]["COUNT(*)"];
         unset($result[0]["COUNT(*)"]);
@@ -532,8 +498,6 @@ class Tournament_Model extends Query {
         $isUmpireSql = "SELECT approved FROM UMPIRE WHERE USER_idUSER LIKE ".$userId." AND TOURNAMENT_idTOURNAMENT LIKE ".$tournamentId;
 
         $result = $this->getResultArray($isUmpireSql);
-
-        $this->adapter->closeConnection();
 
         if (count($result) <= 0) {
             $result[0]["isUmpire"] = false;

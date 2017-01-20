@@ -16,18 +16,16 @@ include_once "Query.php";
  */
 class Host_Model extends Query {
 
-    private $adapter;
-
 
     /**
      * Host_Model constructor.
+     * @param $connection
      */
-    public function __construct() {
-        $this->adapter = new DB_adapter();
-
-        $this->connection = $this->adapter->getConnection();
+    public function __construct($connection) {
+        $this->connection = $connection;
         $this->connection->query("SET NAMES 'utf8'");
     }
+
 
     //----------------------------------------------------------------------------------------------------------------//
 
@@ -50,7 +48,7 @@ class Host_Model extends Query {
 
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+
 
         return $result;
     }
@@ -65,7 +63,7 @@ class Host_Model extends Query {
 
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+
 
         return $result;
     }
@@ -80,7 +78,7 @@ class Host_Model extends Query {
 
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+
 
         return $result;
     }
@@ -96,7 +94,7 @@ class Host_Model extends Query {
 
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+
 
         return $result;
     }
@@ -115,7 +113,7 @@ class Host_Model extends Query {
         //execute query
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+
 
         return $result;
     }
@@ -138,7 +136,7 @@ class Host_Model extends Query {
         //get last insertion result 0 = no insertion, >0 = insertion position at the GAME table
         $id = mysqli_insert_id($this->connection);
 
-        $this->adapter->closeConnection();
+
 
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("insertionId",$id);
@@ -165,7 +163,7 @@ class Host_Model extends Query {
         //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
         $affectedRows = mysqli_affected_rows($this->connection);
 
-        $this->adapter->closeConnection();
+
 
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("modifiedRowsNum",$affectedRows);
@@ -188,7 +186,7 @@ class Host_Model extends Query {
 
         $affectedRows = mysqli_affected_rows($this->connection);
 
-        $this->adapter->closeConnection();
+
 
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("deletedRowsNum",$affectedRows);

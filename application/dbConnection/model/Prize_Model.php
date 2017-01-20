@@ -14,7 +14,6 @@ include_once "Query.php";
  */
 class Prize_Model extends Query {
 
-    private $adapter;
     private static $prizeKinds = array(
         "SINGLE" => 0,
         "DISCOUNT" => 1,
@@ -24,14 +23,13 @@ class Prize_Model extends Query {
 
     /**
      * Prize_Model constructor.
+     * @param $connection
      */
-    public function __construct() {
-        $this->adapter = new DB_adapter();
-
-        $this->connection = $this->adapter->getConnection();
+    public function __construct($connection) {
+        $this->connection = $connection;
         $this->connection->query("SET NAMES 'utf8'");
-
     }
+
 
     //----------------------------------------------------------------------------------------------------------------//
 
@@ -54,7 +52,7 @@ class Prize_Model extends Query {
 
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+
 
         return $result;
     }
@@ -69,7 +67,7 @@ class Prize_Model extends Query {
 
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+
 
         return $result;
     }
@@ -110,7 +108,7 @@ class Prize_Model extends Query {
 
         $resultMerchantPrizes = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+
 
         $result = array_merge($resultSinglePrizes, $resultDiscountPrizes, $resultMerchantPrizes);
 
@@ -155,7 +153,7 @@ class Prize_Model extends Query {
 
         $resultMerchantPrizes = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+
 
         $result = array_merge($resultSinglePrizes, $resultDiscountPrizes, $resultMerchantPrizes);
 
@@ -176,7 +174,7 @@ class Prize_Model extends Query {
         //execute query
         $result = $this->getResultArray($sql);
 
-        $this->adapter->closeConnection();
+
 
         return $result;
     }
@@ -204,7 +202,7 @@ class Prize_Model extends Query {
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("insertionId",$result);
 
-        $this->adapter->closeConnection();
+
 
         return $rawData;
     }
@@ -234,7 +232,7 @@ class Prize_Model extends Query {
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("insertionId",$result);
 
-        $this->adapter->closeConnection();
+
 
         return $rawData;
     }
@@ -261,6 +259,8 @@ class Prize_Model extends Query {
             $queryResult1 = $this->connection->query($discountPrizeSQL);
             $queryResult2 = $this->connection->query($merchantPrizeSQL);
             $queryResult3 = $this->connection->query($singlePrizesSQL);
+            //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
+            $affectedRows = mysqli_affected_rows($this->connection);
 
             //check query success
             if ($queryResult1 && $queryResult2 && $queryResult3) {
@@ -269,10 +269,6 @@ class Prize_Model extends Query {
                 throw new mysqli_sql_exception();
             }
 
-            //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
-            $affectedRows = $this->connection->affected_rows;
-
-            $this->adapter->closeConnection();
 
             //converts the array to JSON friendly format
             $rawData = $this->getJsonFriendlyArray("deletedRowsNum",$affectedRows);
@@ -283,7 +279,7 @@ class Prize_Model extends Query {
 
             $this->connection->rollback();
 
-            $this->adapter->closeConnection();
+
 
             //converts the array to JSON friendly format
             $rawData = $this->getJsonFriendlyArray("deletedRowsNum",0);

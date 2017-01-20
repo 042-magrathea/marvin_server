@@ -17,10 +17,11 @@ class User_Model extends Query {
 
     /**
      * User_Model constructor.
+     * @param $connection
      */
     public function __construct($connection) {
         $this->connection = $connection;
-
+        $this->connection->query("SET NAMES 'utf8'");
     }
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -59,8 +60,6 @@ class User_Model extends Query {
 
         //excute query
         $result = $this->getResultArray($sql);
-
-        
 
         return $result;
     }

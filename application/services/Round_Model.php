@@ -117,9 +117,10 @@ class Round_Model {
 
             for ($j = 0; $j < count($round["home"]); $j++) {
 
-                $resultArray["round".$roundCounter]["home"][$j] = $splitContestants[0][$j];
-                $resultArray["round".$roundCounter]["visitor"][$j] = $splitContestants[1][$j];
-
+                $resultArray["round".$roundCounter]["home"]["home".($j+1)] = $splitContestants[0][$j];
+                unset($resultArray["round".$roundCounter]["home"][$j]);
+                $resultArray["round".$roundCounter]["visitor"]["visitor".($j+1)] = $splitContestants[1][$j];
+                unset($resultArray["round".$roundCounter]["visitor"][$j]);
             }
             $roundCounter++;
         }

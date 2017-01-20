@@ -12,6 +12,7 @@ header("Content-Type: text/html;charset=utf-8");
 include_once 'application/dbConnection/model/Image_Model.php';
 include_once 'application/dbConnection/model/User_Model.php';
 include_once 'application/dbConnection/model/Tournament_Model.php';
+include_once 'application/dbConnection/model/Match_Model.php';
 include_once 'application/dbConnection/model/Prize_Model.php';
 include_once 'application/dbConnection/model/Host_Model.php';
 include_once 'application/dbConnection/model/Ranking_Model.php';
@@ -23,6 +24,7 @@ include_once 'application/dbConnection/model/Query.php';
 define("USERS_QUERY", "users");
 define("PRIZES_QUERY", "prizes");
 define("TOURNAMENTS_QUERY", "tournaments");
+define("MATCHES_QUERY", "matches");
 define("HOSTS_QUERY", "hosts");
 define("RANKINGS_QUERY", "rankings");
 define("GAMES_QUERY", "games");
@@ -31,20 +33,22 @@ define("IMAGES_OPERATION", "images");
 
 //request names
 define("ALL_VALUES", "allValues");
+define("PARSE_ENTRY", "parseEntry");
 define("USERS_TOURNAMENT", "usersAtTournament");
 define("DELETE_ITEM", "deleteItem");
 define("INSERT_ITEM", "insertItem");
 define("MODIFY_ITEM", "modifyItem");
-define("ITEM_VALUES", "itemValues");
 define("SEARCH_ID", "searchIdByField");
 define("CUSTOM_SEARCH", "customSearch");
 define("USER_LOGIN", "userLogin");
 define("VALUE_CHECK", "valueExists");
-define("ADD_USER_TOURNAMENT", "addUserToTournament");
-define("DELETE_USER_TOURNAMENT", "deleteUserFromTournament");
+define("ADD_USER_TOURNAMENT", "tournamentSignIn");
+define("DELETE_USER_TOURNAMENT", "tournamentSignOut");
 define("TOURNAMENT_HAS_USER", "tournamentHasUser");
 define("COUNT_TOURNAMENT_USERS", "countTournamentUsers");
 define("USER_IS_UMPIRE", "userIsUmpire");
+define("INSERT_USER_MATCH", "addUserToMatch");
+define("INSERT_TEAM_MATCH", "addTeamToMatch");
 //funcio cerca per enums de l'escriptorio, ha de retornar objecte
 
 /**
@@ -152,25 +156,28 @@ class request_controller {
                 $this->model = new User_Model($this->adapter->getConnection());
                 break;
             case PRIZES_QUERY:
-                $this->model = new Prize_Model();
+                $this->model = new Prize_Model($this->adapter->getConnection());
                 break;
             case TOURNAMENTS_QUERY:
-                $this->model = new Tournament_Model();
+                $this->model = new Tournament_Model($this->adapter->getConnection());
+                break;
+            case MATCHES_QUERY:
+                $this->model = new Match_Model($this->adapter->getConnection());
                 break;
             case HOSTS_QUERY:
-                $this->model = new Host_Model();
+                $this->model = new Host_Model($this->adapter->getConnection());
                 break;
             case RANKINGS_QUERY:
-                $this->model = new Ranking_Model();
+                $this->model = new Ranking_Model($this->adapter->getConnection());
                 break;
             case GAMES_QUERY:
-                $this->model = new Game_Model();
+                $this->model = new Game_Model($this->adapter->getConnection());
                 break;
             case SYSTEMS_QUERY:
-                $this->model = new System_Model();
+                $this->model = new System_Model($this->adapter->getConnection());
                 break;
             case IMAGES_OPERATION:
-                $this->model = new Image_Model();
+                $this->model = new Image_Model($this->adapter->getConnection());
                 break;
         }
     }
@@ -194,6 +201,10 @@ class request_controller {
             case ALL_VALUES:
                 return $this->model->getAllEntries();
                 break;
+            case PARSE_ENTRY:
+                $itemId = $this->decodeJson($this->post['itemId']);
+                return $this->model->getParseEntry($itemId);
+                break;
             case DELETE_ITEM:
                 $itemId = $this->decodeJson($this->post['itemId']);
                 return $this->model->deleteItem($itemId);
@@ -208,10 +219,6 @@ class request_controller {
                 $fields = $this->post['fields'];
                 $values = $this->post['values'];
                 return $this->model->modifyItem(json_decode($itemId), json_decode($fields), json_decode($values));
-                break;
-            case ITEM_VALUES:
-                $itemId = $this->post['itemId'];
-                return $this->model->getParseEntry($itemId);
                 break;
             case SEARCH_ID:
                 $fields = $this->post['filterFields'];
@@ -274,6 +281,19 @@ class request_controller {
                 $tournamentId = $this->post['tournamentId'];
                 $userId = $this->post['userId'];
                 return $this->model->userIsUmpire($tournamentId, $userId);
+
+            //AVAILABLE ONLY FOR Matches_Model()
+            //----------------------------------------------------------------------------------------------------------
+            case INSERT_USER_MATCH:
+                $matchId = $this->decodeJson($this->post['matchId']);
+                $userId = $this->decodeJson($this->post['userId']);
+                return $this->model->insertUserAtMatch($matchId, $userId);
+                break;
+            case INSERT_TEAM_MATCH:
+                $matchId = $this->decodeJson($this->post['matchId']);
+                $userId = $this->decodeJson($this->post['userId']);
+                return $this->model->insertTeamAtMatch($matchId, $userId);
+                break;
 
             DEFAULT:
                 throw new Exception("Unknow request name");
