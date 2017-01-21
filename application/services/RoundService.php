@@ -6,11 +6,11 @@
  * Date: 16/01/17
  * Time: 18:18
  */
-class Round_Model {
+class RoundService {
 
     private $contestants;
     private $hasBayContestant;
-    private $userQueries;
+
 
     public function __construct(array $contestants){
 
@@ -19,12 +19,12 @@ class Round_Model {
         if ( count($contestants)%2 == 0 ) {
             $this->hasBayContestant = false;
         } else {
-            array_push($this->contestants, "BAY");
+            array_push($this->contestants, "-1");
             $this->hasBayContestant = true;
         }
     }
 
-    public function calculateRound(){
+    public function calculateRounds(){
 
         $result = array();
 

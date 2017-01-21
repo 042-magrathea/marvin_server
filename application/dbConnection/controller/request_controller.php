@@ -47,8 +47,11 @@ define("DELETE_USER_TOURNAMENT", "tournamentSignOut");
 define("TOURNAMENT_HAS_USER", "tournamentHasUser");
 define("COUNT_TOURNAMENT_USERS", "countTournamentUsers");
 define("USER_IS_UMPIRE", "userIsUmpire");
-define("INSERT_USER_MATCH", "addUserToMatch");
-define("INSERT_TEAM_MATCH", "addTeamToMatch");
+define("INSERT_USER_MATCH", "userMatchInsert");
+define("INSERT_TEAM_MATCH", "teamMatchInsert");
+define("USERS_AT_MATCH", "usersAtMatch");
+define("TEAMS_AT_MATCH", "teamsAtMatch");
+define("CREATE_TOURNAMENT_MATCHES", "createTournamentMatches");
 //funcio cerca per enums de l'escriptorio, ha de retornar objecte
 
 /**
@@ -293,6 +296,24 @@ class request_controller {
                 $matchId = $this->decodeJson($this->post['matchId']);
                 $userId = $this->decodeJson($this->post['userId']);
                 return $this->model->insertTeamAtMatch($matchId, $userId);
+                break;
+            case USERS_AT_MATCH:
+                $matchId = $this->decodeJson($this->post['matchId']);
+                $tournamentId = $this->decodeJson($this->post['tournamentId']);
+                return $this->model->getUsersAtMatch($matchId, $tournamentId);
+                break;
+            case TEAMS_AT_MATCH:
+                $matchId = $this->decodeJson($this->post['matchId']);
+                $tournamentId = $this->decodeJson($this->post['tournamentId']);
+                return $this->model->getTeamsAtMatch($matchId, $tournamentId);
+                break;
+            case CREATE_TOURNAMENT_MATCHES:
+                $contestants = $this->decodeJson($this->post['contestants']);
+                $tournamentId = $this->decodeJson($this->post['tournamentId']);
+                $isTeamTournament = $this->decodeJson($this->post['isTeamTournament']);
+                $isTeamTournament = $isTeamTournament[0];
+
+                return $this->model->createAllRoundMatches($contestants, $tournamentId, $isTeamTournament);
                 break;
 
             DEFAULT:

@@ -536,6 +536,7 @@ abstract class Query implements IQuery {
      */
     protected function getResultArray($sql) {
 
+
         if(!$this->queryResult = $this->connection->query($sql)) die();
 
         $resultArray = array();

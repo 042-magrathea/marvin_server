@@ -14,7 +14,7 @@ include_once "Query.php";
  */
 class Prize_Model extends Query {
 
-    private static $prizeKinds = array(
+    private $prizeKinds = array(
         "SINGLE" => 0,
         "DISCOUNT" => 1,
         "MERCHANT" => 2
@@ -191,9 +191,9 @@ class Prize_Model extends Query {
     public function insertItem($fields, $values) {
         $prizeKind = $this->getPrizeKind($fields);
 
-        if ( $prizeKind == $this::prizeKinds["DISCOUNT"] ) {
+        if ( $prizeKind == $this->prizeKinds["DISCOUNT"] ) {
             $result = $this->writePrizeDiscount($fields, $values);
-        } else if ( $prizeKind == $this::prizeKinds["MERCHANT"] ) {
+        } else if ( $prizeKind == $this->prizeKinds["MERCHANT"] ) {
             $result = $this->writePrizeMerchant($fields, $values);
         } else {
             $result = $this->writeSinglePrize($fields, $values);
@@ -220,10 +220,10 @@ class Prize_Model extends Query {
 
         $prizeKind = $this->getPrizeKind($fields);
 
-        if ( $prizeKind == $this::prizeKinds["DISCOUNT"] ) {
+        if ( $prizeKind == $this->prizeKinds["DISCOUNT"] ) {
             $result = $this->writePrizeDiscount($fields, $values);
 
-        } else if ( $prizeKind == $this::prizeKinds["MERCHANT"] ) {
+        } else if ( $prizeKind == $this->prizeKinds["MERCHANT"] ) {
             $result = $this->writePrizeMerchant($fields, $values);
         } else {
             $result = $this->writeSinglePrize($fields, $values);
@@ -343,7 +343,7 @@ class Prize_Model extends Query {
 
 
         //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
-        $idPrize = $this->insertSinglePrize($singlePrizeFields, $singlePrizeValues);
+        $idPrize = $this->writeSinglePrize($singlePrizeFields, $singlePrizeValues);
 
         //build the new fields and values arrays for insertion in PRICE_MERCHANT
         $merchantPrize = $this->extractMerchantPrizeArray($idPrize, $fields, $values);
@@ -378,7 +378,7 @@ class Prize_Model extends Query {
         $singlePrizeValues = $singlePrize[1];
 
         //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
-        $idPrize = $this->insertSinglePrize($singlePrizeFields, $singlePrizeValues);
+        $idPrize = $this->writeSinglePrize($singlePrizeFields, $singlePrizeValues);
 
 
         //build the new fields and values arrays for insertion in PRICE_DISCOUNT
@@ -504,11 +504,11 @@ class Prize_Model extends Query {
      */
     private function getPrizeKind($fields) {
         if ( array_search("disc", $fields) != 0 ) {
-            return $this::prizeKinds["DISCOUNT"];
+            return $this->prizeKinds["DISCOUNT"];
         } else if ( array_search("claimed", $fields) ) {
-            return $this::prizeKinds["MERCHANT"];
+            return $this->prizeKinds["MERCHANT"];
         } else {
-            return $this::prizeKinds["SINGLE"];
+            return $this->prizeKinds["SINGLE"];
         }
     }
 

@@ -7,6 +7,7 @@
  * Time: 1:18
  */
 include_once "application/dbConnection/adapter/DB_adapter.php";
+include_once "application/services/RoundService.php";
 include_once "Query.php";
 
 
@@ -27,6 +28,12 @@ class Match_Model extends Query {
         $this->connection = $connection;
         $this->connection->query("SET NAMES 'utf8'");
     }
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                              COMMON METHODS                                                    //
+
+    //----------------------------------------------------------------------------------------------------------------//
 
 
     /**
@@ -76,7 +83,7 @@ class Match_Model extends Query {
 
         for ($i = 0; $i < count($matches); $i++) {
 
-            $matches[$i]["finished"] = (boolean)$matches[$i]["finished"];
+            //$matches[$i]["finished"] = (boolean)$matches[$i]["finished"];
 
             $matchId = $matches[$i]["idMATCH"];
 
@@ -111,7 +118,7 @@ class Match_Model extends Query {
         //execute query
         $match = $this->getResultArray($matchesSql);
 
-        $match[0]["finished"] = (boolean)$match[0]["finished"];
+        //$match[0]["finished"] = (boolean)$match[0]["finished"];
 
         $usersAtMatch = $this->getUsersAtMatch($itemId[0]);
 
@@ -127,6 +134,8 @@ class Match_Model extends Query {
 
         return $match;
     }
+
+
 
     /**
      * Get the id of the tournament that matches the given parameters
@@ -272,11 +281,11 @@ class Match_Model extends Query {
     public function insertItem($fields, $values) {
 
         array_push($fields, "finished");
-        array_push($values, false);
+        array_push($values, 0);
 
         //build the query statement
         $singleMatchSql = $this->buildInsertSql("magrathea.MATCH", $fields, $values);
-        echo  $singleMatchSql;
+
         //execute query
         $this->connection->query($singleMatchSql);
 
@@ -286,52 +295,6 @@ class Match_Model extends Query {
 
         //converts the array to JSON friendly format
         $rawData = $this->getJsonFriendlyArray("insertionId",$insertionId);
-
-        return $rawData;
-    }
-
-    public function insertUserAtMatch($matchId, $userId) {
-        $fields = array("MATCH_idMATCH", "USER_idUSER");
-        $values = array($matchId[0], $userId[0]);
-
-        //build the query statement
-        $userMatchSql = $this->buildInsertSql('MATCH_has_USER', $fields, $values);
-
-        //execute query
-        $this->connection->query($userMatchSql);
-
-        if (mysqli_affected_rows($this->connection) > 0 ) {
-            $insertionResult = true;
-        } else {
-            $insertionResult = false;
-        }
-
-
-        //converts the array to JSON friendly format
-        $rawData = $this->getJsonFriendlyArray("insertionResult",$insertionResult);
-
-        return $rawData;
-    }
-
-    public function insertTeamAtMatch($matchId, $teamId) {
-        $fields = array("MATCH_idMATCH", "TEAM_idTEAM");
-        $values = array($matchId, $teamId);
-
-        //build the query statement
-        $teamMatchSql = $this->buildInsertSql('MATCH_has_TEAM', $fields, $values);
-
-        //execute query
-        $this->connection->query($teamMatchSql);
-
-        if (mysqli_affected_rows($this->connection) > 0 ) {
-            $insertionResult = true;
-        } else {
-            $insertionResult = false;
-        }
-
-
-        //converts the array to JSON friendly format
-        $rawData = $this->getJsonFriendlyArray("insertionResult",$insertionResult);
 
         return $rawData;
     }
@@ -365,7 +328,7 @@ class Match_Model extends Query {
     /**
      * Deletes the id given item from the table, returns number of rows deleted from the table
      *
-     * @param $itemId id from the item to be deleted
+     * @param $itemId int - id from the item to be deleted
      * @return mixed number of rows deleted
      */
     public function deleteItem($itemId)
@@ -414,8 +377,90 @@ class Match_Model extends Query {
 
     }
 
-    public function getUsersAtMatch($matchId) {
-        $usersAtMatchSql = "SELECT USER_idUSER, points FROM MATCH_has_USER WHERE MATCH_idMATCH LIKE " . $matchId;
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                           END OF COMMON METHODS                                                //
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                           MATCHES QUERY METHODS                                                //
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    /**
+     * Creates an entry at MATCH_has_USER
+     *
+     * @param int $matchId the match id
+     * @param int $userId the user's id
+     * @return array
+     */
+    public function insertUserAtMatch($matchId, $userId) {
+        $fields = array("MATCH_idMATCH", "USER_idUSER");
+        $values = array($matchId[0], $userId[0]);
+
+        //build the query statement
+        $userMatchSql = $this->buildInsertSql('MATCH_has_USER', $fields, $values);
+
+        //execute query
+        $this->connection->query($userMatchSql);
+
+        if (mysqli_affected_rows($this->connection) > 0 ) {
+            $insertionResult = true;
+        } else {
+            $insertionResult = false;
+        }
+
+
+        //converts the array to JSON friendly format
+        $rawData = $this->getJsonFriendlyArray("insertionResult",$insertionResult);
+
+        return $rawData;
+    }
+
+    /**
+     * Creates an entry at MATCH_has_TEAM
+     *
+     * @param int $matchId the match id
+     * @param int $teamId the team id
+     * @return array
+     */
+    public function insertTeamAtMatch($matchId, $teamId) {
+        $fields = array("MATCH_idMATCH", "TEAM_idTEAM");
+        $values = array($matchId[0], $teamId[0]);
+
+        //build the query statement
+        $teamMatchSql = $this->buildInsertSql('MATCH_has_TEAM', $fields, $values);
+
+
+        //execute query
+        $this->connection->query($teamMatchSql);
+
+        if (mysqli_affected_rows($this->connection) > 0 ) {
+            $insertionResult = true;
+        } else {
+            $insertionResult = false;
+        }
+
+
+        //converts the array to JSON friendly format
+        $rawData = $this->getJsonFriendlyArray("insertionResult",$insertionResult);
+
+        return $rawData;
+    }
+
+    /**
+     * Get all users from a match
+     *
+     * @param int $matchId
+     * @param $tournamentId
+     * @return array all matches from a tournament
+     */
+    public function getUsersAtMatch($matchId, $tournamentId) {
+        $usersAtMatchSql = "SELECT USER_idUSER, points FROM MATCH_has_USER WHERE MATCH_idMATCH LIKE '" . $matchId[0] . "'";
 
         $usersAtMatch = $this->getResultArray($usersAtMatchSql);
 
@@ -423,13 +468,183 @@ class Match_Model extends Query {
 
     }
 
-    public function getTeamsAtMatch($matchId) {
-        $teamsAtMatchSql = "SELECT TEAM_idTEAM, points FROM MATCH_has_TEAM WHERE MATCH_idMATCH LIKE " . $matchId;
+    /**
+     * Get all teams from a match
+     *
+     * @param int $matchId
+     * @param $tournamentId
+     * @return array all matches from a tournament
+     */
+    public function getTeamsAtMatch($matchId, $tournamentId) {
+        $teamsAtMatchSql = "SELECT TEAM_idTEAM, points FROM MATCH_has_TEAM WHERE MATCH_idMATCH LIKE '" . $matchId[0] . "'";
 
         $teamsAtMatch = $this->getResultArray($teamsAtMatchSql);
 
         return $teamsAtMatch;
 
     }
+
+    /**
+     * Calculates a tournament matches sort from a contestants id's array, creates all needed matches and returns them
+     *
+     * @param array $contestants an array contining all contestants ids
+     * @param int $tournamentId the tournament's id
+     * @param bool $isTeamTournament
+     * @return mixed|void
+     */
+    public function createAllRoundMatches(array $contestants, $tournamentId, $isTeamTournament) {
+
+
+        $roundCalculator = new RoundService($contestants);
+
+        $matchesSort = $roundCalculator->calculateRounds();
+
+        $this->createMatchesFromSort($matchesSort, $tournamentId, $isTeamTournament);
+
+        $matches = $this->getMatchesByTournament($tournamentId);
+
+        return $matches;
+
+    }
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                         END OF MATCHES QUERY METHODS                                           //
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    //                                                AUXILIAR METHODS                                                //
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+    /**
+     * Creates all entries at MATCH, MATCH_has_USER amd MATH_has_TEAM from a tournament sort. The sort array must fit
+     * this structure:
+     *
+     * array(19) {
+     *     ["round1"]=>
+     *          array(2) {
+     *              ["home"]=>
+     *                  array(10) {
+     *                      ["home1"]=>
+     *                          string(2) "16"
+     *
+     *                      ...
+     *
+     *                      ["homeN"]=>
+     *                           string(3) "BAY"
+     *                  }
+     *              ["visitor"]=>
+     *                  array(10) {
+     *                      ["visitor1"]=>
+     *                          string(2) "10"
+     *
+     *                      ...
+     *
+     *                      ["visitorN"]=>
+     *                          string(1) "5"
+     *                  }
+     *          }
+     *
+     *      ...
+     *
+     *      ["roundN"]=>
+     *          array(2) {
+     *              ["home"]=>
+     *                  array(10) {
+     *                      ["home1"]=>
+     *                          string(2) "16"
+     *
+     *                      ...
+     *
+     *                      ["homeN"]=>
+     *                           string(3) "BAY"
+     *                  }
+     *              ["visitor"]=>
+     *                  array(10) {
+     *                      ["visitor1"]=>
+     *                          string(2) "10"
+     *
+     *                      ...
+     *
+     *                      ["visitorN"]=>
+     *                          string(1) "5"
+     *                  }
+     *          }
+     *  }
+     *
+     * @param array $matchesSort containing all matches sorting
+     * @param int $tournamentId the tournaments id
+     * @param bool $isTeamTournament
+     */
+    private function createMatchesFromSort($matchesSort, $tournamentId, $isTeamTournament) {
+
+        for ($round = 1; $round <= count($matchesSort); $round++) {
+
+            for ($match = 1; $match <= count($matchesSort["round" . ($round)]["home"]); $match++) {
+
+                $matchCreationResult = $this->insertItem(array("TOURNAMENT_idTOURNAMENT", "round"),
+                    array($tournamentId[0], $round));
+
+                $matchId = $matchCreationResult[0]["insertionId"];
+
+                $homeContestantId = $matchesSort["round". ($round)]["home"]["home" . ($match)];
+
+                if ($isTeamTournament == "true") {
+                    $this->insertTeamAtMatch(array($matchId), array($homeContestantId));
+                } else {
+
+                    $this->insertUserAtMatch(array($matchId), array($homeContestantId));
+                }
+
+                $visitorContestantId = $matchesSort["round". ($round)]["visitor"]["visitor" . ($match)];
+
+                if ($isTeamTournament == "true") {
+                    $this->insertTeamAtMatch(array($matchId), array($visitorContestantId));
+                } else {
+
+                    $this->insertUserAtMatch(array($matchId), array($visitorContestantId));
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Get parse entry by tournament id
+     *
+     * @param $tournamentId
+     * @return mixed|void
+     */
+    private function getMatchesByTournament($tournamentId) {
+
+        //build the query statement
+        $matchesSql = "SELECT * FROM magrathea.MATCH WHERE TOURNAMENT_idTOURNAMENT LIKE '" . $tournamentId[0] . "'" ;
+
+        //execute query
+        $matches = $this->getResultArray($matchesSql);
+
+        for ($i = 0; $i < count($matches); $i++) {
+
+            $usersAtMatch = $this->getUsersAtMatch($matches[$i]["idMATCH"], $tournamentId[0]);
+
+            $matches[$i]["usersAtMatch"] = $usersAtMatch;
+
+
+           /* $teamsAtMatch = $this->getTeamsAtMatch($matches[$i]["idMATCH"], $tournamentId[0]);
+
+            if ( count($teamsAtMatch) > 0) {
+                $matches[0]["teamsAtMatch"] = $teamsAtMatch;
+            }*/
+        }
+
+
+        return $matches;
+    }
+
 
 }

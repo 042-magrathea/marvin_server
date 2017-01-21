@@ -169,7 +169,7 @@ class Tournament_Model extends Query {
     public function getParseEntry($itemId)
     {
         $tournamentssql = "SELECT idTOURNAMENT, name, publicDes, privateDes, date, TOURNAMENT_HOST_idTournamentHost, ".
-            "SYSTEM_idSYSTEM, maxPlayers, minPlayers, image FROM TOURNAMENT WHERE idTOURNAMENT LIKE '". $itemId . "'";
+            "SYSTEM_idSYSTEM, maxPlayers, minPlayers, image FROM TOURNAMENT WHERE idTOURNAMENT LIKE '". $itemId[0] . "'";
         //get all tournaments data from DB
         $tournaments = $this->getResultArray($tournamentssql);
 
