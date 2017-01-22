@@ -168,63 +168,93 @@ class Tournament_Model extends Query {
      */
     public function getParseEntry($itemId)
     {
-        $tournamentssql = "SELECT idTOURNAMENT, name, publicDes, privateDes, date, TOURNAMENT_HOST_idTournamentHost, ".
+        $tournamentssql = "SELECT idTOURNAMENT, name, publicDes, privateDes, image, date, TOURNAMENT_HOST_idTournamentHost, ".
             "SYSTEM_idSYSTEM, maxPlayers, minPlayers, image FROM TOURNAMENT WHERE idTOURNAMENT LIKE '". $itemId[0] . "'";
         //get all tournaments data from DB
         $tournaments = $this->getResultArray($tournamentssql);
 
-        for ($i = 0; $i < count($tournaments); $i++) {
-            //store de actual torunament Id
-            $tournamentId = $tournaments[$i]["idTOURNAMENT"];
+        $tournaments[0]["status"] = $this->calculateTournamentStatus($itemId);
 
-            $tournaments[$i]["status"] = $this->calculateTournamentStatus($tournamentId);
+        $prizesIdsSql = "SELECT idPRIZE, tournamentPosition FROM PRIZE WHERE TOURNAMENT_idTOURNAMENT = ".$itemId[0];
+        //get id's from all prizes for actual tournament
+        $prizesIds = $this->getResultArray($prizesIdsSql);
 
-            $prizesIdsSql = "SELECT idPRIZE, tournamentPosition FROM PRIZE WHERE TOURNAMENT_idTOURNAMENT = ".$tournamentId;
-            //get id's from all prizes for actual tournament
-            $prizesIds = $this->getResultArray($prizesIdsSql);
+        //walk through all prizes id array
+        $prizeCounter = count($prizesIds);
+        $prizes = array();
+        while ($prizeCounter > 0) {
+            $prizesSql = "SELECT idPRIZE, name FROM PRIZE WHERE idPRIZE = ".$prizesIds[$prizeCounter-1]["idPRIZE"];
+            //get prize details for actual prize id
+            $res = $this->getResultArray($prizesSql);
+            //add position to prize info
+            array_push($res[0], $prizesIds[$prizeCounter-1]["tournamentPosition"]);
+            //add actual prize to prizes array
+            array_push($prizes, $res[0]);
 
-            //walk through all prizes id array
-            $j = count($prizesIds);
-            $prizes = array();
-            while ($j > 0) {
-                $prizesSql = "SELECT idPRIZE, name FROM PRIZE WHERE idPRIZE = ".$prizesIds[$j-1]["idPRIZE"];
-                //get prize details for actual prize id
-                $res = $this->getResultArray($prizesSql);
-                //add position to prize info
-                array_push($res[0], $prizesIds[$j-1]["tournamentPosition"]);
-                //add actual prize to prizes array
-                array_push($prizes, $res[0]);
-
-                //change the field key from numeric to his name
-                $pos = $prizes[count($prizes)-1][0]; //store de position value
-                unset($prizes[count($prizes)-1][0]); //erase de position field with numeric key
-                $prizes[count($prizes)-1]["tournamentPosition"] = $pos; //add position with correct kay name
-                $j--;
-            }
-
-            $usersIdsSql = "SELECT USER_idUSER FROM TOURNAMENT_has_USER WHERE TOURNAMENT_idTOURNAMENT = ".$tournamentId;
-            $usersIds = $this->getResultArray($usersIdsSql);
-
-            //walk through all users id array
-            $j = count($usersIds);
-            $users = array();
-            while ($j > 0) {
-                $usersSql = "SELECT idUSER, publicName FROM USER WHERE idUSER = ".$usersIds[$j-1]["USER_idUSER"];
-                //get user detail for actual user id
-                $res = $this->getResultArray($usersSql);
-                //add actual user to users array
-                array_push($users, $res[0]);
-                $j--;
-            }
-
-            //add prizes array to tournaments array
-            $tournament = $this->mergeArrays($tournaments, $i, $prizes, "prizes");
-            $tournaments[$i] = $tournament;
-
-            //add users array to tournaments array
-            $tournament = $this->mergeArrays($tournaments, $i, $users, "users");
-            $tournaments[$i] = $tournament;
+            //change the field key from numeric to his name
+            $pos = $prizes[count($prizes)-1][0]; //store de position value
+            unset($prizes[count($prizes)-1][0]); //erase de position field with numeric key
+            $prizes[count($prizes)-1]["tournamentPosition"] = $pos; //add position with correct kay name
+            $prizeCounter--;
         }
+
+        $usersIdsSql = "SELECT USER_idUSER FROM TOURNAMENT_has_USER WHERE TOURNAMENT_idTOURNAMENT = ".$itemId[0];
+        $usersIds = $this->getResultArray($usersIdsSql);
+
+        //walk through all users id array
+        $userCounter = count($usersIds);
+        $users = array();
+        while ($userCounter > 0) {
+            $usersSql = "SELECT * FROM USER WHERE idUSER = ".$usersIds[$userCounter-1]["USER_idUSER"];
+            //get user detail for actual user id
+            $user = $this->getResultArray($usersSql);
+            //add actual user to users array
+            array_push($users, $user[0]);
+            $userCounter--;
+        }
+
+        //the system id
+        $systemId = $tournaments[0]["SYSTEM_idSYSTEM"];
+
+        $systemSql = "SELECT * FROM SYSTEM WHERE idSYSTEM LIKE " . $systemId;
+        //get system detail
+        $system = $this->getResultArray($systemSql);
+
+        $gameId = $system[0]["GAME_idGAME"];
+
+        $gameSql = "SELECT * FROM GAME WHERE idGAME LIKE " . $gameId;
+        //get system detail
+        $game = $this->getResultArray($gameSql);
+
+        $hostId = $tournaments[0]["TOURNAMENT_HOST_idTournamentHost"];
+
+        $hostSql = "SELECT * FROM TOURNAMENT_HOST WHERE idTournamentHost LIKE " . $hostId;
+        //get system detail
+        $host = $this->getResultArray($hostSql);
+
+        //add prizes array to tournaments array
+        $tournament = $this->mergeArrays($tournaments, 0, $prizes, "prizes");
+        $tournaments[0] = $tournament;
+
+        //add users array to tournaments array
+        $tournament = $this->mergeArrays($tournaments, 0, $users, "users");
+        $tournaments[0] = $tournament;
+
+
+        //add system array to tournaments array
+        $tournament = $this->mergeArrays($tournaments, 0, $system[0], "system");
+        $tournaments[0] = $tournament;
+        unset($tournaments[0]["SYSTEM_idSYSTEM"]);
+
+        //add game array to tournaments array
+        $tournament = $this->mergeArrays($tournaments, 0, $game[0], "game");
+        $tournaments[0] = $tournament;
+        unset($tournaments[0]["system"]["GAME_idGAME"]);
+
+        //add system array to tournaments array
+        $tournament = $this->mergeArrays($tournaments, 0, $host[0], "host");
+        $tournaments[0] = $tournament;
+        unset($tournaments[0]["TOURNAMENT_HOST_idTournamentHost"]);
 
         return $tournaments;
     }
@@ -531,7 +561,7 @@ class Tournament_Model extends Query {
      */
     private function calculateTournamentStatus($tournamentId) {
         //get state values from DB
-        $sql = "SELECT open, started, finished, cancelled FROM TOURNAMENT WHERE idTOURNAMENT LIKE " . $tournamentId;
+        $sql = "SELECT open, started, finished, cancelled FROM TOURNAMENT WHERE idTOURNAMENT LIKE " . $tournamentId[0];
 
         $result = $this->getResultArray($sql);
 

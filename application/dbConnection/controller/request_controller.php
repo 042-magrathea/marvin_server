@@ -322,13 +322,13 @@ class request_controller {
         }
     }
 
-    private function decodeJson($resultToDecode) {
+    private function decodeJson($parameterToDecode) {
 
-        if (strpos($resultToDecode, ",")) {
-            $decodedResult = json_decode($resultToDecode);
+        if (strpos($parameterToDecode, ",")) {
+            $decodedResult = json_decode($parameterToDecode);
         } else {
-            $resultToDecode = $this->resultCleaner($resultToDecode);
-            $decodedResult  = array($resultToDecode);
+            $parameterToDecode = $this->resultCleaner($parameterToDecode);
+            $decodedResult  = array($parameterToDecode);
         }
 
         return $decodedResult;

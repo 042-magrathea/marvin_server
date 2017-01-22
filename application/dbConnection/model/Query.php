@@ -579,11 +579,13 @@ abstract class Query implements IQuery {
         $childArray = $originalArray[$insertionPosition];
         $childArraySlice1 = array_slice($childArray, 0, 1);
         $childArraySlice2 = array_slice($childArray, 1, count($childArray));
-        $tournament = array_merge($childArraySlice1, array($arrayToAdd), $childArraySlice2);
-        $tournament[$newArrayKey] = $tournament[0];
-        unset($tournament[0]);
+        $resultArray = array_merge($childArraySlice1, array($arrayToAdd), $childArraySlice2);
 
-        return $tournament;
+        //change array key
+        $resultArray[$newArrayKey] = $resultArray[0];
+        unset($resultArray[0]);
+
+        return $resultArray;
     }
 
 
