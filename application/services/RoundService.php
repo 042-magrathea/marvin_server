@@ -44,8 +44,6 @@ class RoundService {
         $roundResult = array("home" => $homeContestants, "visitor" => $visitorContestants);
         $result["round1"] = $roundResult;
 
-
-
         //calculate round robin
         $roundNum = 1;
         while ($roundNum < ($contestantsNum - 1)) {
@@ -82,14 +80,15 @@ class RoundService {
             } else {
                 $auxVisitorContestants[0]=$visitorContestants[1];
             }
+
             // Igualo los originales p1 y p2 a los auxiliares y los imprimo, los guardo,
             // los mando a otra clase, o lo que sea que haya que hacer con ellos
             $homeContestants=$auxHomeContestants;
             $visitorContestants=$auxVisitorContestants;
+
             $roundName = "round" . ($roundNum + 1);
             //save round to result array
             $roundResult = array("home" => $homeContestants, "visitor" => $visitorContestants);
-
 
             $result[$roundName] = $roundResult;
 
@@ -108,22 +107,30 @@ class RoundService {
         //shuffle the array values
         shuffle($this->contestants);
 
-        $splitContestants = array_chunk($this->contestants, count($this->contestants)/2);
+        $resultArray = array();
 
-        $resultArray = $roundSort;
+//    var_dump($resultArray);
 
         $roundCounter = 1;
         foreach ($roundSort as $round) {
 
+
+            //walk through $result array setting at each position the contestant id stored at position especified at $roundSort
             for ($j = 0; $j < count($round["home"]); $j++) {
 
-                $resultArray["round".$roundCounter]["home"]["home".($j+1)] = $splitContestants[0][$j];
-                unset($resultArray["round".$roundCounter]["home"][$j]);
-                $resultArray["round".$roundCounter]["visitor"]["visitor".($j+1)] = $splitContestants[1][$j];
-                unset($resultArray["round".$roundCounter]["visitor"][$j]);
+                //get contestant array from round sort array
+                $contestantPosition = $roundSort["round".$roundCounter]["home"][$j]-1;
+                //save the contestant id at result array "home" contestants
+                $resultArray["round".$roundCounter]["home"]["home".($j+1)] = $this->contestants[$contestantPosition];
+//                unset($resultArray["round".$roundCounter]["home"][$j]);
+
+                $contestantPosition = $roundSort["round".$roundCounter]["visitor"][$j]-1;
+                $resultArray["round".$roundCounter]["visitor"]["visitor".($j+1)] = $this->contestants[$contestantPosition];
+//                unset($resultArray["round".$roundCounter]["visitor"][$j]);
             }
             $roundCounter++;
         }
+
         return $resultArray;
     }
 }
