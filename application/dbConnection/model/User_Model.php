@@ -148,6 +148,12 @@ class User_Model extends Query {
      * @return array
      */
     public function insertItem($fields, $values) {
+
+        //just useful for user updates
+        $insertionArrays = $this->reformatUserRoleValue($fields, $values);
+        $fields = $insertionArrays[0];
+        $values = $insertionArrays[1];
+
         //build the insert statement
         $sql = $this->buildInsertSql('USER', $fields, $values);
 
@@ -175,6 +181,12 @@ class User_Model extends Query {
      * @return mixed
      */
     public function modifyItem($itemId, $fields, $values) {
+
+        //just useful for user updates
+        $insertionArrays = $this->reformatUserRoleValue($fields, $values);
+        $fields = $insertionArrays[0];
+        $values = $insertionArrays[1];
+
         //build query statement
         $sql = $this->buildUpdateSql('USER', $fields, $values, array('idUSER'), array($itemId));
 

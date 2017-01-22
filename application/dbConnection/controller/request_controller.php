@@ -52,6 +52,9 @@ define("INSERT_TEAM_MATCH", "teamMatchInsert");
 define("USERS_AT_MATCH", "usersAtMatch");
 define("TEAMS_AT_MATCH", "teamsAtMatch");
 define("CREATE_TOURNAMENT_MATCHES", "createTournamentMatches");
+define("MATCH_USER_RESULT", "setMatchUserResult");
+define("MATCH_TEAM_RESULT", "setMatchTeamResult");
+define("MATCH_FINISHED_VALUE", "setMatchFinishedValue");
 //funcio cerca per enums de l'escriptorio, ha de retornar objecte
 
 /**
@@ -314,6 +317,24 @@ class request_controller {
                 $isTeamTournament = $isTeamTournament[0];
 
                 return $this->model->createAllRoundMatches($contestants, $tournamentId, $isTeamTournament);
+                break;
+            case MATCH_USER_RESULT:
+                $matchId = $this->decodeJson($this->post['matchId']);
+                $userId = $this->decodeJson($this->post['userId']);
+                $points = $this->decodeJson($this->post['points']);
+                return $this->model->setMatchUserResult($matchId, $userId, $points);
+                break;
+            case MATCH_TEAM_RESULT:
+                $matchId = $this->decodeJson($this->post['matchId']);
+                $teamId = $this->decodeJson($this->post['teamId']);
+                $points = $this->decodeJson($this->post['points']);
+                return $this->model->setMatchTeamResult($matchId, $teamId, $points);
+                break;
+
+            case MATCH_FINISHED_VALUE:
+                $matchId = $this->decodeJson($this->post['matchId']);
+                $newValue = $this->post['newValue'];
+                return $this->model->setMatchFinishedValue($matchId, $newValue);
                 break;
 
             DEFAULT:

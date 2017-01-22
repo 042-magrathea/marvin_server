@@ -456,11 +456,10 @@ class Match_Model extends Query {
      * Get all users from a match
      *
      * @param int $matchId
-     * @param $tournamentId
      * @return array all matches from a tournament
      */
-    public function getUsersAtMatch($matchId, $tournamentId) {
-        $usersAtMatchSql = "SELECT USER_idUSER, points FROM MATCH_has_USER WHERE MATCH_idMATCH LIKE '" . $matchId[0] . "'";
+    public function getUsersAtMatch($matchId) {
+        $usersAtMatchSql = "SELECT USER_idUSER, points FROM MATCH_has_USER WHERE MATCH_idMATCH LIKE '" . $matchId . "'";
 
         $usersAtMatch = $this->getResultArray($usersAtMatchSql);
 
@@ -472,11 +471,10 @@ class Match_Model extends Query {
      * Get all teams from a match
      *
      * @param int $matchId
-     * @param $tournamentId
      * @return array all matches from a tournament
      */
-    public function getTeamsAtMatch($matchId, $tournamentId) {
-        $teamsAtMatchSql = "SELECT TEAM_idTEAM, points FROM MATCH_has_TEAM WHERE MATCH_idMATCH LIKE '" . $matchId[0] . "'";
+    public function getTeamsAtMatch($matchId) {
+        $teamsAtMatchSql = "SELECT TEAM_idTEAM, points FROM MATCH_has_TEAM WHERE MATCH_idMATCH LIKE '" . $matchId . "'";
 
         $teamsAtMatch = $this->getResultArray($teamsAtMatchSql);
 
@@ -506,6 +504,127 @@ class Match_Model extends Query {
         return $matches;
 
     }
+
+    /**
+     * @param $matchId
+     * @param $userId
+     * @param $points
+     * @return array
+
+     */
+    public function setMatchUserResult($matchId, $userId, $points) {
+
+        $matchSQL = $this->buildQuerySql("magrathea.MATCH", array("finished"), array("idMATCH"), $matchId);
+
+        $match = $this->getResultArray($matchSQL);
+
+        $isFinished = $match[0]["finished"];
+
+        if ($isFinished) {
+
+            $rawData = $this->getJsonFriendlyArray("insertionResult","matchLocked");
+
+            return $rawData;
+
+        } else {
+
+            $insertPointsSql = $this->buildUpdateSql("MATCH_has_USER", array("points"), $points, array("MATCH_idMATCH", "USER_idUSER"),
+                array($matchId[0], $userId[0]));
+
+            $this->connection->query($insertPointsSql);
+
+            //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
+            $affectedRows = mysqli_affected_rows($this->connection);
+
+            $adversaryPointsSql = "SELECT points FROM MATCH_has_USER WHERE MATCH_idMATCH LIKE '" . $matchId[0] .
+                "' AND USER_idUSER NOT LIKE '" . $userId[0] . "'";
+
+            $adversaryPoints = $this->getResultArray($adversaryPointsSql);
+
+            if ( !is_null($adversaryPoints[0]["points"]) && $affectedRows >= 1 ) {
+
+                $finishResult = $this->finishMatch($matchId);
+
+                if ($finishResult[0]["matchFinished"]) {
+
+                    //converts the array to JSON friendly format
+                    $rawData = $this->getJsonFriendlyArray("insertionResult","trueMatchFinished");
+
+                } else {
+
+                    //converts the array to JSON friendly format
+                    $rawData = $this->getJsonFriendlyArray("insertionResult","trueMatchNotFinished");
+
+                }
+
+            } else if ($affectedRows >= 1) {
+
+                //converts the array to JSON friendly format
+                $rawData = $this->getJsonFriendlyArray("insertionResult", "true");
+
+            } else {
+
+                //converts the array to JSON friendly format
+                $rawData = $this->getJsonFriendlyArray("insertionResult","false");
+            }
+
+
+
+            return $rawData;
+        }
+
+    }
+
+    /**
+     * @param $matchId
+     * @param $newValue
+     * @return array
+     */
+    public function setMatchFinishedValue($matchId, $newValue) {
+
+        if ($newValue == "true") {
+            $formattedNewValue = true;
+        } else {
+            $formattedNewValue = false;
+        }
+
+        $updateSql = $this->buildUpdateSql("magrathea.MATCH", array("finished"), array($formattedNewValue), array("idMATCH"), $matchId);
+
+        $this->connection->query($updateSql);
+
+        //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
+        $affectedRows = mysqli_affected_rows($this->connection);
+
+        if ($formattedNewValue == true) {
+
+            if ($affectedRows > 0) {
+                //converts the array to JSON friendly format
+                $rawData = $this->getJsonFriendlyArray("matchFinished", true);
+            } else {
+
+                //converts the array to JSON friendly format
+                $rawData = $this->getJsonFriendlyArray("matchFinished", false);
+            }
+
+        } else {
+
+            if ($affectedRows > 0) {
+                //converts the array to JSON friendly format
+                $rawData = $this->getJsonFriendlyArray("matchUnfinished", true);
+            } else {
+
+                //converts the array to JSON friendly format
+                $rawData = $this->getJsonFriendlyArray("matchUnfinished", false);
+            }
+
+        }
+
+
+        return $rawData;
+
+    }
+
+
 
     //----------------------------------------------------------------------------------------------------------------//
 
@@ -630,16 +749,16 @@ class Match_Model extends Query {
 
         for ($i = 0; $i < count($matches); $i++) {
 
-            $usersAtMatch = $this->getUsersAtMatch($matches[$i]["idMATCH"], $tournamentId[0]);
+            $usersAtMatch = $this->getUsersAtMatch($matches[$i]["idMATCH"]);
 
             $matches[$i]["usersAtMatch"] = $usersAtMatch;
 
 
-           /* $teamsAtMatch = $this->getTeamsAtMatch($matches[$i]["idMATCH"], $tournamentId[0]);
+            $teamsAtMatch = $this->getTeamsAtMatch($matches[$i]["idMATCH"]);
 
             if ( count($teamsAtMatch) > 0) {
                 $matches[0]["teamsAtMatch"] = $teamsAtMatch;
-            }*/
+            }
         }
 
 

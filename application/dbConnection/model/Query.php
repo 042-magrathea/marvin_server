@@ -233,11 +233,6 @@ abstract class Query implements IQuery {
      */
     protected function buildInsertSql($tableName, array $fields, array $values) {
 
-        $insertionArrays = $this->reformatUserRoleValue($fields, $values);
-
-        $fields = $insertionArrays[0];
-        $values = $insertionArrays[1];
-
         $sql = "INSERT INTO ".$tableName." (";
         $arrayLength = count($fields);
         $i = 0;
@@ -282,10 +277,7 @@ abstract class Query implements IQuery {
      */
     protected function buildUpdateSql($tableName, array $fields, array $values, array $filterFields, array $filterArguments) {
 
-        //just useful for user updates
-        $insertionArrays = $this->reformatUserRoleValue($fields, $values);
-        $fields = $insertionArrays[0];
-        $values = $insertionArrays[1];
+
 
         $sql = "UPDATE " . $tableName . " SET ";
 
@@ -312,12 +304,11 @@ abstract class Query implements IQuery {
 
             $filterArguments[$i] = $this->formatBooleanValue($filterArguments[$i]);
 
-            if(is_array($filterFields)) {
+            $sql = $sql . $filterFields[$i] . " LIKE " . $filterArguments[$i];
 
-                $sql = $sql . $filterFields[$i] . " LIKE " . $filterArguments[$i];
 
-            } else {
-                $sql = $sql . $filterFields . " LIKE " . $filterArguments[$i];
+            if ($i < ($arrayLength - 1)) {
+                $sql = $sql . " AND ";
             }
             $i++;
         }
@@ -440,7 +431,9 @@ abstract class Query implements IQuery {
      */
     private function formatBooleanValue($value) {
         if (is_bool($value)) {
-            return $value;
+            $convertedValue = ($value) ? 'true' : 'false';
+            return $convertedValue;
+
         } else {
             return "'".$value."'";
         }
@@ -465,7 +458,7 @@ abstract class Query implements IQuery {
      * @param array $values values to be inserted in the users DB entry
      * @return array contains the two reformatted arrays into a multidimensional array
      */
-    private function reformatUserRoleValue($fields, $values) {
+    protected function reformatUserRoleValue($fields, $values) {
         if (is_array($fields)) {
             $pos = array_search("userRole", $fields);
 
