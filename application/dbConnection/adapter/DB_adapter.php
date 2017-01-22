@@ -8,10 +8,11 @@
  */
 class DB_adapter {
 
-    private $servername = "192.168.0.157";
-    private $username = "admin";
-    private $password = "damMagrathea42";
+    private $servername = "localhost";
+    private $username = "administrator";
+    private $password = "damMagrathea042";
     private $database = "magrathea";
+
     private $connection;
 
 
