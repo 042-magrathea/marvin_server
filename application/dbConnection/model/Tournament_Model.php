@@ -393,8 +393,6 @@ class Tournament_Model extends Query {
 
     //----------------------------------------------------------------------------------------------------------------//
 
-
-    //------------------------------------------ ---------USERS ------------------------------------------------------//
     /**
      * Get all entries at TOURNAMENT_has_USER table that matches with $tournamentId at field TORUNAMENT_idTOURNAMENT
      *
@@ -538,6 +536,18 @@ class Tournament_Model extends Query {
 
         return $result;
     }
+
+    public function getTournamentsByStatus($status) {
+
+        $statusArrays = $this->reformatStatusForInsertion($status[0]);
+
+        $querySql = $this->buildQuerySql("TOURNAMENT", array("idTOURNAMENT"), $statusArrays["fields"], $statusArrays["values"]);
+
+        $result = $this->getResultArray($querySql);
+
+        return $result;
+
+    }
     //----------------------------------------------------------------------------------------------------------------//
 
     //                                      END OF TOURNAMENT QUERY METHODS                                           //
@@ -552,6 +562,55 @@ class Tournament_Model extends Query {
 
     //----------------------------------------------------------------------------------------------------------------//
 
+
+    /**
+     * Creates a multidimensional array of fields and values to be used for a tournament insertion or modification from
+     * an status name
+     *
+     * @param $statusValue string with the tournament status (posible values: created, published, closed, beggined,
+     * interrupted, cancelled, finished)
+     * @return array a multidimensional array that contains two arrays at "fields" and "values" keys. First of them contains
+     * the fields to be used in a tournament insertion or modification, and the second one contains the values for the fields
+     * especified al "fields" array.
+     */
+    private function reformatStatusForInsertion($statusValue) {
+
+        $fieldsArray = array("open", "started", "finished", "cancelled");
+        $valuesArray = null;
+
+        switch($statusValue) {
+            case "created":
+                $valuesArray = array(false, false, false, false);
+                break;
+            case "published":
+                $valuesArray = array(true, false, false, false);
+                break;
+            case "closed":
+                $valuesArray = array(true, false, false, true);
+                break;
+            case "beggined":
+                $valuesArray = array(false, true, false, false);
+                break;
+            case "interrupted":
+                $valuesArray = array(false, true, false, true);
+                break;
+            case "cancelled":
+                $valuesArray = array(false, false, false, true);
+                break;
+            case "finished":
+                $valuesArray = array(false, false, true, false);
+                break;
+        }
+
+        $insertionArrays = array();
+        $insertionArrays["fields"] = $fieldsArray;
+        $insertionArrays["values"] = $valuesArray;
+
+        return $insertionArrays;
+    }
+
+
+
     /**
      * Checks all tournament status values from DB (open, started, finished, cancelled) and returns a string with the
      * status value
@@ -565,16 +624,6 @@ class Tournament_Model extends Query {
 
         $result = $this->getResultArray($sql);
 
-/*
-        foreach ($result as $key => $value) {
-            $value = (boolean)$value;
-        }
-
-        echo "open " . $open;
-        echo "started " . $started;
-        echo "finshed " . $finished;
-        echo "cancelled " . $cancelled;
-*/
         $open = $result[0]["open"]? true : false;
         $started = $result[0]["started"]? true : false;
         $finished = $result[0]["finished"]? true : false;
@@ -611,7 +660,7 @@ class Tournament_Model extends Query {
     }
 
     /**
-     * Erases all prizes form a tournament, it requires an open connection to database and an open transaction if you
+     * Erases all prizes from a tournament, it requires an open connection to database and an open transaction if you
      * want it to be axecuted as a single operation. Allthoug, changes has to be committed or rolledback as is necessary.
      * Result of queries will be returned as a boolean
      *

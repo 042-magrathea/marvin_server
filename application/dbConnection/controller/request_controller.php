@@ -31,22 +31,29 @@ define("GAMES_QUERY", "games");
 define("SYSTEMS_QUERY", "system");
 define("IMAGES_OPERATION", "images");
 
-//request names
+//common requests names
 define("ALL_VALUES", "allValues");
 define("PARSE_ENTRY", "parseEntry");
-define("USERS_TOURNAMENT", "usersAtTournament");
 define("DELETE_ITEM", "deleteItem");
 define("INSERT_ITEM", "insertItem");
 define("MODIFY_ITEM", "modifyItem");
 define("SEARCH_ID", "searchIdByField");
 define("CUSTOM_SEARCH", "customSearch");
+
+//user only requests names
 define("USER_LOGIN", "userLogin");
 define("VALUE_CHECK", "valueExists");
+
+//tournament only requests names
 define("ADD_USER_TOURNAMENT", "tournamentSignIn");
 define("DELETE_USER_TOURNAMENT", "tournamentSignOut");
 define("TOURNAMENT_HAS_USER", "tournamentHasUser");
 define("COUNT_TOURNAMENT_USERS", "countTournamentUsers");
 define("USER_IS_UMPIRE", "userIsUmpire");
+define("USERS_TOURNAMENT", "usersAtTournament");
+define("TOURNAMENT_BY_STATUS", "getTournamentsByStatus");
+
+//match only requests names
 define("INSERT_USER_MATCH", "userMatchInsert");
 define("INSERT_TEAM_MATCH", "teamMatchInsert");
 define("USERS_AT_MATCH", "usersAtMatch");
@@ -55,7 +62,7 @@ define("CREATE_TOURNAMENT_MATCHES", "createTournamentMatches");
 define("MATCH_USER_RESULT", "setMatchUserResult");
 define("MATCH_TEAM_RESULT", "setMatchTeamResult");
 define("MATCH_FINISHED_VALUE", "setMatchFinishedValue");
-//funcio cerca per enums de l'escriptorio, ha de retornar objecte
+
 
 /**
  * Class request_controller
@@ -288,6 +295,11 @@ class request_controller {
                 $userId = $this->post['userId'];
                 return $this->model->userIsUmpire($tournamentId, $userId);
 
+            case TOURNAMENT_BY_STATUS:
+                $tournamentStatus = $this->decodeJson($this->post['status']);
+                return $this->model->getTournamentsByStatus($tournamentStatus);
+                break;
+
             //AVAILABLE ONLY FOR Matches_Model()
             //----------------------------------------------------------------------------------------------------------
             case INSERT_USER_MATCH:
@@ -320,15 +332,16 @@ class request_controller {
                 break;
             case MATCH_USER_RESULT:
                 $matchId = $this->decodeJson($this->post['matchId']);
-                $userId = $this->decodeJson($this->post['userId']);
+                $contestantId = $this->decodeJson($this->post['contestantId']);
                 $points = $this->decodeJson($this->post['points']);
-                return $this->model->setMatchUserResult($matchId, $userId, $points);
+                return $this->model->setMatchContestantResult("MATCH_has_USER", $matchId, $contestantId, $points);
                 break;
+
             case MATCH_TEAM_RESULT:
                 $matchId = $this->decodeJson($this->post['matchId']);
-                $teamId = $this->decodeJson($this->post['teamId']);
+                $contestantId = $this->decodeJson($this->post['contestantId']);
                 $points = $this->decodeJson($this->post['points']);
-                return $this->model->setMatchTeamResult($matchId, $teamId, $points);
+                return $this->model->setMatchContestantResult("MATCH_has_TEAM", $matchId, $contestantId, $points);
                 break;
 
             case MATCH_FINISHED_VALUE:
