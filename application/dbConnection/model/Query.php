@@ -108,7 +108,7 @@ abstract class Query implements IQuery {
     /**
      * Calculate earned points by an user rank in a tournament with an specific tournamentSystem
      *
-     * @param $userRank rank of the user at the tournament
+     * @param $userRank int of the user at the tournament
      * @param array $tournamentSystem an array containing the points for any position of the tournament
      * @return int earned points by the user
      */
@@ -144,7 +144,7 @@ abstract class Query implements IQuery {
     /**
      * Builds an SQL query statement
      *
-     * @param $tableName table to query at
+     * @param $tableName String to query at
      * @param $fields array containing all the fields to be retruned by the statement
      * @param $filterFields array containing all the fields used in the "WHERE" clause of the statement.
      * @param $filterArguments array containing all the values used in the "WHERE" clause of the statement
@@ -182,43 +182,6 @@ abstract class Query implements IQuery {
                 $i++;
             }
         }
-
-        /*if (is_array($fields)) {
-            $arrayLength = count($fields);
-            $i = 0;
-            while($i < ($arrayLength)) {
-                $sql = $sql.$fields[$i];
-                if ($i < ($arrayLength - 1)) {
-                    $sql = $sql.", ";
-                }
-                $i++;
-            }
-        } else {
-            $sql = $sql . $fields;
-        }
-
-        $sql = $sql. " FROM ".$tableName;
-
-        if (is_array($filterFields)) {
-            if ($filterFields != null) {
-
-                $sql = $sql. " WHERE ";
-                $arrayLength = count($filterFields);
-                $i = 0;
-                while($i < ($arrayLength)) {
-                    $sql = $sql.$filterFields[$i]." LIKE '".$filterArguments[$i];
-                    if ($i < ($arrayLength - 1)) {
-                        $sql = $sql.", ";
-                    } else {
-                        $sql = $sql."'";
-                    }
-                    $i++;
-                }
-            }
-        } else {
-            $sql = $sql . " WHERE " . $filterFields . " LIKE " . $filterArguments;
-        }*/
-
         return $sql;
     }
 
@@ -233,7 +196,10 @@ abstract class Query implements IQuery {
      */
     protected function buildInsertSql($tableName, array $fields, array $values) {
 
-        $sql = "INSERT INTO ".$tableName." (";
+        $sql = "INSERT INTO " . $tableName;
+
+        //fields block
+        $sql = $sql . " (";
         $arrayLength = count($fields);
         $i = 0;
         while($i < ($arrayLength)) {
@@ -243,6 +209,8 @@ abstract class Query implements IQuery {
             }
             $i++;
         }
+
+        //values block
         $sql = $sql. ") VALUES (";
 
         if ($values != null) {
@@ -297,6 +265,7 @@ abstract class Query implements IQuery {
 
         }
 
+        //WHERE block
         $sql = $sql . " WHERE ";
         $arrayLength = count($filterFields);
         $i = 0;
@@ -312,56 +281,6 @@ abstract class Query implements IQuery {
             }
             $i++;
         }
-
-        /*if (is_array($values)) {
-            $arrayLength = count($fields);
-            $i = 0;
-            while ($i < $arrayLength) {
-                $sql = $sql . $fields[$i] . "=";
-
-                $values[$i] = $this->formatBooleanValue($values[$i]);
-
-                $sql = $sql.$values[$i];
-
-                if ($i < ($arrayLength - 1)) {
-                    $sql = $sql.", ";
-                }
-                $i++;
-
-            }
-        } else {
-            $sql = $sql . $fields . "=";
-
-            $values = $this->formatBooleanValue($values);
-
-            $sql = $sql.$values;
-        }
-
-        if (is_array($filterArguments)) {
-
-            $sql = $sql . " WHERE ";
-            $arrayLength = count($filterFields);
-            $i = 0;
-            while ($i < $arrayLength) {
-
-                $filterArguments[$i] = $this->formatBooleanValue($filterArguments[$i]);
-
-                if(is_array($filterFields)) {
-
-                    $sql = $sql . $filterFields[$i] . " LIKE " . $filterArguments[$i];
-
-                } else {
-                    $sql = $sql . $filterFields . " LIKE " . $filterArguments[$i];
-                }
-                $i++;
-            }
-
-        } else {
-            $filterArguments = $this->formatBooleanValue($filterArguments);
-
-            $sql = $sql . " WHERE " . $filterFields . " LIKE " . $filterArguments;
-        }*/
-
         return $sql;
     }
 
@@ -376,8 +295,10 @@ abstract class Query implements IQuery {
      */
     protected function buildDeletionSql($tableName, array $filterFields, array $filterArguments) {
 
-        $sql = "DELETE FROM " . $tableName . " WHERE ";
+        $sql = "DELETE FROM " . $tableName ;
 
+        //WHERE block
+        $sql = $sql . " WHERE ";
         $arrayLength = count($filterFields);
         $i = 0;
         while ($i < $arrayLength) {
@@ -394,39 +315,13 @@ abstract class Query implements IQuery {
 
         }
 
-        /*if ( is_array($filterFields) ) {
-            $arrayLength = count($filterFields);
-            $i = 0;
-            while ($i < $arrayLength) {
-                $sql = $sql . $filterFields[$i] . "=";
-
-                $filterArguments[$i] = $this->formatBooleanValue($filterArguments[$i]);
-
-                $sql = $sql . $filterArguments[$i];
-
-                if ($i < ($arrayLength - 1)) {
-                    $sql = $sql . " AND ";
-                }
-                $i++;
-
-            }
-        } else {
-            $sql = $sql . $filterFields . "=" ;
-
-            $filterArguments = $this->formatBooleanValue($filterArguments);
-
-            $sql = $sql . $filterArguments;
-        }*/
-
-        $sql = $sql . ";";
-
         return $sql;
     }
 
     /**
      * Checks if a value is a boolean and if it's not, refformats string to be inserted into a SQL statement
      *
-     * @param $value value to be checked
+     * @param $value string to be checked
      * @return string $value refomatted
      */
     private function formatBooleanValue($value) {
@@ -524,13 +419,13 @@ abstract class Query implements IQuery {
     /**
      * Executes a Mysql query and returns an array containing the query results
      *
-     * @param $sql query to be executed
+     * @param $sqlString String MySQL query to be executed
      * @return array results of the query
      */
-    protected function getResultArray($sql) {
+    protected function getResultArray($sqlString) {
 
 
-        if(!$this->queryResult = $this->connection->query($sql)) die();
+        if(!$this->queryResult = $this->connection->query($sqlString)) die();
 
         $resultArray = array();
 
@@ -562,10 +457,10 @@ abstract class Query implements IQuery {
     /**
      * Merge two arrays, inserting a new array in the quiven position and assigns it the guiven key name
      *
-     * @param $originalArray the original array
-     * @param $insertionPosition the insertion position of the new array
-     * @param $arrayToAdd the array to insert
-     * @param $newArrayKey the key name of the new array inside the original array
+     * @param $originalArray array the original array
+     * @param $insertionPosition int the insertion position of the new array
+     * @param $arrayToAdd array the array to insert
+     * @param $newArrayKey string the key name of the new array inside the original array
      * @return array the brand new array
      */
     protected static function mergeArrays($originalArray, $insertionPosition, $arrayToAdd, $newArrayKey) {

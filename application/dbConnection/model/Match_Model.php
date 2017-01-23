@@ -11,6 +11,9 @@ include_once "application/services/RoundService.php";
 include_once "Query.php";
 
 
+/**
+ * Class Match_Model
+ */
 class Match_Model extends Query {
 
 
@@ -61,7 +64,7 @@ class Match_Model extends Query {
      */
     public function getAllEntries() {
         //build the query statement
-        $sql = "SELECT * FROM MATCH;";
+        $sql = "SELECT * FROM magrathea.MATCH;";
 
         //excute query
         $result = $this->getResultArray($sql);
@@ -394,8 +397,8 @@ class Match_Model extends Query {
     /**
      * Creates an entry at MATCH_has_USER
      *
-     * @param int $matchId the match id
-     * @param int $userId the user's id
+     * @param array $matchId the match id
+     * @param array $userId the user's id
      * @return array
      */
     public function insertUserAtMatch($matchId, $userId) {
@@ -424,8 +427,8 @@ class Match_Model extends Query {
     /**
      * Creates an entry at MATCH_has_TEAM
      *
-     * @param int $matchId the match id
-     * @param int $teamId the team id
+     * @param array $matchId the match id
+     * @param array $teamId the team id
      * @return array
      */
     public function insertTeamAtMatch($matchId, $teamId) {
@@ -453,11 +456,15 @@ class Match_Model extends Query {
     /**
      * Get all users from a match
      *
-     * @param int $matchId
+     * @param array $matchId
      * @return array all matches from a tournament
      */
     public function getUsersAtMatch($matchId) {
         $usersAtMatchSql = "SELECT USER_idUSER, points FROM MATCH_has_USER WHERE MATCH_idMATCH LIKE '" . $matchId[0] . "'";
+
+//        echo "\r\n";
+
+//        echo $usersAtMatchSql;
 
         $usersAtMatch = $this->getResultArray($usersAtMatchSql);
 
@@ -468,7 +475,7 @@ class Match_Model extends Query {
     /**
      * Get all teams from a match
      *
-     * @param int $matchId
+     * @param array $matchId
      * @return array all matches from a tournament
      */
     public function getTeamsAtMatch($matchId) {
@@ -490,14 +497,25 @@ class Match_Model extends Query {
      */
     public function createAllRoundMatches(array $contestants, $tournamentId, $isTeamTournament) {
 
+        $tournamentModel = new Tournament_Model($this->connection);
+
+        $tournament = $tournamentModel->getParseEntry($tournamentId);
+
+        $roundNumber = $tournament[0]["system"]["nRounds"];
+
+        if ($tournament[0]["status"] != "beggined") {
+            //if tournament has not begun return error message
+            $response = $this->getJsonFriendlyArray("Error", "Tournament has not begun");
+            return $response;
+        }
 
         $roundCalculator = new RoundService($contestants);
 
-        $matchesSort = $roundCalculator->calculateRounds();
+        $matchesSort = $roundCalculator->calculateRounds($roundNumber);
 
         $this->createMatchesFromSort($matchesSort, $tournamentId, $isTeamTournament);
 
-        $matches = $this->getMatchesByTournament($tournamentId);
+        $matches = $this->getMatchesByTournament($tournamentId[0]);
 
         return $matches;
 
@@ -512,37 +530,44 @@ class Match_Model extends Query {
      */
     public function setMatchContestantResult($matchPointsTable, $matchId, $userId, $points) {
 
+        //Build query for tournament id and match status
         $matchSQL = $this->buildQuerySql("magrathea.MATCH", array("TOURNAMENT_idTOURNAMENT", "finished"), array("idMATCH"), $matchId);
 
-        $match = $this->getResultArray($matchSQL);
+        $matches = $this->getResultArray($matchSQL);
 
-        foreach ($match as $contestant) {
-            $isFinished = $contestant["finished"];
-            $tournamentId = $contestant["TOURNAMENT_idTOURNAMENT"];
+        foreach ($matches as $match) {
+            $isFinished = $match["finished"];
+            $tournamentId = $match["TOURNAMENT_idTOURNAMENT"];
+
 
             if ($isFinished) {
 
+                //feturn "fail" response
                 $rawData = $this->getJsonFriendlyArray("insertionResult","matchLocked");
-
                 return $rawData;
 
             }
         }
 
+        //build sql statement for update points value
         $insertPointsSql = $this->buildUpdateSql($matchPointsTable, array("points"), $points, array("MATCH_idMATCH", "USER_idUSER"),
             array($matchId[0], $userId[0]));
 
+        //execute statement
         $this->connection->query($insertPointsSql);
 
         //get last insertion result 0 = no insertion, >0 = insertion position at the USER table
         $affectedRows = mysqli_affected_rows($this->connection);
 
+
+        //build sql statement
         $adversaryPointsSql = "SELECT points FROM " . $matchPointsTable . " WHERE MATCH_idMATCH LIKE '" . $matchId[0] .
             "' AND USER_idUSER NOT LIKE '" . $userId[0] . "'";
 
+        //get adversary
         $adversaryPoints = $this->getResultArray($adversaryPointsSql);
 
-        if ( !is_null($adversaryPoints[0]["points"]) && $affectedRows >= 1 ) {
+        if ( isset($adversaryPoints[0]["points"]) && $affectedRows >= 1 ) {
 
             $finishResult = $this->setMatchFinishedValue($matchId, "true");
 
@@ -713,24 +738,19 @@ class Match_Model extends Query {
                 $matchId = $matchCreationResult[0]["insertionId"];
 
                 $homeContestantId = $matchesSort["round". ($round)]["home"]["home" . ($match)];
-
-                if ($isTeamTournament == "true") {
-                    $this->insertTeamAtMatch(array($matchId), array($homeContestantId));
-                } else {
-
-                    $this->insertUserAtMatch(array($matchId), array($homeContestantId));
-                }
-
                 $visitorContestantId = $matchesSort["round". ($round)]["visitor"]["visitor" . ($match)];
 
                 if ($isTeamTournament == "true") {
+                    $this->insertTeamAtMatch(array($matchId), array($homeContestantId));
                     $this->insertTeamAtMatch(array($matchId), array($visitorContestantId));
                 } else {
-
                     $this->insertUserAtMatch(array($matchId), array($visitorContestantId));
+                    $this->insertUserAtMatch(array($matchId), array($homeContestantId));
                 }
-            }
 
+                $this->autoFinishBayMatch($isTeamTournament, $matchId, $homeContestantId, $visitorContestantId);
+
+            }
         }
     }
 
@@ -743,19 +763,23 @@ class Match_Model extends Query {
     private function getMatchesByTournament($tournamentId) {
 
         //build the query statement
-        $matchesSql = "SELECT * FROM magrathea.MATCH WHERE TOURNAMENT_idTOURNAMENT LIKE '" . $tournamentId[0] . "'" ;
+        $matchesSql = "SELECT * FROM magrathea.MATCH WHERE TOURNAMENT_idTOURNAMENT LIKE '" . $tournamentId . "'" ;
+
+//        echo $matchesSql;
 
         //execute query
         $matches = $this->getResultArray($matchesSql);
 
+//        var_dump($matches);
+
         for ($i = 0; $i < count($matches); $i++) {
 
-            $usersAtMatch = $this->getUsersAtMatch($matches[$i]["idMATCH"]);
+            $usersAtMatch = $this->getUsersAtMatch(array($matches[$i]["idMATCH"]));
 
             $matches[$i]["usersAtMatch"] = $usersAtMatch;
 
 
-            $teamsAtMatch = $this->getTeamsAtMatch($matches[$i]["idMATCH"]);
+            $teamsAtMatch = $this->getTeamsAtMatch(array($matches[$i]["idMATCH"]));
 
             if ( count($teamsAtMatch) > 0) {
                 $matches[0]["teamsAtMatch"] = $teamsAtMatch;
@@ -766,5 +790,36 @@ class Match_Model extends Query {
         return $matches;
     }
 
+    /**
+     * Checks contestants id and if it's bay, finish the match and gives the victory to his oponent
+     *
+     * @param $isTeamTournament
+     * @param $matchId
+     * @param $homeContestantId
+     * @param $visitorContestantId
+     */
+    private function autoFinishBayMatch($isTeamTournament, $matchId, $homeContestantId, $visitorContestantId) {
+        if ($homeContestantId == "-1") {
+
+            if ($isTeamTournament == "true") {
+                $this->setMatchContestantResult("MATCH_has_TEAM", array($matchId), array($visitorContestantId), array("1"));
+            } else {
+                $this->setMatchContestantResult("MATCH_has_USER", array($matchId), array($visitorContestantId), array("1"));
+            }
+
+            $this->setMatchFinishedValue(array($matchId), true);
+
+        } else if ($visitorContestantId == "-1") {
+
+            if ($isTeamTournament == "true") {
+                $this->setMatchContestantResult("MATCH_has_TEAM", array($matchId), array($homeContestantId), array("1"));
+            } else {
+                $this->setMatchContestantResult("MATCH_has_USER", array($matchId), array($homeContestantId), array("1"));
+            }
+
+            $this->setMatchFinishedValue(array($matchId), true);
+
+        }
+    }
 
 }

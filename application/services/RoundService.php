@@ -24,7 +24,7 @@ class RoundService {
         }
     }
 
-    public function calculateRounds(){
+    public function calculateRounds($roundsNumber){
 
         $result = array();
 
@@ -46,7 +46,7 @@ class RoundService {
 
         //calculate round robin
         $roundNum = 1;
-        while ($roundNum < ($contestantsNum - 1)) {
+        while ($roundNum < ($roundsNumber)) {
 
             //auxiliar array create
             $auxHomeContestants = array();
